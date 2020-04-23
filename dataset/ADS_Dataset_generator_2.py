@@ -188,6 +188,24 @@ def generate_data_allAds():
     return allAds_df
 
 
+# ## UDFs for generating Ratings Dataset
+
+# In[338]:
+
+
+def df_crossjoin(df1, df2):
+    df1['_tmpkey'] = 1
+    df2['_tmpkey'] = 1
+
+    res = pd.merge(df1, df2, on='_tmpkey').drop('_tmpkey', axis=1)
+    res.index = pd.MultiIndex.from_product((df1.index, df2.index))
+
+    df1.drop('_tmpkey', axis=1, inplace=True)
+    df2.drop('_tmpkey', axis=1, inplace=True)
+
+    return res
+
+
 # # Generate datasets
 
 # ## Generate Users dataset
@@ -280,58 +298,76 @@ allAds_df.to_csv("AllAds.csv", index=True)
 # Y Ratings => ~40 cols [UserId, ......, AdId, ......., Rating) ==> 120 * 300 rows
 
 
-# In[ ]:
+# In[339]:
 
 
+allUsers_And_Ads_df = df_crossjoin(allUsers_df, allAds_df)
 
+
+# In[340]:
+
+
+allUsers_And_Ads_df.info()
+
+
+# In[341]:
+
+
+allUsers_And_Ads_df.head(302)
+
+
+# In[362]:
+
+
+allUsers_And_Ads_df.to_csv("AllUsers_And_Ads.csv", index=True)
 
 
 # # Scratchpad
 
 # ## RT
 
-# In[117]:
+# In[347]:
 
 
 data = ""
 
-with open("ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT.csv") as file:
+with open("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT.csv") as file:
      data = file.read().replace("\"", "")
 
-with open("ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv","w") as file:
+with open("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv","w") as file:
      file.write(data)
 
 
-# In[118]:
+# In[348]:
 
 
 my_cols = [str(i) for i in range(300)] # create some row names
-data3 = pd.read_csv("ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv",
+data3 = pd.read_csv("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv",
                                    sep=";|,",
                                    names=my_cols, 
                                    header=None, 
                                    engine="python")
 
 
-# In[119]:
+# In[349]:
 
 
 data3 = data3.iloc[2:]
 
 
-# In[120]:
+# In[350]:
 
 
 data3.reset_index(drop = True, inplace = True)
 
 
-# In[98]:
+# In[351]:
 
 
 pd.set_option('display.max_columns', None)
 
 
-# In[121]:
+# In[352]:
 
 
 for i in range(20):
@@ -339,19 +375,19 @@ for i in range(20):
     data3[index] = data3[index].astype('float64')
 
 
-# In[122]:
+# In[353]:
 
 
 data3.head()
 
 
-# In[124]:
+# In[354]:
 
 
 data3 = data3.transpose()
 
 
-# In[131]:
+# In[355]:
 
 
 data3

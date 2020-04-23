@@ -13387,6 +13387,36 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="UDFs-for-generating-Ratings-Dataset">UDFs for generating Ratings Dataset<a class="anchor-link" href="#UDFs-for-generating-Ratings-Dataset">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[338]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">df_crossjoin</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">):</span>
+    <span class="n">df1</span><span class="p">[</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">((</span><span class="n">df1</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df2</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+
+    <span class="n">df1</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df2</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_tmpkey&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Generate-datasets">Generate datasets<a class="anchor-link" href="#Generate-datasets">&#182;</a></h1>
 </div>
 </div>
@@ -14047,10 +14077,1638 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[339]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">allUsers_And_Ads_df</span> <span class="o">=</span> <span class="n">df_crossjoin</span><span class="p">(</span><span class="n">allUsers_df</span><span class="p">,</span> <span class="n">allAds_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[340]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">allUsers_And_Ads_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+MultiIndex: 36120 entries, (U0001, A01_01) to (U0120, A20_15)
+Data columns (total 36 columns):
+Age                           36120 non-null int64
+Cap/Zip-Code                  36120 non-null object
+Countries visited             36120 non-null object
+Fave Sports                   36120 non-null object
+Gender                        36120 non-null object
+Home country                  36120 non-null object
+Home town                     36120 non-null object
+Income                        36120 non-null int64
+Last Name                     36120 non-null object
+Most listened musics          36120 non-null object
+Most read books               36120 non-null object
+Most visited websites         36120 non-null object
+Most watched movies           36120 non-null object
+Most watched tv programmes    36120 non-null object
+Name                          36120 non-null object
+Paypal                        36120 non-null object
+Timepass                      36120 non-null object
+Type of Job                   36120 non-null object
+Weekly working hours          36120 non-null object
+fave1                         35819 non-null object
+fave10                        301 non-null object
+fave2                         35819 non-null object
+fave3                         36120 non-null object
+fave4                         35819 non-null object
+fave5                         35819 non-null object
+fave6                         3010 non-null object
+fave7                         903 non-null object
+fave8                         903 non-null object
+fave9                         602 non-null object
+unfave1                       35819 non-null object
+unfave2                       35819 non-null object
+unfave3                       35819 non-null object
+unfave4                       35819 non-null object
+unfave5                       35518 non-null object
+unfave6                       602 non-null object
+AdFilePath                    36120 non-null object
+dtypes: int64(2), object(34)
+memory usage: 10.0+ MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[341]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">allUsers_And_Ads_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">302</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[341]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+      <th>Cap/Zip-Code</th>
+      <th>Countries visited</th>
+      <th>Fave Sports</th>
+      <th>Gender</th>
+      <th>Home country</th>
+      <th>Home town</th>
+      <th>Income</th>
+      <th>Last Name</th>
+      <th>Most listened musics</th>
+      <th>...</th>
+      <th>fave7</th>
+      <th>fave8</th>
+      <th>fave9</th>
+      <th>unfave1</th>
+      <th>unfave2</th>
+      <th>unfave3</th>
+      <th>unfave4</th>
+      <th>unfave5</th>
+      <th>unfave6</th>
+      <th>AdFilePath</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="60" valign="top">U0001</th>
+      <th>A01_01</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/1.png</td>
+    </tr>
+    <tr>
+      <th>A01_02</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/2.png</td>
+    </tr>
+    <tr>
+      <th>A01_03</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/3.png</td>
+    </tr>
+    <tr>
+      <th>A01_04</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/4.png</td>
+    </tr>
+    <tr>
+      <th>A01_05</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/5.png</td>
+    </tr>
+    <tr>
+      <th>A01_06</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/6.png</td>
+    </tr>
+    <tr>
+      <th>A01_07</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/7.png</td>
+    </tr>
+    <tr>
+      <th>A01_08</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/8.png</td>
+    </tr>
+    <tr>
+      <th>A01_09</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/9.png</td>
+    </tr>
+    <tr>
+      <th>A01_10</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/10.png</td>
+    </tr>
+    <tr>
+      <th>A01_11</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/11.png</td>
+    </tr>
+    <tr>
+      <th>A01_12</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/12.png</td>
+    </tr>
+    <tr>
+      <th>A01_13</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/13.png</td>
+    </tr>
+    <tr>
+      <th>A01_14</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/14.png</td>
+    </tr>
+    <tr>
+      <th>A01_15</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/15.png</td>
+    </tr>
+    <tr>
+      <th>A01_16</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/16.png</td>
+    </tr>
+    <tr>
+      <th>A02_01</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/1.png</td>
+    </tr>
+    <tr>
+      <th>A02_02</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/2.png</td>
+    </tr>
+    <tr>
+      <th>A02_03</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/3.png</td>
+    </tr>
+    <tr>
+      <th>A02_04</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/4.png</td>
+    </tr>
+    <tr>
+      <th>A02_05</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/5.png</td>
+    </tr>
+    <tr>
+      <th>A02_06</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/6.png</td>
+    </tr>
+    <tr>
+      <th>A02_07</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/7.png</td>
+    </tr>
+    <tr>
+      <th>A02_08</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/8.png</td>
+    </tr>
+    <tr>
+      <th>A02_09</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/9.png</td>
+    </tr>
+    <tr>
+      <th>A02_10</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/10.png</td>
+    </tr>
+    <tr>
+      <th>A02_11</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/11.png</td>
+    </tr>
+    <tr>
+      <th>A02_12</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/12.png</td>
+    </tr>
+    <tr>
+      <th>A02_13</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/13.png</td>
+    </tr>
+    <tr>
+      <th>A02_14</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/2/14.png</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>A19_02</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/2.png</td>
+    </tr>
+    <tr>
+      <th>A19_03</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/3.png</td>
+    </tr>
+    <tr>
+      <th>A19_04</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/4.png</td>
+    </tr>
+    <tr>
+      <th>A19_05</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/5.png</td>
+    </tr>
+    <tr>
+      <th>A19_06</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/6.png</td>
+    </tr>
+    <tr>
+      <th>A19_07</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/7.png</td>
+    </tr>
+    <tr>
+      <th>A19_08</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/8.png</td>
+    </tr>
+    <tr>
+      <th>A19_09</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/9.png</td>
+    </tr>
+    <tr>
+      <th>A19_10</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/10.png</td>
+    </tr>
+    <tr>
+      <th>A19_11</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/11.png</td>
+    </tr>
+    <tr>
+      <th>A19_12</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/12.png</td>
+    </tr>
+    <tr>
+      <th>A19_13</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/13.png</td>
+    </tr>
+    <tr>
+      <th>A19_14</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/14.png</td>
+    </tr>
+    <tr>
+      <th>A19_15</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/19/15.png</td>
+    </tr>
+    <tr>
+      <th>A20_01</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/1.png</td>
+    </tr>
+    <tr>
+      <th>A20_02</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/2.png</td>
+    </tr>
+    <tr>
+      <th>A20_03</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/3.png</td>
+    </tr>
+    <tr>
+      <th>A20_04</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/4.png</td>
+    </tr>
+    <tr>
+      <th>A20_05</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/5.png</td>
+    </tr>
+    <tr>
+      <th>A20_06</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/6.png</td>
+    </tr>
+    <tr>
+      <th>A20_07</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/7.png</td>
+    </tr>
+    <tr>
+      <th>A20_08</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/8.png</td>
+    </tr>
+    <tr>
+      <th>A20_09</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/9.png</td>
+    </tr>
+    <tr>
+      <th>A20_10</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/10.png</td>
+    </tr>
+    <tr>
+      <th>A20_11</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/11.png</td>
+    </tr>
+    <tr>
+      <th>A20_12</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/12.png</td>
+    </tr>
+    <tr>
+      <th>A20_13</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/13.png</td>
+    </tr>
+    <tr>
+      <th>A20_14</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/14.png</td>
+    </tr>
+    <tr>
+      <th>A20_15</th>
+      <td>62</td>
+      <td>15613</td>
+      <td>United States of America</td>
+      <td>I do not like Sports</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Apollo</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Classical Music, Easy Listening, Jazz</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>news headlines</td>
+      <td>homelessness</td>
+      <td>violence</td>
+      <td>war</td>
+      <td>human rights</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_part2/Ads/Ads/20/15.png</td>
+    </tr>
+    <tr>
+      <th>U0002</th>
+      <th>A01_01</th>
+      <td>26</td>
+      <td>60638</td>
+      <td>Poland, Mexico, United States of America</td>
+      <td>Nothing</td>
+      <td>F</td>
+      <td>United States of America</td>
+      <td>Chicago</td>
+      <td>1</td>
+      <td>Hidden</td>
+      <td>Dance Music, Electronic Music, Indie Pop, Pop (Popular music), Rock</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>seafood fish</td>
+      <td>pizza</td>
+      <td>bacon</td>
+      <td>bad odor</td>
+      <td>doglicks</td>
+      <td>NaN</td>
+      <td>ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Ads/Ads/1/1.png</td>
+    </tr>
+  </tbody>
+</table>
+<p>302 rows × 36 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[362]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">allUsers_And_Ads_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;AllUsers_And_Ads.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14074,15 +15732,15 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[117]:</div>
+<div class="prompt input_prompt">In&nbsp;[347]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
      <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 
@@ -14093,11 +15751,11 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[118]:</div>
+<div class="prompt input_prompt">In&nbsp;[348]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_cols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">)]</span> <span class="c1"># create some row names</span>
-<span class="n">data3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv&quot;</span><span class="p">,</span>
+<span class="n">data3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv&quot;</span><span class="p">,</span>
                                    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;|,&quot;</span><span class="p">,</span>
                                    <span class="n">names</span><span class="o">=</span><span class="n">my_cols</span><span class="p">,</span> 
                                    <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -14111,7 +15769,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[349]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data3</span> <span class="o">=</span> <span class="n">data3</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
@@ -14124,7 +15782,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[350]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data3</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
@@ -14137,7 +15795,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[351]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -14150,7 +15808,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[352]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
@@ -14165,7 +15823,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[353]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data3</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -14181,7 +15839,7 @@ memory usage: 4.7+ KB
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[122]:</div>
+    <div class="prompt output_prompt">Out[353]:</div>
 
 
 
@@ -14508,7 +16166,7 @@ memory usage: 4.7+ KB
   </thead>
   <tbody>
     <tr>
-      <td>0</td>
+      <th>0</th>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
@@ -14823,7 +16481,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[124]:</div>
+<div class="prompt input_prompt">In&nbsp;[354]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data3</span> <span class="o">=</span> <span class="n">data3</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
@@ -14836,7 +16494,7 @@ memory usage: 4.7+ KB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[355]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data3</span>
@@ -14852,7 +16510,7 @@ memory usage: 4.7+ KB
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[131]:</div>
+    <div class="prompt output_prompt">Out[355]:</div>
 
 
 
@@ -14880,47 +16538,247 @@ memory usage: 4.7+ KB
   </thead>
   <tbody>
     <tr>
-      <td>0</td>
+      <th>0</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>1</td>
+      <th>1</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>2</td>
+      <th>2</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>3</td>
+      <th>3</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>4</td>
+      <th>4</th>
       <td>1.0</td>
     </tr>
     <tr>
+      <th>5</th>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <td>295</td>
+      <th>270</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>296</td>
+      <th>271</th>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>272</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>297</td>
+      <th>273</th>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>274</th>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>275</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>298</td>
+      <th>276</th>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>299</td>
+      <th>277</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>278</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>279</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>280</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>281</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>282</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>283</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>284</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>285</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>287</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>288</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>289</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>291</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>292</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>293</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>295</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>296</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>297</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>298</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>299</th>
       <td>1.0</td>
     </tr>
   </tbody>
