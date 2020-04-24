@@ -3,7 +3,7 @@
 
 # <b> Run below cells from the folder that contains ads16_dataset/ unzipped </b>
 
-# In[296]:
+# In[1]:
 
 
 import pandas as pd
@@ -12,13 +12,13 @@ import pathlib
 import re
 
 
-# In[297]:
+# In[2]:
 
 
 pd.set_option('display.max_colwidth', -1)
 
 
-# In[298]:
+# In[3]:
 
 
 # Global constants
@@ -34,7 +34,7 @@ g_adsPart2PathPrefix = "./ads16-dataset/ADS16_Benchmark_part2/ADS16_Benchmark_pa
 
 # ## UDFs for generating Users Dataset
 
-# In[299]:
+# In[4]:
 
 
 def generate_data_User( pathPrefix, userId ):
@@ -71,7 +71,7 @@ def generate_data_User( pathPrefix, userId ):
     return user_df
 
 
-# In[300]:
+# In[5]:
 
 
 def generate_data_partUsers( usersPartPathPrefix, startRange, endRange ):
@@ -88,7 +88,7 @@ def generate_data_partUsers( usersPartPathPrefix, startRange, endRange ):
     return partUsers_df
 
 
-# In[301]:
+# In[6]:
 
 
 def generate_data_allUsers():
@@ -105,7 +105,7 @@ def generate_data_allUsers():
 
 # ## UDFs for generating Ads Dataset
 
-# In[302]:
+# In[7]:
 
 
 def generate_data_adCats():
@@ -134,7 +134,7 @@ def generate_data_adCats():
     return adCats_df
 
 
-# In[303]:
+# In[8]:
 
 
 import re
@@ -170,7 +170,7 @@ def generate_data_partAds( adsPartPathPrefix, startRange, endRange ):
     return partAds_df
 
 
-# In[304]:
+# In[9]:
 
 
 # DEBUG
@@ -190,7 +190,7 @@ def generate_data_allAds():
 
 # ## UDFs for generating Ratings Dataset
 
-# In[338]:
+# In[10]:
 
 
 def df_crossjoin(df1, df2):
@@ -206,120 +206,7 @@ def df_crossjoin(df1, df2):
     return res
 
 
-# # Generate datasets
-
-# ## Generate Users dataset
-
-# In[305]:
-
-
-allUsers_df = generate_data_allUsers()
-allUsers_df = allUsers_df.set_index('UserId')
-
-
-# In[306]:
-
-
-allUsers_df.head()
-
-
-# In[307]:
-
-
-allUsers_df.info()
-
-
-# In[308]:
-
-
-allUsers_df.to_csv("AllUsers.csv", index=True)
-
-
-# ## Generate Ads Categories Dataset
-
-# In[309]:
-
-
-adCats_df = generate_data_adCats()
-adCats_df = adCats_df.set_index('AdCatId')
-
-
-# In[310]:
-
-
-adCats_df.head()
-
-
-# In[311]:
-
-
-adCats_df.info()
-
-
-# In[312]:
-
-
-adCats_df.to_csv("AdCats.csv", index=True)
-
-
-# ## Generate Ads Dataset
-
-# In[313]:
-
-
-allAds_df = generate_data_allAds()
-
-
-# In[314]:
-
-
-allAds_df.info()
-
-
-# In[315]:
-
-
-allAds_df.head()
-
-
-# In[316]:
-
-
-allAds_df.to_csv("AllAds.csv", index=True)
-
-
-# ## Generate Users\*Ads Dataset
-
-# In[378]:
-
-
-allUsers_And_Ads_df = df_crossjoin(allUsers_df, allAds_df)
-
-
-# In[379]:
-
-
-allUsers_And_Ads_df.info()
-
-
-# In[380]:
-
-
-allUsers_And_Ads_df = allUsers_And_Ads_df.reset_index()
-allUsers_And_Ads_df.rename(columns={'level_0':'UserId'}, inplace=True)
-allUsers_And_Ads_df.rename(columns={'level_1':'AdId'}, inplace=True)
-allUsers_And_Ads_df.head(302)
-
-
-# In[382]:
-
-
-allUsers_And_Ads_df.to_csv("AllUsers_And_Ads.csv", index=False)
-
-
-# ## Generate UsersRatings Dataset
-
-# In[390]:
+# In[11]:
 
 
 # TODO: Move this UDF to top UDFs section
@@ -346,35 +233,217 @@ def generate_data_RatingsPerUser( pathPrefix, userId ):
         data3[index] = data3[index].astype('float64')
     
     data3 = data3.transpose()
-    
-    data3.insert(0, "UserId", userId, True)
-    
+        
     return data3
 
 
-# In[391]:
+# In[12]:
 
 
-# TODO: Add a UDF that iterates over all Users
-data4 = generate_data_RatingsPerUser(g_userPart1PathPrefix, "U0001")
+def generate_data_RatingsPartUsers( usersPartPathPrefix, startRange, endRange ):
+    partUsers_df = pd.DataFrame()
+    
+    for i in range(startRange, endRange):
+        thisUserIdNum = str(i)
+        thisUserId = g_userIdPrefix + thisUserIdNum.zfill(3)
+        # print(thisUserId)
+        thisUser_df = generate_data_RatingsPerUser(usersPartPathPrefix, thisUserId)
+        partUsers_df = partUsers_df.append(thisUser_df, sort=True)
+        # partUsers_df.set_index('UserId')
+        
+    return partUsers_df
 
 
-# In[392]:
+# In[13]:
 
 
-data4.info()
+def generate_data_RatingsAllUsers():
+    allUsers_df = pd.DataFrame()
+
+    part1Users_df = generate_data_RatingsPartUsers(g_userPart1PathPrefix, 1, 61)
+    allUsers_df = allUsers_df.append(part1Users_df, sort=True)
+
+    part2Users_df = generate_data_RatingsPartUsers(g_userPart2PathPrefix, 61, 121)
+    allUsers_df = allUsers_df.append(part2Users_df, sort=True)
+
+    return allUsers_df
 
 
-# In[393]:
+# # Generate datasets
+
+# ## Generate Users dataset
+
+# In[14]:
 
 
-data4.head()
+allUsers_df = generate_data_allUsers()
+allUsers_df = allUsers_df.set_index('UserId')
 
 
-# In[ ]:
+# In[15]:
 
 
+allUsers_df.head()
 
+
+# In[16]:
+
+
+allUsers_df.info()
+
+
+# In[17]:
+
+
+allUsers_df.to_csv("AllUsers.csv", index=True)
+
+
+# ## Generate Ads Categories Dataset
+
+# In[18]:
+
+
+adCats_df = generate_data_adCats()
+adCats_df = adCats_df.set_index('AdCatId')
+
+
+# In[19]:
+
+
+adCats_df.head()
+
+
+# In[20]:
+
+
+adCats_df.info()
+
+
+# In[21]:
+
+
+adCats_df.to_csv("AdCats.csv", index=True)
+
+
+# ## Generate Ads Dataset
+
+# In[22]:
+
+
+allAds_df = generate_data_allAds()
+
+
+# In[23]:
+
+
+allAds_df.info()
+
+
+# In[24]:
+
+
+allAds_df.head()
+
+
+# In[25]:
+
+
+allAds_df.to_csv("AllAds.csv", index=True)
+
+
+# ## Generate Users\*Ads Dataset
+
+# In[26]:
+
+
+allUsers_And_Ads_df = df_crossjoin(allUsers_df, allAds_df)
+
+
+# In[27]:
+
+
+allUsers_And_Ads_df.info()
+
+
+# In[28]:
+
+
+allUsers_And_Ads_df = allUsers_And_Ads_df.reset_index()
+allUsers_And_Ads_df.rename(columns={'level_0':'UserId'}, inplace=True)
+allUsers_And_Ads_df.rename(columns={'level_1':'AdId'}, inplace=True)
+allUsers_And_Ads_df.head(302)
+
+
+# In[29]:
+
+
+allUsers_And_Ads_df.to_csv("AllUsers_And_Ads.csv", index=False)
+
+
+# ## Generate UsersRatings Dataset
+
+# In[30]:
+
+
+allUsersRatings_df = generate_data_RatingsAllUsers()
+
+
+# In[31]:
+
+
+allUsersRatings_df.rename(columns={0:'Rating'}, inplace=True)
+
+
+# In[32]:
+
+
+allUsersRatings_df.info()
+
+
+# In[33]:
+
+
+allUsersRatings_df.head(301)
+
+
+# ## Generate Final Dataset
+
+# In[34]:
+
+
+allUsers_And_Ads_df.head()
+
+
+# In[35]:
+
+
+allUsersRatings_df.head()
+
+
+# In[36]:
+
+
+allUsers_And_Ads_df.reset_index(drop=True, inplace=True)
+allUsersRatings_df.reset_index(drop=True, inplace=True)
+allUsers_Ads_Ratings_df = pd.concat([allUsers_And_Ads_df, allUsersRatings_df], axis=1)
+
+
+# In[37]:
+
+
+allUsers_Ads_Ratings_df.info()
+
+
+# In[38]:
+
+
+allUsers_Ads_Ratings_df.head(5)
+
+
+# In[39]:
+
+
+allUsers_Ads_Ratings_df.to_csv("AllUsers_Ads_Ratings_df.csv", index=False)
 
 
 # # Scratchpad
