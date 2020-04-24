@@ -288,110 +288,96 @@ allAds_df.head()
 allAds_df.to_csv("AllAds.csv", index=True)
 
 
-# ## Generate Ratings Dataset - TODO
+# ## Generate Users\*Ads Dataset
 
-# In[205]:
-
-
-# X1 Users => [UserId, .....] --> 36 cols
-# X2 Ads => [AdId, .....] --> 2 cols
-# Y Ratings => ~40 cols [UserId, ......, AdId, ......., Rating) ==> 120 * 300 rows
-
-
-# In[339]:
+# In[378]:
 
 
 allUsers_And_Ads_df = df_crossjoin(allUsers_df, allAds_df)
 
 
-# In[340]:
+# In[379]:
 
 
 allUsers_And_Ads_df.info()
 
 
-# In[341]:
+# In[380]:
 
 
+allUsers_And_Ads_df = allUsers_And_Ads_df.reset_index()
+allUsers_And_Ads_df.rename(columns={'level_0':'UserId'}, inplace=True)
+allUsers_And_Ads_df.rename(columns={'level_1':'AdId'}, inplace=True)
 allUsers_And_Ads_df.head(302)
 
 
-# In[362]:
+# In[382]:
 
 
-allUsers_And_Ads_df.to_csv("AllUsers_And_Ads.csv", index=True)
+allUsers_And_Ads_df.to_csv("AllUsers_And_Ads.csv", index=False)
+
+
+# ## Generate UsersRatings Dataset
+
+# In[390]:
+
+
+# TODO: Move this UDF to top UDFs section
+def generate_data_RatingsPerUser( pathPrefix, userId ):
+    completePath = pathPrefix + userId + "/"
+
+    data = ""
+    rtFile = userId + "-RT.csv"
+    rtNewFile = userId + "-RT-NEW.csv"
+    
+    with open(completePath + rtFile) as file:
+        data = file.read().replace("\"", "")
+
+    with open(completePath + rtNewFile,"w") as file:
+        file.write(data)
+
+    my_cols = [str(i) for i in range(300)]
+    data3 = pd.read_csv(completePath + rtNewFile, sep=";|,", names=my_cols, header=None, engine="python")
+    data3 = data3.iloc[2:]
+    data3.reset_index(drop = True, inplace = True)
+    
+    for i in range(20):
+        index = str(i)
+        data3[index] = data3[index].astype('float64')
+    
+    data3 = data3.transpose()
+    
+    data3.insert(0, "UserId", userId, True)
+    
+    return data3
+
+
+# In[391]:
+
+
+# TODO: Add a UDF that iterates over all Users
+data4 = generate_data_RatingsPerUser(g_userPart1PathPrefix, "U0001")
+
+
+# In[392]:
+
+
+data4.info()
+
+
+# In[393]:
+
+
+data4.head()
+
+
+# In[ ]:
+
+
+
 
 
 # # Scratchpad
-
-# ## RT
-
-# In[347]:
-
-
-data = ""
-
-with open("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT.csv") as file:
-     data = file.read().replace("\"", "")
-
-with open("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv","w") as file:
-     file.write(data)
-
-
-# In[348]:
-
-
-my_cols = [str(i) for i in range(300)] # create some row names
-data3 = pd.read_csv("./ads16-dataset/ADS16_Benchmark_part1/ADS16_Benchmark_part1/Corpus/Corpus/U0001/U0001-RT-NEW.csv",
-                                   sep=";|,",
-                                   names=my_cols, 
-                                   header=None, 
-                                   engine="python")
-
-
-# In[349]:
-
-
-data3 = data3.iloc[2:]
-
-
-# In[350]:
-
-
-data3.reset_index(drop = True, inplace = True)
-
-
-# In[351]:
-
-
-pd.set_option('display.max_columns', None)
-
-
-# In[352]:
-
-
-for i in range(20):
-    index = str(i)
-    data3[index] = data3[index].astype('float64')
-
-
-# In[353]:
-
-
-data3.head()
-
-
-# In[354]:
-
-
-data3 = data3.transpose()
-
-
-# In[355]:
-
-
-data3
-
 
 # In[ ]:
 
