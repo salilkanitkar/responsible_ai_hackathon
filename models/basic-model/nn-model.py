@@ -9,7 +9,7 @@ import time
 import numpy as np
 import pandas as pd
 from pprint import pprint
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, List
 from functools import partial
 
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
@@ -144,7 +144,7 @@ for d in ad_dataset(3).take(1):
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
 
 
-def fix_age(age_str:str, default_age=MEDIAN_AGE) -> int:
+def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
     """Typecast age to an integer and update outliers with the default"""
     try:
         age = int(age_str)
@@ -160,8 +160,47 @@ def fix_age_tf(example:Dict):
     return example
 
 
+fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
+
+
 for d in ad_dataset(1, True).map(fix_age_tf).batch(10).take(5):
     pprint(d[AGE])
+
+
+DEFAULT_ZIP_CODE = "00000"
+
+
+def fix_zip_code(zip_code:tf.string, n_digits) -> List[str]:
+    """Extracts the the first n_digits as a list"""
+    try:
+        zip_code = zip_code.numpy()[0].decode('ascii') # very ineffecient way
+        return list(zip_code.strip()[:n_digits])
+    except:
+        return list(DEFAULT_ZIP_CODE[:n_digits])
+
+def fix_zip_code_tf(example:Dict, n_digits=2):
+    """Creates new columns for the first n_digits in zip_code"""
+    fix_zip_code_fn = partial(fix_zip_code, n_digits=n_digits)
+    zip_digits = tf.py_function(fix_zip_code_fn, [example[ZIP_CODE]], [tf.string] * n_digits)
+    zip_features = {}
+    for i in range(n_digits):
+        val = zip_digits[i]
+        val.set_shape([]) # https://github.com/tensorflow/tensorflow/issues/24520#issuecomment-579421744
+        zip_features[f"{ZIP_CODE}{i}"] = val
+    example.update(zip_features)
+    example.pop(ZIP_CODE)
+    return example
+
+
+(fix_zip_code(tf.constant([b"43556"], shape=(1,), dtype=tf.string), 10),
+fix_zip_code(tf.constant([b"43556"], shape=(1,), dtype=tf.string), 2),
+fix_zip_code(tf.constant([b"43556"], shape=(1,), dtype=tf.string), 4),
+fix_zip_code(tf.constant([43556], shape=(1,), dtype=tf.int32), 4),\
+fix_zip_code(None, 3))
+
+
+for d in ad_dataset(1, True).map(fix_zip_code_tf).batch(5).take(3):
+    pprint({k: v for k, v in d.items() if k.startswith(ZIP_CODE)})
 
 
 

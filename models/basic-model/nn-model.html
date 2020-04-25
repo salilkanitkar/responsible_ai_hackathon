@@ -13084,7 +13084,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -13095,7 +13095,7 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Tensorflow, </span><span class="si">{tf.__version__}</span><span class="s2"> on Python interpreter, </span><span class="si">{sys.version_info}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -13445,7 +13445,8 @@ array([b&#39;monet art impression postimpressionism&#39;, b&#39;TMNT&#39;,
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Age">Age<a class="anchor-link" href="#Age">&#182;</a></h3>
+<h3 id="Age">Age<a class="anchor-link" href="#Age">&#182;</a></h3><p>Convert to a number and remove any outliers</p>
+
 </div>
 </div>
 </div>
@@ -13466,10 +13467,10 @@ array([b&#39;monet art impression postimpressionism&#39;, b&#39;TMNT&#39;,
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Typecast age to an integer and update outliers with the default&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">age_str</span><span class="p">)</span>
@@ -13493,14 +13494,47 @@ array([b&#39;monet art impression postimpressionism&#39;, b&#39;TMNT&#39;,
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Visual Test</p>
+<p>Visual Tests</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[133]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(50, 29, 29, 29, 29)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fix_age_tf</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
@@ -13526,6 +13560,145 @@ array([b&#39;monet art impression postimpressionism&#39;, b&#39;TMNT&#39;,
 &lt;tf.Tensor: shape=(10,), dtype=int16, numpy=array([24, 22, 26, 22, 62, 26, 22, 62, 26, 62], dtype=int16)&gt;
 &lt;tf.Tensor: shape=(10,), dtype=int16, numpy=array([22, 22, 26, 26, 62, 24, 22, 26, 26, 24], dtype=int16)&gt;
 &lt;tf.Tensor: shape=(10,), dtype=int16, numpy=array([26, 22, 62, 26, 22, 22, 62, 62, 62, 24], dtype=int16)&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Zip-Code">Zip Code<a class="anchor-link" href="#Zip-Code">&#182;</a></h3><p>Prepare zip-code column for one-hot encoding each character</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Extracts the the first n_digits as a list&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">zip_code</span> <span class="o">=</span> <span class="n">zip_code</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span> <span class="c1"># very ineffecient way</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">zip_code</span><span class="o">.</span><span class="n">strip</span><span class="p">()[:</span><span class="n">n_digits</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">[:</span><span class="n">n_digits</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">fix_zip_code_tf</span><span class="p">(</span><span class="n">example</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">n_digits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates new columns for the first n_digits in zip_code&quot;&quot;&quot;</span>
+    <span class="n">fix_zip_code_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fix_zip_code</span><span class="p">,</span> <span class="n">n_digits</span><span class="o">=</span><span class="n">n_digits</span><span class="p">)</span>
+    <span class="n">zip_digits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">py_function</span><span class="p">(</span><span class="n">fix_zip_code_fn</span><span class="p">,</span> <span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="n">ZIP_CODE</span><span class="p">]],</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_digits</span><span class="p">)</span>
+    <span class="n">zip_features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_digits</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">zip_digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">val</span><span class="o">.</span><span class="n">set_shape</span><span class="p">([])</span> <span class="c1"># https://github.com/tensorflow/tensorflow/issues/24520#issuecomment-579421744</span>
+        <span class="n">zip_features</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{ZIP_CODE}{i}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="n">example</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">zip_features</span><span class="p">)</span>
+    <span class="n">example</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ZIP_CODE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">example</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Visual Tests</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">10</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">43556</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span>\
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[163]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>([&#39;4&#39;, &#39;3&#39;, &#39;5&#39;, &#39;5&#39;, &#39;6&#39;],
+ [&#39;4&#39;, &#39;3&#39;],
+ [&#39;4&#39;, &#39;3&#39;, &#39;5&#39;, &#39;5&#39;],
+ [&#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;],
+ [&#39;0&#39;, &#39;0&#39;, &#39;0&#39;])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[165]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fix_zip_code_tf</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">ZIP_CODE</span><span class="p">)})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;Cap/Zip-Code0&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;6&#39;, b&#39;5&#39;, b&#39;6&#39;, b&#39;6&#39;, b&#39;1&#39;], dtype=object)&gt;,
+ &#39;Cap/Zip-Code1&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;0&#39;, b&#39;4&#39;, b&#39;0&#39;, b&#39;0&#39;, b&#39;5&#39;], dtype=object)&gt;}
+{&#39;Cap/Zip-Code0&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;N&#39;, b&#39;6&#39;, b&#39;N&#39;, b&#39;6&#39;, b&#39;6&#39;], dtype=object)&gt;,
+ &#39;Cap/Zip-Code1&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;W&#39;, b&#39;0&#39;, b&#39;W&#39;, b&#39;0&#39;, b&#39;0&#39;], dtype=object)&gt;}
+{&#39;Cap/Zip-Code0&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;6&#39;, b&#39;5&#39;, b&#39;5&#39;, b&#39;6&#39;, b&#39;5&#39;], dtype=object)&gt;,
+ &#39;Cap/Zip-Code1&#39;: &lt;tf.Tensor: shape=(5,), dtype=string, numpy=array([b&#39;0&#39;, b&#39;4&#39;, b&#39;4&#39;, b&#39;0&#39;, b&#39;4&#39;], dtype=object)&gt;}
 </pre>
 </div>
 </div>
