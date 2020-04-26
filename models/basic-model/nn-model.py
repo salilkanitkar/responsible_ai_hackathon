@@ -11,6 +11,7 @@ import pandas as pd
 from pprint import pprint
 from typing import Dict, Any, Union, List
 from functools import partial
+import re
 
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
@@ -201,6 +202,59 @@ fix_zip_code(None, 3))
 
 for d in ad_dataset(1, True).map(fix_zip_code_tf).batch(5).take(3):
     pprint({k: v for k, v in d.items() if k.startswith(ZIP_CODE)})
+
+
+tf.strings.split("a, b, c", r",")
+
+
+def fix_fav_sports(sports_str:str, topk=2, pad_constant="PAD_SPORT") -> List[str]:
+    sports = re.sub(r"\s*\(.*,.*\)\s*", "", sports_str.numpy()[0].decode('ascii')).split(r"\s*,\s*")[:topk]
+    right_pad_width = max(0, topk - len(sports))
+    tf.print(right_pad_width, len(sports))
+    result = np.pad(sports, (0, right_pad_width), constant_values=pad_constant)
+    tf.print(result)
+    return result
+
+
+def fix_fav_sports(sports_str:str, topk=2, pad_constant="PAD_SPORT") -> List[str]:
+    sports = tf.strings.regex_replace(sports_str, r"\s*\(.*,.*\)\s*", "")
+    sports = tf.strings.regex_replace(sports, r"\s*,\s*", ",")
+    sports = tf.strings.split(sports, ",").numpy()[:topk]
+    tf.print(sports.shape[0])
+    right_pad_width = max(0, topk - sports.shape[0])
+    result = np.pad(sports, (0, right_pad_width), constant_values=pad_constant) 
+    return result
+
+
+def fix_fav_sports_tf(example:Dict, topk=2, pad_constant="PAD_SPORT"):
+    fix_fav_sports_fn = partial(fix_fav_sports, topk=topk, pad_constant=pad_constant)
+#     example[FAVE_SPORTS] = tf.py_function(fix_fav_sports_fn, example[FAVE_SPORTS], [tf.string] * topk)
+    example[FAVE_SPORTS] = fix_fav_sports_fn(example[FAVE_SPORTS])
+    return example
+
+
+fix_fav_sports("Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports")
+
+
+for d in ad_dataset(1, True).map(fix_fav_sports_tf).batch(1).take(1):
+    pprint(d[FAVE_SPORTS])
+
+
+x["efs"] = x[["Fave Sports"]].apply(lambda r: re.findall(r"([\w\s]+\(.*,.*\))|([\w\s]+),?", r["Fave Sports"]), axis=1)
+
+
+x["efs"] = x[["Fave Sports"]].apply(lambda r: , axis=1)
+
+
+x[["Fave Sports", "efs"]]
+
+
+split_sports = lambda s: (re.split(r"\)\s*,\s*|\s*,\s*", s["Fave Sports"]))
+
+set(map(lambda s: s.strip().encode('ascii', errors="ignore"), pd.core.common.flatten(df[["Fave Sports"]].sample(100).apply(split_sports, axis=1).to_list())))
+
+
+
 
 
 
