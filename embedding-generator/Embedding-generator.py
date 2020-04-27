@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[153]:
+# # Part 1: Dealing with embeddings
+
+# In[239]:
 
 
+import datetime
 from tensorflow.keras import layers
 from tensorflow import feature_column
 from sklearn.model_selection import train_test_split
@@ -23,7 +26,7 @@ import pandas as pd
 from pathlib import Path
 
 
-# In[154]:
+# In[240]:
 
 
 data_folder = Path("../dataset")
@@ -34,13 +37,13 @@ final_dataset = "AllUsers_Ads_Ratings_df.csv"
 derived_dataset = "AllUsers_Ads_Ratings_Fav_Unfav_Merged_df.csv"
 
 
-# In[155]:
+# In[293]:
 
 
-df = pd.read_csv(data_folder / f"{users_file_glob}")
+df = pd.read_csv(data_folder / f"{final_dataset}")
 
 
-# In[156]:
+# In[294]:
 
 
 # environment settings
@@ -51,13 +54,13 @@ df = pd.read_csv(data_folder / f"{users_file_glob}")
 # pd.set_option('expand_frame_repr', True)
 
 
-# In[157]:
+# In[295]:
 
 
 df.head()
 
 
-# In[158]:
+# In[296]:
 
 
 # Merge the cols into one
@@ -66,7 +69,7 @@ df["fav"] = df[['fave1', 'fave2', 'fave3', 'fave4', 'fave5']].apply(lambda x: ' 
 df["unfav"] = df[['unfave1', 'unfave2', 'unfave3', 'unfave4', 'unfave5']].apply(lambda x: ' '.join(x.map(str)), axis=1)
 
 
-# In[159]:
+# In[297]:
 
 
 # Drop the cols now
@@ -75,40 +78,40 @@ favs = ['fave' + str(i) for i in range(1, 11)]
 unfavs = ['unfave' + str(i) for i in range(1, 11)]
 
 
-# In[160]:
+# In[298]:
 
 
 for fav in favs:
     df.drop(fav, inplace=True, axis=1)
 
 
-# In[ ]:
+# In[299]:
 
 
 for unfav in unfavs:
     df.drop(unfav, inplace=True, axis=1)
 
 
-# In[ ]:
+# In[300]:
 
 
 df.sample(10)
 
 
-# In[162]:
+# In[301]:
 
 
 print(df.info())
 
 
-# In[163]:
+# In[302]:
 
 
 # Save it back on disk
 df.to_csv(data_folder / f"{derived_dataset}")
 
 
-# # Use embeddings
+# ## Use embeddings
 
 # Here we can follow two approaches:<br/>
 # -     Use Embedding layer and pass pre trained glove embeddings and fine tune on it (This is what we will try out!)<br/>
@@ -123,10 +126,10 @@ df.to_csv(data_folder / f"{derived_dataset}")
 
 # ## Use Embedding layer and pass pre trained glove embeddings
 
-# In[164]:
+# In[303]:
 
 
-# In[165]:
+# In[304]:
 
 
 df = pd.read_csv(data_folder / f"{derived_dataset}")
@@ -135,14 +138,14 @@ df = pd.read_csv(data_folder / f"{derived_dataset}")
 # Reference -
 # https://github.com/balajibalasubramanian/Kaggle-Toxic-Comments-Challenge/blob/master/Keras%20lstm%201%20layer%20%2B%20GloVe%20%2B%20Early%20Stopping%20%2B%20attention%20%2B%20K-fold%20cross-validation.ipynb
 
-# In[166]:
+# In[305]:
 
 
 # define text data
 df_new = df['fav'].astype(str)
 
 
-# In[167]:
+# In[306]:
 
 
 # initialize the tokenizer
@@ -150,20 +153,20 @@ t = Tokenizer()
 t.fit_on_texts(df_new)
 
 
-# In[226]:
+# In[307]:
 
 
 vocabulary_list = list(t.word_index .keys())
 
 
-# In[168]:
+# In[308]:
 
 
 vocab_size = len(t.word_index) + 1
 vocab_size
 
 
-# In[169]:
+# In[309]:
 
 
 # integer encode the text data
@@ -171,14 +174,14 @@ encoded_favs = t.texts_to_sequences(df_new)
 encoded_favs
 
 
-# In[170]:
+# In[310]:
 
 
 maxlen = max(len(x) for x in encoded_favs)
 maxlen
 
 
-# In[171]:
+# In[311]:
 
 
 # pad the vectors to create uniform length
@@ -186,13 +189,13 @@ padded_favs = pad_sequences(encoded_favs, maxlen=maxlen, padding='post')
 padded_favs
 
 
-# In[172]:
+# In[312]:
 
 
 chakin.search(lang='English')
 
 
-# In[173]:
+# In[313]:
 
 
 # Downloading Twitter.25d embeddings from Stanford:
@@ -232,7 +235,7 @@ else:
     print("Embeddings already extracted.")
 
 
-# In[174]:
+# In[314]:
 
 
 # load the glove embedding into memory after downloading and unzippping
@@ -258,7 +261,7 @@ for word, i in t.word_index.items():
         embedding_matrix[i] = embedding_vector
 
 
-# In[175]:
+# In[315]:
 
 
 # Test the shape
@@ -268,7 +271,7 @@ assert vocab_size == embedding_matrix.shape[0], "Vocab size not matching the sha
 assert NUMBER_OF_DIMENSIONS == embedding_matrix.shape[1], "Vocab size not matching the shape[1] of embeddings"
 
 
-# In[176]:
+# In[316]:
 
 
 # Check first few items in embedding matrix
@@ -281,31 +284,31 @@ for word, i in t.word_index.items():
         break
 
 
-# ### Use in the model
+# # Part 2: Use it in model now in the model
 
-# In[197]:
+# In[338]:
 
 
-# In[198]:
+# In[318]:
 
 
 # Working on subset of columns(one of each type)
 
 
-# In[199]:
+# In[319]:
 
 
 df.columns
 
 
-# In[204]:
+# In[320]:
 
 
 df_new = df.filter(['Age', 'Gender', 'fav', 'Rating'], axis=1)
 df_new.columns
 
 
-# In[205]:
+# In[321]:
 
 
 train, test = train_test_split(df_new, test_size=0.2)
@@ -315,7 +318,7 @@ print(len(val), 'validation examples')
 print(len(test), 'test examples')
 
 
-# In[208]:
+# In[322]:
 
 
 # A utility method to create a tf.data dataset from a Pandas Dataframe
@@ -330,7 +333,7 @@ def df_to_dataset(dataframe, shuffle=True, batch_size=32):
     return ds
 
 
-# In[209]:
+# In[323]:
 
 
 batch_size = 5  # A small batch sized is used for demonstration purposes
@@ -344,20 +347,20 @@ test_ds = df_to_dataset(test, shuffle=False, batch_size=batch_size)
 
 # ============= START: Try out a demo (ignore this section) =============
 
-# In[212]:
+# In[324]:
 
 
 # We will use this batch to demonstrate several types of feature columns
 example_batch = next(iter(train_ds))[0]
 
 
-# In[217]:
+# In[325]:
 
 
 example_batch
 
 
-# In[213]:
+# In[326]:
 
 
 # A utility method to create a feature column
@@ -367,7 +370,7 @@ def demo(feature_column):
     print(feature_layer(example_batch).numpy())
 
 
-# In[214]:
+# In[327]:
 
 
 # Numerical column
@@ -376,7 +379,7 @@ age = feature_column.numeric_column("Age")
 demo(age)
 
 
-# In[218]:
+# In[328]:
 
 
 # Categorical column
@@ -388,7 +391,7 @@ thal_one_hot = feature_column.indicator_column(gender)
 demo(thal_one_hot)
 
 
-# In[228]:
+# In[331]:
 
 
 categorical_voc = tf.feature_column.categorical_column_with_vocabulary_list(key="fav", vocabulary_list=vocabulary_list)
@@ -402,10 +405,12 @@ embed_column = tf.feature_column.embedding_column(
     dimension=NUMBER_OF_DIMENSIONS,
     trainable=True)
 
+demo(embed_column)
+
 
 # ============= END : Try out a demo (ignore this section) =============
 
-# In[229]:
+# In[333]:
 
 
 feature_columns = []
@@ -427,9 +432,10 @@ embed_column = tf.feature_column.embedding_column(
     categorical_column=categorical_voc,
     dimension=NUMBER_OF_DIMENSIONS,
     trainable=True)
+feature_columns.append(embed_column)
 
 
-# In[230]:
+# In[334]:
 
 
 # Create a feature layer
@@ -437,7 +443,7 @@ embed_column = tf.feature_column.embedding_column(
 feature_layer = tf.keras.layers.DenseFeatures(feature_columns)
 
 
-# In[234]:
+# In[339]:
 
 
 # Compile and train the model
@@ -453,12 +459,26 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
+logdir = Path("logs") / datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir)
+print(f"Logging tensorboard data at {logdir}")
+
 model.fit(train_ds,
           validation_data=val_ds,
-          epochs=5)
+          epochs=5,
+          callbacks=[tensorboard_callback],
+          verbose=2)
 
 
-# In[ ]:
+# In[348]:
+
+
+# Load the TensorBoard notebook extension
+get_ipython().magic('load_ext tensorboard')
+get_ipython().magic('tensorboard --logdir logs/20200426-200936')
+
+
+# In[340]:
 
 
 loss, accuracy = model.evaluate(test_ds)
@@ -471,7 +491,7 @@ print("Accuracy", accuracy)
 df1 = pd.DataFrame([[26, 'M', [5, 22, 5, 22, 57, 82, 43, 13, 146, 147, 82, 43, 13, 57, 82, 43, 13]]])
 
 
-# In[238]:
+# In[ ]:
 
 
 model.predict(df1)
