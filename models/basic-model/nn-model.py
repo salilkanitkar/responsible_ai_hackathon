@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Neural Network Model
+# 
+# The aim of the notebook is demo end to end pipeline for Ads prediction in Tensorflow
+
+# In[2]:
+
+
 get_ipython().system(' ./setup.sh')
+
+
+# In[1]:
 
 
 import tensorflow as tf
@@ -25,6 +35,9 @@ from collections import namedtuple
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
 
+# In[2]:
+
+
 RANDOM_SEED = int(time.time())
 
 tf.random.set_seed(RANDOM_SEED)
@@ -33,12 +46,31 @@ np.random.seed(RANDOM_SEED)
 print(f"Using random seed, {RANDOM_SEED}")
 
 
+# ## Load Data
+# 
+# Dataset credits:
+# ```
+# @inproceedings{roffo2016personality,
+#   title={Personality in computational advertising: A benchmark},
+#   author={Roffo, Giorgio and Vinciarelli, Alessandro},
+#   booktitle={4 th Workshop on Emotions and Personality in Personalized Systems (EMPIRE) 2016},
+#   pages={18},
+#   year={2016}
+# }
+# ```
+
+# In[3]:
+
+
 DATA_FOLDER = Path("../../dataset/")
 BATCH_SIZE = 4096 # bigger the batch, faster the training but bigger the RAM needed
 TARGET_COL = "Rating"
 
 # data files path are relative DATA_FOLDER
-users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings.csv"
+users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
+
+
+# In[4]:
 
 
 USER_ID = "UserId"
@@ -79,6 +111,8 @@ UNFAVE4 = "unfave4"
 UNFAVE5 = "unfave5"
 UNFAVE6 = "unfave6"
 ADFILEPATH = "AdFilePath"
+GENDER_F = "Gender_F"
+GENDER_M = "Gender_M"
 RATING = "Rating"
 
 # Read all columns as strings to avoid any errors
@@ -121,6 +155,8 @@ COL_DEFAULTS = {
     UNFAVE5: "**",
     UNFAVE6: "**",
     ADFILEPATH: "**",
+    GENDER_F: "**",
+    GENDER_M: "**",
     RATING: "**"
 }
 
@@ -129,8 +165,11 @@ COL_DEFAULTS = {
 #                  FAVE1, FAVE2, FAVE3, FAVE4, FAVE5, FAVE6, FAVE7, FAVE8, FAVE9, FAVE10, UNFAVE1, UNFAVE2, UNFAVE3, UNFAVE4, UNFAVE5, 
 #                  UNFAVE6, RATING]
 
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS]
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M]
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
+
+
+# In[5]:
 
 
 def ad_dataset(batch_size=BATCH_SIZE, shuffle=True):
@@ -148,19 +187,36 @@ def ad_dataset(batch_size=BATCH_SIZE, shuffle=True):
     )
 
 
+# In[6]:
+
+
 for d in ad_dataset(3).take(1):
     pprint(d)
+
+
+# In[7]:
 
 
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
 
 
+# In[8]:
+
+
 ad_dataset_pd().sample(3)
+
+
+# ## Transform Data
+
+# In[9]:
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
+
+
+# In[10]:
 
 
 class IndexerForVocab:
@@ -187,9 +243,19 @@ class IndexerForVocab:
         return [self.index_of(i) for i in items]
 
 
+# ### Age
+# 
+# Convert to a number and remove any outliers
+
+# In[11]:
+
+
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
 
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
+
+
+# In[12]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -211,7 +277,15 @@ def fix_age_tf(example:Dict, new_col_suffix=""):
     return example
 
 
+# #### Visual Tests
+
+# In[13]:
+
+
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
+
+
+# In[14]:
 
 
 fix_age_tf_fn = partial(fix_age_tf, new_col_suffix="_encoded")
@@ -220,9 +294,19 @@ for d in ad_dataset(1, True).map(fix_age_tf_fn).batch(3).take(5):
     print()
 
 
+# ### Zip Code
+# 
+# Prepare zip-code column for one-hot encoding each character
+
+# In[15]:
+
+
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
+
+
+# In[16]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -257,12 +341,20 @@ def fix_zip_code_tf(example:Dict, n_digits=FIRST_K_ZIP_DIGITS, indexer=zip_code_
     return example
 
 
+# #### Visual Tests
+
+# In[17]:
+
+
 test_zip_code_indexer = IndexerForVocab(string.digits)
 
 (fix_zip_code("43556", 10, test_zip_code_indexer),
 fix_zip_code("43556", 2, test_zip_code_indexer),
 fix_zip_code("43556", 4, test_zip_code_indexer),
 fix_zip_code(None, 3, test_zip_code_indexer))
+
+
+# In[18]:
 
 
 test_zip_code_indexer = IndexerForVocab(string.digits)
@@ -274,10 +366,22 @@ fix_zip_code(tf.constant([43556], shape=(1,), dtype=tf.int32), 4, test_zip_code_
 fix_zip_code(None, 3, test_zip_code_indexer))
 
 
+# In[19]:
+
+
 fix_zip_code_tf_fn = partial(fix_zip_code_tf, new_col_suffix="_encoded")
 for d in ad_dataset(1, True).map(fix_zip_code_tf_fn).batch(5).take(3):
     pprint(dict_project(d, [ZIP_CODE, ZIP_CODE + "_encoded"]))
     print()
+
+
+# ### Favorite Sports
+# 
+# Two approaches,
+# 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
+# 2. Multi label binarize all the sports as there are only 15 unique sports
+
+# In[20]:
 
 
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
@@ -285,6 +389,9 @@ ALL_FAV_SPORTS = ['Olympic sports', 'Winter sports', 'Nothing', 'I do not like S
 
 fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
+
+
+# In[21]:
 
 
 # Attempt to write purely in TF graph
@@ -296,6 +403,9 @@ fav_sports_binarizer.fit([ALL_FAV_SPORTS])
 #     right_pad_width = max(0, topk - sports.shape[0])
 #     result = np.pad(sports, (0, right_pad_width), constant_values=pad_constant) 
 #     return result
+
+
+# In[22]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -325,12 +435,20 @@ def fix_fav_sports_tf(example:Dict, first_k=2, pad_constant="PAD_SPORT", new_col
     return example
 
 
+# #### Visual Tests
+
+# In[23]:
+
+
 (
     fix_fav_sports_mlb(tf.constant([b"Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports"])),
     fix_fav_sports_mlb(tf.constant([b"Skating sports"])),
     fix_fav_sports_mlb(tf.constant([b"Individual sports (Tennis, Archery, ...)"])),
     fix_fav_sports_mlb(tf.constant([b"Indoor sports, Endurance sports, Skating sports"])),
 )
+
+
+# In[24]:
 
 
 (
@@ -341,13 +459,24 @@ def fix_fav_sports_tf(example:Dict, first_k=2, pad_constant="PAD_SPORT", new_col
 )
 
 
+# In[25]:
+
+
 fix_fav_sports_tf_fn = partial(fix_fav_sports_tf, new_col_suffix="_new")
 for d in ad_dataset(1, True).map(fix_fav_sports_tf_fn).batch(5).take(2):
     pprint(dict_project(d, [FAVE_SPORTS, FAVE_SPORTS + "_new"]))
     print()
 
 
+# ### Target
+
+# In[26]:
+
+
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
+
+
+# In[27]:
 
 
 def create_target(example:Dict):
@@ -359,12 +488,23 @@ def create_target(example:Dict):
     return example, y
 
 
+# In[28]:
+
+
 def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
 
 
+# ## Featurize
+
+# In[29]:
+
+
 def create_dataset_tf() -> tf.data.Dataset:
     return ad_dataset(1, True).        map(fix_age_tf, tf.data.experimental.AUTOTUNE).        map(fix_zip_code_tf, tf.data.experimental.AUTOTUNE).        map(fix_fav_sports_tf, tf.data.experimental.AUTOTUNE).        map(create_target, tf.data.experimental.AUTOTUNE)
+
+
+# In[30]:
 
 
 # Credits: https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough?hl=en#create_a_tfdatadataset
@@ -375,8 +515,16 @@ def pack_features_vector(features:Dict, labels, cols:List[str]=[AGE]):
     return features, labels
 
 
-for d in create_dataset().batch(2).map(pack_features_vector).take(2):
+# In[32]:
+
+
+for d in create_dataset_tf().batch(2).map(pack_features_vector).take(2):
     pprint(d)
+
+
+# Note down the number of columns from here to provide in keras input layer
+
+# In[46]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -384,10 +532,15 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[AGE] = df[AGE].apply(lambda age: [fix_age(age)])
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
+    df[GENDER_F] = df[GENDER_F].apply(lambda gender_f: [int(gender_f)])
+    df[GENDER_M] = df[GENDER_M].apply(lambda gender_m: [int(gender_m)])
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all example
     X = np.array([x for x in df["X"]])
     return X
+
+
+# In[47]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
@@ -398,10 +551,18 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
+# In[48]:
+
+
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
     """Prepare the dataset for training on a fraction of all input data"""
     df = ad_dataset_pd().sample(frac=fraction)
     return transform_pd_X(df, inp_cols), transform_pd_y(df, target_col)
+
+
+# ## Input Pipeline
+
+# In[402]:
 
 
 # Input builders
@@ -419,29 +580,66 @@ def input_fn_predict():
     pass
 
 
+# ### Visual Test
+
+# In[403]:
+
+
 for d in input_fn_train(2).take(2):
     pprint(d)
+
+
+# ## Tensorboard
+# 
+# Monitor training and other stats
+
+# In[36]:
 
 
 from tensorboard import notebook
 
 
-get_ipython().run_line_magic('reload_ext', 'tensorboard')
+# In[37]:
 
 
-get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
+get_ipython().magic('reload_ext tensorboard')
+
+
+# Start tensorboard
+
+# In[38]:
+
+
+get_ipython().magic('tensorboard --logdir logs --port 6006')
+
+
+# In[32]:
 
 
 notebook.list()
 
 
+# ## Model
+# 
+# Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
+
+# In[49]:
+
+
 get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
 
 
+# In[59]:
+
+
+# DON'T CHANGE THE EPOCHS VALUE
 BATCH_SIZE = 4096
-EPOCHS = 300
+EPOCHS = 1000
 keras_model_metrics = ["accuracy"]
 train_histories = []
+
+
+# In[60]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -453,8 +651,11 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 print(f"Logging tensorboard data at {logdir}")
 
 
+# In[61]:
+
+
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(20, input_shape=(142,), activation=tf.keras.layers.LeakyReLU()),
+    tf.keras.layers.Dense(20, input_shape=(X.shape[1],), activation=tf.keras.layers.LeakyReLU()),
     tf.keras.layers.Dense(RATINGS_CARDINALITY , activation='softmax')
 ])
 
@@ -473,10 +674,33 @@ model.compile(
 model.summary()
 
 
+# In[62]:
+
+
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
 
 
+# In[67]:
+
+
+histories_dict = train_histories[-1].history
+for metric in histories_dict.keys():
+    print(metric, histories_dict[metric][-1])
+
+
+# ## Export
+# 
+# Save the model for future reference
+
+# In[441]:
+
+
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
+
+
+# ## Predict
+
+# In[448]:
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
@@ -493,10 +717,25 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
+# ## Rough
+
+# ### Featurize using Feature Columns
+# 
+# Create feature columns like one-hot, embeddings, bucketing from raw features created earlier
+
+# In[38]:
+
+
 EXAMPLE_BATCH = next(iter(input_fn_train(3)))[0]
 
 
+# In[39]:
+
+
 EXAMPLE_BATCH
+
+
+# In[40]:
 
 
 def test_feature_column(feature_column):
@@ -504,7 +743,13 @@ def test_feature_column(feature_column):
     return feature_layer(EXAMPLE_BATCH).numpy()
 
 
+# In[41]:
+
+
 age_fc = tf.feature_column.numeric_column(AGE, normalizer_fn=lambda x: (x - MEAN_AGE) / STD_AGE)
+
+
+# In[42]:
 
 
 zip_fcs = [
@@ -517,10 +762,19 @@ zip_fcs = [
 ]
 
 
+# In[43]:
+
+
 EXAMPLE_BATCH[AGE], test_feature_column(age_fc)
 
 
+# In[ ]:
+
+
 {k: v for k, v in EXAMPLE_BATCH.items() if k.startswith(ZIP_CODE)}, test_feature_column(zip_fcs)
+
+
+# In[ ]:
 
 
 tf.keras.layers.concatenate(age_fc, zip_fcs[0])
