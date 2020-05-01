@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>nn-model</title>
+<title>nn-model-tf</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13084,7 +13084,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> ./setup.sh
@@ -13119,7 +13119,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -13157,7 +13157,7 @@ Solving environment: done
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using Tensorflow, 2.1.0 on Python interpreter, sys.version_info(major=3, minor=7, micro=5, releaselevel=&#39;final&#39;, serial=0)
+<pre>Using Tensorflow, 2.1.0 on Python interpreter, sys.version_info(major=3, minor=7, micro=7, releaselevel=&#39;final&#39;, serial=0)
 </pre>
 </div>
 </div>
@@ -13168,7 +13168,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
@@ -13193,7 +13193,7 @@ Solving environment: done
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using random seed, 1588306442
+<pre>Using random seed, 1588290805
 </pre>
 </div>
 </div>
@@ -13220,7 +13220,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DATA_FOLDER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../dataset/&quot;</span><span class="p">)</span>
@@ -13238,7 +13238,45 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">users_ads_rating_csv</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[47]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;UserId&#39;, &#39;AdId&#39;, &#39;Age&#39;, &#39;CapZipCode&#39;, &#39;Countriesvisited&#39;, &#39;FaveSports&#39;,
+       &#39;Gender&#39;, &#39;Homecountry&#39;, &#39;Hometown&#39;, &#39;Income&#39;,
+       ...
+       &#39;ad_isPants&#39;, &#39;ad_isPen&#39;, &#39;ad_isPerson&#39;, &#39;ad_isPillow&#39;, &#39;ad_isPoster&#39;,
+       &#39;ad_isShoe&#39;, &#39;ad_isTop&#39;, &#39;ad_isToy&#39;, &#39;ad_isWatch&#39;, &#39;ad_isWheel&#39;],
+      dtype=&#39;object&#39;, length=265)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">USER_ID</span> <span class="o">=</span> <span class="s2">&quot;UserId&quot;</span>
@@ -13348,8 +13386,19 @@ Solving environment: done
 
 <span class="n">SELECTED_INP_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">GENDER_F</span><span class="p">,</span> <span class="n">GENDER_M</span><span class="p">]</span> <span class="o">+</span> <span class="n">SELECTED_AD_COLS</span>
 <span class="n">SELECTED_COLS</span> <span class="o">=</span> <span class="n">SELECTED_INP_COLS</span> <span class="o">+</span> <span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span>
+</pre></div>
 
-<span class="n">SELECTED_COLS</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECTED_COLS</span>
 </pre></div>
 
     </div>
@@ -13362,7 +13411,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[123]:</div>
 
 
 
@@ -13385,7 +13434,79 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[124]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ad_dataset</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">make_csv_dataset</span><span class="p">(</span>
+        <span class="n">users_ads_rating_csv</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span>
+        <span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">column_defaults</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span><span class="n">default</span> <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">COL_DEFAULTS</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">SELECTED_COLS</span><span class="p">},</span>
+        <span class="n">select_columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">SELECTED_COLS</span><span class="p">),</span>
+        <span class="n">label_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+        <span class="n">shuffle_buffer_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">shuffle_seed</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">,</span>
+        <span class="n">sloppy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># set true while training if required</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[125]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>OrderedDict([(&#39;Age&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;26&#39;, b&#39;22&#39;, b&#39;26&#39;], dtype=object)&gt;),
+             (&#39;CapZipCode&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;60638&#39;, b&#39;54942&#39;, b&#39;60638&#39;], dtype=object)&gt;),
+             (&#39;FaveSports&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=
+array([b&#39;Nothing&#39;, b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;,
+       b&#39;Nothing&#39;], dtype=object)&gt;),
+             (&#39;Rating&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;1.0&#39;, b&#39;5.0&#39;, b&#39;1.0&#39;], dtype=object)&gt;),
+             (&#39;Gender_F&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;1&#39;, b&#39;0&#39;, b&#39;1&#39;], dtype=object)&gt;),
+             (&#39;Gender_M&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;0&#39;, b&#39;1&#39;, b&#39;0&#39;], dtype=object)&gt;),
+             (&#39;ad_num_faces&#39;,
+              &lt;tf.Tensor: shape=(3,), dtype=string, numpy=array([b&#39;0&#39;, b&#39;0&#39;, b&#39;2&#39;], dtype=object)&gt;)])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ad_dataset_pd</span><span class="p">():</span>
@@ -13399,10 +13520,10 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ad_dataset_pd</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ad_dataset_pd</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13415,7 +13536,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[127]:</div>
 
 
 
@@ -13449,69 +13570,19 @@ Solving environment: done
   </thead>
   <tbody>
     <tr>
-      <th>25018</th>
-      <td>27</td>
-      <td>CM20 1AY</td>
-      <td>Indoor sports, Olympic sports‎</td>
-      <td>5.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>21370</th>
-      <td>52</td>
-      <td>LE9 6RG</td>
-      <td>Individual sports‎ (Tennis, Archery, ...)</td>
-      <td>3.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>35172</th>
-      <td>18</td>
-      <td>94401-2727</td>
-      <td>I do not like Sports</td>
-      <td>4.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>5649</th>
-      <td>55</td>
-      <td>98684-9440</td>
-      <td>Individual sports‎ (Tennis, Archery, ...)</td>
-      <td>3.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>19245</th>
-      <td>49</td>
-      <td>H4N 2Z1</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
+      <th>33915</th>
+      <td>39</td>
+      <td>80203</td>
+      <td>Team sports (Footbal, Baseball, Rugby, ...) , ...</td>
       <td>2.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>20877</th>
-      <td>31</td>
-      <td>R2V 3X9</td>
-      <td>Winter sports</td>
-      <td>1.0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
-      <th>6315</th>
-      <td>27</td>
-      <td>90650</td>
+      <th>26815</th>
+      <td>19</td>
+      <td>21035</td>
       <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
       <td>1.0</td>
       <td>1</td>
@@ -13519,34 +13590,14 @@ Solving environment: done
       <td>0</td>
     </tr>
     <tr>
-      <th>3873</th>
-      <td>18</td>
-      <td>2380</td>
-      <td>Endurance sports</td>
-      <td>1.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4888</th>
-      <td>20</td>
-      <td>2494</td>
-      <td>I do not like Sports</td>
+      <th>29465</th>
+      <td>24</td>
+      <td>47203</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
       <td>2.0</td>
+      <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>14472</th>
-      <td>30</td>
-      <td>77566</td>
-      <td>Olympic sports‎, Precision sports‎ (Golf, Bowl...</td>
-      <td>3.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>9</td>
     </tr>
   </tbody>
 </table>
@@ -13568,7 +13619,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -13582,7 +13633,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IndexerForVocab</span><span class="p">:</span>
@@ -13624,7 +13675,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb</span>
@@ -13639,7 +13690,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -13652,6 +13703,13 @@ Solving environment: done
         <span class="n">age</span> <span class="o">=</span> <span class="n">default_age</span>
     <span class="n">normalized_age</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">-</span> <span class="n">MEAN_AGE</span><span class="p">)</span> <span class="o">/</span> <span class="n">STD_AGE</span>
     <span class="k">return</span> <span class="n">normalized_age</span>
+
+<span class="k">def</span> <span class="nf">fix_age_tf</span><span class="p">(</span><span class="n">example</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrap in a py_function for TF to run inside its execution graph&quot;&quot;&quot;</span>
+<span class="c1">#     example[AGE + new_col_suffix] = tf.py_function(fix_age, [example[AGE]], (tf.float32, ))</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">AGE</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">py_function</span><span class="p">(</span><span class="n">fix_age</span><span class="p">,</span> <span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="n">AGE</span><span class="p">]],</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">AGE</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="n">AGE</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># https://github.com/tensorflow/tensorflow/issues/24520#issuecomment-579421744</span>
+    <span class="k">return</span> <span class="n">example</span>
 </pre></div>
 
     </div>
@@ -13668,7 +13726,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
@@ -13684,7 +13742,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[12]:</div>
+    <div class="prompt output_prompt">Out[132]:</div>
 
 
 
@@ -13703,6 +13761,84 @@ Solving environment: done
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age_tf_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fix_age_tf</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="o">=</span><span class="s2">&quot;_encoded&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fix_age_tf_fn</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">AGE</span> <span class="o">+</span> <span class="s2">&quot;_encoded&quot;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;Age&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=string, numpy=
+array([[b&#39;26&#39;],
+       [b&#39;22&#39;],
+       [b&#39;26&#39;]], dtype=object)&gt;,
+ &#39;Age_encoded&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[-0.47555923],
+       [-0.8069594 ],
+       [-0.47555923]], dtype=float32)&gt;}
+
+{&#39;Age&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=string, numpy=
+array([[b&#39;22&#39;],
+       [b&#39;26&#39;],
+       [b&#39;24&#39;]], dtype=object)&gt;,
+ &#39;Age_encoded&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[-0.8069594 ],
+       [-0.47555923],
+       [-0.6412593 ]], dtype=float32)&gt;}
+
+{&#39;Age&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=string, numpy=
+array([[b&#39;62&#39;],
+       [b&#39;22&#39;],
+       [b&#39;22&#39;]], dtype=object)&gt;,
+ &#39;Age_encoded&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[ 2.5070422],
+       [-0.8069594],
+       [-0.8069594]], dtype=float32)&gt;}
+
+{&#39;Age&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=string, numpy=
+array([[b&#39;22&#39;],
+       [b&#39;22&#39;],
+       [b&#39;22&#39;]], dtype=object)&gt;,
+ &#39;Age_encoded&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[-0.8069594],
+       [-0.8069594],
+       [-0.8069594]], dtype=float32)&gt;}
+
+{&#39;Age&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=string, numpy=
+array([[b&#39;26&#39;],
+       [b&#39;62&#39;],
+       [b&#39;62&#39;]], dtype=object)&gt;,
+ &#39;Age_encoded&#39;: &lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[-0.47555923],
+       [ 2.5070422 ],
+       [ 2.5070422 ]], dtype=float32)&gt;}
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13713,7 +13849,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">,</span> <span class="n">FIRST_K_ZIP_DIGITS</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span><span class="p">,</span> <span class="mi">2</span>
@@ -13728,7 +13864,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code_tensor</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -13754,6 +13890,13 @@ Solving environment: done
     <span class="k">except</span><span class="p">:</span>
         <span class="n">zip_digits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">[:</span><span class="n">n_digits</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexer</span><span class="p">))[</span><span class="n">indexer</span><span class="o">.</span><span class="n">index_of_mux</span><span class="p">(</span><span class="n">zip_digits</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">fix_zip_code_tf</span><span class="p">(</span><span class="n">example</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">n_digits</span><span class="o">=</span><span class="n">FIRST_K_ZIP_DIGITS</span><span class="p">,</span> <span class="n">indexer</span><span class="o">=</span><span class="n">zip_code_indexer</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates new columns for the first n_digits in zip_code&quot;&quot;&quot;</span>
+    <span class="n">fix_zip_code_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fix_zip_code</span><span class="p">,</span> <span class="n">n_digits</span><span class="o">=</span><span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="o">=</span><span class="n">indexer</span><span class="p">)</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">ZIP_CODE</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">py_function</span><span class="p">(</span><span class="n">fix_zip_code_fn</span><span class="p">,</span> <span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="n">ZIP_CODE</span><span class="p">]],</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">ZIP_CODE</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span><span class="o">.</span><span class="n">set_shape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexer</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_digits</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">example</span>
 </pre></div>
 
     </div>
@@ -13770,7 +13913,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
@@ -13791,7 +13934,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[136]:</div>
 
 
 
@@ -13816,6 +13959,238 @@ Solving environment: done
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">test_zip_code_indexer</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">test_zip_code_indexer</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;43556&quot;</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">test_zip_code_indexer</span><span class="p">),</span>
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">43556</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">test_zip_code_indexer</span><span class="p">),</span>\
+<span class="n">fix_zip_code</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">test_zip_code_indexer</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[137]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0.]),
+ array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0.]),
+ array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0.]),
+ array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0.]),
+ array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0.]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_zip_code_tf_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fix_zip_code_tf</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="o">=</span><span class="s2">&quot;_encoded&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fix_zip_code_tf_fn</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">[</span><span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">ZIP_CODE</span> <span class="o">+</span> <span class="s2">&quot;_encoded&quot;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;CapZipCode&#39;: &lt;tf.Tensor: shape=(5, 1), dtype=string, numpy=
+array([[b&#39;60638&#39;],
+       [b&#39;54942&#39;],
+       [b&#39;60638&#39;],
+       [b&#39;54942&#39;],
+       [b&#39;60638&#39;]], dtype=object)&gt;,
+ &#39;CapZipCode_encoded&#39;: &lt;tf.Tensor: shape=(5, 126), dtype=float32, numpy=
+array([[0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+      dtype=float32)&gt;}
+
+{&#39;CapZipCode&#39;: &lt;tf.Tensor: shape=(5, 1), dtype=string, numpy=
+array([[b&#39;NW1 1EU&#39;],
+       [b&#39;15613&#39;],
+       [b&#39;54942&#39;],
+       [b&#39;54942&#39;],
+       [b&#39;54942&#39;]], dtype=object)&gt;,
+ &#39;CapZipCode_encoded&#39;: &lt;tf.Tensor: shape=(5, 126), dtype=float32, numpy=
+array([[0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+      dtype=float32)&gt;}
+
+{&#39;CapZipCode&#39;: &lt;tf.Tensor: shape=(5, 1), dtype=string, numpy=
+array([[b&#39;54942&#39;],
+       [b&#39;54942&#39;],
+       [b&#39;60638&#39;],
+       [b&#39;15613&#39;],
+       [b&#39;15613&#39;]], dtype=object)&gt;,
+ &#39;CapZipCode_encoded&#39;: &lt;tf.Tensor: shape=(5, 126), dtype=float32, numpy=
+array([[0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+      dtype=float32)&gt;}
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13830,7 +14205,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">FAV_SPORTS_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNK_SPORT&quot;</span>
@@ -13850,7 +14225,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[139]:</div>
 
 
 
@@ -13867,7 +14242,28 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Attempt to write purely in TF graph</span>
+<span class="c1"># def fix_fav_sports(sports_str:str, topk=2, pad_constant=&quot;PAD_SPORT&quot;) -&gt; List[str]:</span>
+<span class="c1">#     sports = tf.strings.regex_replace(sports_str, r&quot;\s*\(.*,.*\)\s*&quot;, &quot;&quot;)</span>
+<span class="c1">#     sports = tf.strings.regex_replace(sports, r&quot;\s*,\s*&quot;, &quot;,&quot;)</span>
+<span class="c1">#     sports = tf.strings.split(sports, &quot;,&quot;).numpy()[:topk]</span>
+<span class="c1">#     tf.print(sports.shape[0])</span>
+<span class="c1">#     right_pad_width = max(0, topk - sports.shape[0])</span>
+<span class="c1">#     result = np.pad(sports, (0, right_pad_width), constant_values=pad_constant) </span>
+<span class="c1">#     return result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fav_sports_multi_select_str_to_list</span><span class="p">(</span><span class="n">sports_str</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -13889,6 +14285,12 @@ Solving environment: done
     <span class="n">right_pad_width</span> <span class="o">=</span> <span class="n">first_k</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">sports_enc</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">sports</span> <span class="o">+</span> <span class="p">[</span><span class="n">pad_constant</span><span class="p">]</span> <span class="o">*</span> <span class="n">right_pad_width</span><span class="p">][:</span><span class="n">first_k</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span> <span class="nf">fix_fav_sports_tf</span><span class="p">(</span><span class="n">example</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">first_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad_constant</span><span class="o">=</span><span class="s2">&quot;PAD_SPORT&quot;</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Existing column will not be overriden with new_col_suffix&quot;&quot;&quot;</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">FAVE_SPORTS</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">py_function</span><span class="p">(</span><span class="n">fix_fav_sports_mlb</span><span class="p">,</span> <span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="n">FAVE_SPORTS</span><span class="p">]],</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">example</span><span class="p">[</span><span class="n">FAVE_SPORTS</span> <span class="o">+</span> <span class="n">new_col_suffix</span><span class="p">]</span><span class="o">.</span><span class="n">set_shape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ALL_FAV_SPORTS</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">example</span>
 </pre></div>
 
     </div>
@@ -13905,7 +14307,48 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
+    <span class="n">fix_fav_sports_mlb</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports&quot;</span><span class="p">])),</span>
+    <span class="n">fix_fav_sports_mlb</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;Skating sports&quot;</span><span class="p">])),</span>
+    <span class="n">fix_fav_sports_mlb</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;Individual sports (Tennis, Archery, ...)&quot;</span><span class="p">])),</span>
+    <span class="n">fix_fav_sports_mlb</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;Indoor sports, Endurance sports, Skating sports&quot;</span><span class="p">])),</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[142]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]),
+ array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]),
+ array([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+ array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
@@ -13926,7 +14369,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[143]:</div>
 
 
 
@@ -13944,6 +14387,67 @@ Solving environment: done
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_fav_sports_tf_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fix_fav_sports_tf</span><span class="p">,</span> <span class="n">new_col_suffix</span><span class="o">=</span><span class="s2">&quot;_new&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fix_fav_sports_tf_fn</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">[</span><span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span> <span class="o">+</span> <span class="s2">&quot;_new&quot;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;FaveSports&#39;: &lt;tf.Tensor: shape=(5, 1), dtype=string, numpy=
+array([[b&#39;Nothing&#39;],
+       [b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;],
+       [b&#39;Nothing&#39;],
+       [b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;],
+       [b&#39;Nothing&#39;]], dtype=object)&gt;,
+ &#39;FaveSports_new&#39;: &lt;tf.Tensor: shape=(5, 15), dtype=float32, numpy=
+array([[0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.]],
+      dtype=float32)&gt;}
+
+{&#39;FaveSports&#39;: &lt;tf.Tensor: shape=(5, 1), dtype=string, numpy=
+array([[b&#39;Individual sports\xe2\x80\x8e (Tennis, Archery, ...)&#39;],
+       [b&#39;I do not like Sports&#39;],
+       [b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;],
+       [b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;],
+       [b&#39;Team sports (Footbal, Baseball, Rugby, ...) &#39;]], dtype=object)&gt;,
+ &#39;FaveSports_new&#39;: &lt;tf.Tensor: shape=(5, 15), dtype=float32, numpy=
+array([[0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]],
+      dtype=float32)&gt;}
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13953,7 +14457,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RATINGS_CARDINALITY</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># not zero based indexing i.e. ratings range from 1 to 5</span>
@@ -13966,7 +14470,26 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target</span><span class="p">(</span><span class="n">example</span><span class="p">:</span><span class="n">Dict</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">to_number</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="n">RATING</span><span class="p">],</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> 
+        <span class="n">RATINGS_CARDINALITY</span><span class="p">)</span>
+    <span class="n">example</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">RATING</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">example</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[147]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target_pd</span><span class="p">(</span><span class="n">rating_str</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -13987,7 +14510,96 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_tf</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">ad_dataset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">map</span><span class="p">(</span><span class="n">fix_age_tf</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">map</span><span class="p">(</span><span class="n">fix_zip_code_tf</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">map</span><span class="p">(</span><span class="n">fix_fav_sports_tf</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">map</span><span class="p">(</span><span class="n">create_target</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[149]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Credits: https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough?hl=en#create_a_tfdatadataset</span>
+<span class="k">def</span> <span class="nf">pack_features_vector</span><span class="p">(</span><span class="n">features</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">AGE</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Pack the features into a single array for the list of cols&quot;&quot;&quot;</span>
+    <span class="c1"># features = tf.stack(list(dict_project(features, cols).values()), axis=1)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dict_project</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">labels</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">create_dataset_tf</span><span class="p">()</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">pack_features_vector</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(&lt;tf.Tensor: shape=(2, 1), dtype=float32, numpy=
+array([[-0.47555923],
+       [-0.8069594 ]], dtype=float32)&gt;,
+ &lt;tf.Tensor: shape=(2, 1, 5), dtype=float32, numpy=
+array([[[0., 1., 0., 0., 0.]],
+
+       [[0., 0., 0., 0., 0.]]], dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(2, 1), dtype=float32, numpy=
+array([[-0.47555923],
+       [-0.8069594 ]], dtype=float32)&gt;,
+ &lt;tf.Tensor: shape=(2, 1, 5), dtype=float32, numpy=
+array([[[0., 1., 0., 0., 0.]],
+
+       [[0., 0., 0., 0., 1.]]], dtype=float32)&gt;)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note down the number of columns from here to provide in keras input layer</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[151]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -14011,7 +14623,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[152]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -14029,7 +14641,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[153]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_pd</span><span class="p">(</span><span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">SELECTED_INP_COLS</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">fraction</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -14046,6 +14658,93 @@ Solving environment: done
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Input-Pipeline">Input Pipeline<a class="anchor-link" href="#Input-Pipeline">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Input builders</span>
+<span class="k">def</span> <span class="nf">input_fn_train</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">create_dataset</span><span class="o">.</span>\
+        <span class="n">shuffle</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">drop_remainder</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">map</span><span class="p">(</span><span class="n">pack_features_vector</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span><span class="o">.</span>\
+        <span class="n">cache</span><span class="p">()</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">input_fn_eval</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># TODO: use dataset&#39;s skip &amp; take to create train and validation datasets</span>
+    <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">create_dataset</span><span class="p">(</span><span class="n">test_files</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache</span><span class="p">:</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">val_dataset</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">input_fn_predict</span><span class="p">():</span>
+    <span class="c1"># return tf.data.Dataset.from_tensor_slices({&quot;x&quot;: tf.cast(X_test, tf.int32)}).batch(1)</span>
+    <span class="k">pass</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Visual-Test">Visual Test<a class="anchor-link" href="#Visual-Test">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">input_fn_train</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-155-87df7f2f56c0&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">for</span> d <span class="ansi-green-fg">in</span> input_fn_train<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>take<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     pprint<span class="ansi-blue-fg">(</span>d<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-154-c21100eab396&gt;</span> in <span class="ansi-cyan-fg">input_fn_train</span><span class="ansi-blue-fg">(batch_size)</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># Input builders</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">def</span> input_fn_train<span class="ansi-blue-fg">(</span>batch_size<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> create_dataset<span class="ansi-blue-fg">.</span><span class="ansi-red-fg">\</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>         shuffle<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">2</span> <span class="ansi-blue-fg">*</span> batch_size<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>batch<span class="ansi-blue-fg">(</span>batch_size<span class="ansi-blue-fg">,</span> drop_remainder<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span><span class="ansi-red-fg">\</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>         map<span class="ansi-blue-fg">(</span>pack_features_vector<span class="ansi-blue-fg">,</span> tf<span class="ansi-blue-fg">.</span>data<span class="ansi-blue-fg">.</span>experimental<span class="ansi-blue-fg">.</span>AUTOTUNE<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span><span class="ansi-red-fg">\</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;create_dataset&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Tensorboard">Tensorboard<a class="anchor-link" href="#Tensorboard">&#182;</a></h2><p>Monitor training and other stats</p>
 
 </div>
@@ -14053,7 +14752,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tensorboard</span> <span class="kn">import</span> <span class="n">notebook</span>
@@ -14066,7 +14765,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">reload_ext</span> tensorboard
@@ -14087,7 +14786,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">tensorboard</span> --logdir logs --port 6006
@@ -14109,11 +14808,30 @@ Solving environment: done
 
 
 <div class="output_text output_subarea ">
-<pre>ERROR: Failed to launch TensorBoard (exited with 255).
-Contents of stderr:
-W0430 21:14:07.963954 123145362190336 plugin_event_accumulator.py:294] Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
-E0430 21:14:08.979719 4556328384 program.py:288] TensorBoard could not bind to port 6006, it was already in use
-ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
+<pre>Reusing TensorBoard on port 6006 (pid 77956), started 0:42:09 ago. (Use &#39;!kill 77956&#39; to kill it.)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+
+      <iframe id="tensorboard-frame-3aa1128ab390e6a5" width="100%" height="800" frameborder="0">
+      </iframe>
+      <script>
+        (function() {
+          const frame = document.getElementById("tensorboard-frame-3aa1128ab390e6a5");
+          const url = new URL("/", window.location);
+          url.port = 6006;
+          frame.src = url;
+        })();
+      </script>
+  
 </div>
 
 </div>
@@ -14124,7 +14842,7 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">notebook</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -14144,7 +14862,8 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>No known TensorBoard instances running.
+<pre>Known TensorBoard instances:
+  - port 6006: logdir logs (started 0:42:11 ago; pid 77956)
 </pre>
 </div>
 </div>
@@ -14163,7 +14882,7 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[160]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -14186,8 +14905,8 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 12.4 s, sys: 266 ms, total: 12.6 s
-Wall time: 13 s
+<pre>CPU times: user 11.6 s, sys: 430 ms, total: 12 s
+Wall time: 12.3 s
 </pre>
 </div>
 </div>
@@ -14198,12 +14917,10 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># tf.keras.metrics.SensitivityAtSpecificity(name=&quot;ss&quot;)  # For false positive rate</span>
-
-<span class="n">keras_model_metrics</span> <span class="o">=</span> <span class="p">[</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">keras_model_metrics</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">TruePositives</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tp&#39;</span><span class="p">),</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">FalsePositives</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fp&#39;</span><span class="p">),</span>
@@ -14211,7 +14928,7 @@ Wall time: 13 s
     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">FalseNegatives</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fn&#39;</span><span class="p">),</span> 
     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Precision</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;precision&#39;</span><span class="p">),</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Recall</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;recall&#39;</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">AUC</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;auc&#39;</span><span class="p">)</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">AUC</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;auc&#39;</span><span class="p">),</span>
 <span class="p">]</span>
 <span class="n">train_histories</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
@@ -14238,7 +14955,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span>
@@ -14254,10 +14971,28 @@ Wall time: 13 s
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Logging tensorboard data at logs/20200430-175946
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
@@ -14284,10 +15019,39 @@ Wall time: 13 s
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: &#34;sequential_1&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_2 (Dense)              (None, 20)                2920      
+_________________________________________________________________
+dense_3 (Dense)              (None, 5)                 105       
+=================================================================
+Total params: 3,025
+Trainable params: 3,025
+Non-trainable params: 0
+_________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[172]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -14306,15 +15070,34 @@ Wall time: 13 s
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 1min 40s, sys: 10.8 s, total: 1min 51s
+Wall time: 36.6 s
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[168]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_histories</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="c1"># pick the latest training history</span>
-
-<span class="n">metrics_df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># pick the last epoch&#39;s metrics</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">histories_dict</span> <span class="o">=</span> <span class="n">train_histories</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">history</span>
+<span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">histories_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">histories_dict</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -14327,105 +15110,21 @@ Wall time: 13 s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[51]:</div>
+    <div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>loss</th>
-      <th>accuracy</th>
-      <th>tp</th>
-      <th>fp</th>
-      <th>tn</th>
-      <th>fn</th>
-      <th>precision</th>
-      <th>recall</th>
-      <th>auc</th>
-      <th>val_loss</th>
-      <th>val_accuracy</th>
-      <th>val_tp</th>
-      <th>val_fp</th>
-      <th>val_tn</th>
-      <th>val_fn</th>
-      <th>val_precision</th>
-      <th>val_recall</th>
-      <th>val_auc</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>999</th>
-      <td>1.001743</td>
-      <td>0.616771</td>
-      <td>14620.0</td>
-      <td>5769.0</td>
-      <td>109431.0</td>
-      <td>14180.0</td>
-      <td>0.717053</td>
-      <td>0.507639</td>
-      <td>0.869949</td>
-      <td>1.02381</td>
-      <td>0.613056</td>
-      <td>3616.0</td>
-      <td>1479.0</td>
-      <td>27321.0</td>
-      <td>3584.0</td>
-      <td>0.709715</td>
-      <td>0.502222</td>
-      <td>0.865014</td>
-    </tr>
-  </tbody>
-</table>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>loss 0.9979800128936768
+accuracy 0.6197917
+val_loss 1.0240031692716811
+val_accuracy 0.6102778
+</pre>
 </div>
-</div>
-
 </div>
 
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>Tip:</code> You can copy the final metrics row from above and paste it using <code>Shift + Cmd + V</code> in our <a href="https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130">sheet</a> to accurately place all values in the respective columns</p>
-<p><strong>IMPORTANT</strong>: Please don't forget to update git version ID column after you check-in.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Model-Metrics-with-p-value">Model Metrics with p-value<a class="anchor-link" href="#Model-Metrics-with-p-value">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -14437,13 +15136,31 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[441]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">((</span><span class="n">logdir</span><span class="o">/</span><span class="s2">&quot;keras_saved_model&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span> <span class="n">save_format</span><span class="o">=</span><span class="s2">&quot;tf&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO:tensorflow:Assets written to: logs/20200428-102840/keras_saved_model/assets
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -14457,7 +15174,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[448]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">PredictionReport</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PredictionReport&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities predicted_rating confidence&quot;</span><span class="p">)</span>
@@ -14475,6 +15192,27 @@ Wall time: 13 s
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[448]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>PredictionReport(probabilities=array([[0.9737386 , 0.0085956 , 0.01389753, 0.00218609, 0.00158213]],
+      dtype=float32), predicted_rating=0, confidence=0.9737386)</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -14496,7 +15234,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">EXAMPLE_BATCH</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">input_fn_train</span><span class="p">(</span><span class="mi">3</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
@@ -14509,7 +15247,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">EXAMPLE_BATCH</span>
@@ -14519,10 +15257,117 @@ Wall time: 13 s
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[39]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(3, 142), dtype=float32, numpy=
+array([[-0.8069594 ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  1.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  1.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  1.        ,
+         0.        ,  0.        ],
+       [ 2.5070422 ,  0.        ,  0.        ,  1.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         1.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         1.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ],
+       [-0.47555923,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  1.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         1.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  1.        ,
+         0.        ,  0.        ,  0.        ,  0.        ,  0.        ,
+         0.        ,  0.        ]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_feature_column</span><span class="p">(</span><span class="n">feature_column</span><span class="p">):</span>
@@ -14537,7 +15382,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_fc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span><span class="n">AGE</span><span class="p">,</span> <span class="n">normalizer_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">MEAN_AGE</span><span class="p">)</span> <span class="o">/</span> <span class="n">STD_AGE</span><span class="p">)</span>
@@ -14550,7 +15395,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">zip_fcs</span> <span class="o">=</span> <span class="p">[</span>
@@ -14570,13 +15415,50 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">EXAMPLE_BATCH</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">test_feature_column</span><span class="p">(</span><span class="n">age_fc</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-43-31bfc493571b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>EXAMPLE_BATCH<span class="ansi-blue-fg">[</span>AGE<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> test_feature_column<span class="ansi-blue-fg">(</span>age_fc<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/opt/miniconda3/envs/env37/lib/python3.7/site-packages/tensorflow_core/python/ops/array_ops.py</span> in <span class="ansi-cyan-fg">_slice_helper</span><span class="ansi-blue-fg">(tensor, slice_spec, var)</span>
+<span class="ansi-green-intense-fg ansi-bold">    860</span>       new_axis_mask <span class="ansi-blue-fg">|=</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span> <span class="ansi-blue-fg">&lt;&lt;</span> index<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    861</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 862</span><span class="ansi-red-fg">       </span>_check_index<span class="ansi-blue-fg">(</span>s<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    863</span>       begin<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>s<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    864</span>       end<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>s <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/opt/miniconda3/envs/env37/lib/python3.7/site-packages/tensorflow_core/python/ops/array_ops.py</span> in <span class="ansi-cyan-fg">_check_index</span><span class="ansi-blue-fg">(idx)</span>
+<span class="ansi-green-intense-fg ansi-bold">    750</span>     <span class="ansi-red-fg"># TODO(slebedev): IndexError seems more appropriate here, but it</span>
+<span class="ansi-green-intense-fg ansi-bold">    751</span>     <span class="ansi-red-fg"># will break `_slice_helper` contract.</span>
+<span class="ansi-green-fg">--&gt; 752</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span>_SLICE_TYPE_ERROR <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#34;, got {!r}&#34;</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>idx<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    753</span> 
+<span class="ansi-green-intense-fg ansi-bold">    754</span> 
+
+<span class="ansi-red-fg">TypeError</span>: Only integers, slices (`:`), ellipsis (`...`), tf.newaxis (`None`) and scalar tf.int32/tf.int64 tensors are valid indices, got &#39;Age&#39;</pre>
+</div>
+</div>
+
 </div>
 </div>
 

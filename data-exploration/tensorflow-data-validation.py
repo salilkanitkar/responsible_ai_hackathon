@@ -14,6 +14,7 @@ data_folder = Path("../dataset")
 # below paths should be realtive to data_folder
 users_file_glob = "AllUsers.csv" 
 ads_file_glob = "AllAds.csv"
+users_ads_ratings = "users-ads-without-gcp-ratings.csv"
 
 
 users_stats = tfdv.generate_statistics_from_csv((data_folder/f"*{users_file_glob}").as_posix())
@@ -36,7 +37,10 @@ ads_schema = tfdv.infer_schema(statistics=ads_stats)
 tfdv.display_schema(schema=ads_schema)
 
 
+users_ratings_stats = tfdv.generate_statistics_from_csv((data_folder/f"*{users_ads_ratings}").as_posix())
 
+
+tfdv.visualize_statistics(users_ratings_stats)
 
 
 import json
