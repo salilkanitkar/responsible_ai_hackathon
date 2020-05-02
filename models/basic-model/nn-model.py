@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Neural Network Model
+# 
+# The aim of the notebook is demo end to end pipeline for Ads prediction in Tensorflow
+
+# In[1]:
+
+
 # ! ./setup.sh # uncomment if you wish to install any new packages
+
+
+# In[1]:
 
 
 import tensorflow as tf
@@ -29,6 +39,9 @@ pd.set_option('display.max_rows', None)
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
 
+# In[2]:
+
+
 RANDOM_SEED = int(time.time())
 
 tf.random.set_seed(RANDOM_SEED)
@@ -37,12 +50,31 @@ np.random.seed(RANDOM_SEED)
 print(f"Using random seed, {RANDOM_SEED}")
 
 
+# ## Load Data
+# 
+# Dataset credits:
+# ```
+# @inproceedings{roffo2016personality,
+#   title={Personality in computational advertising: A benchmark},
+#   author={Roffo, Giorgio and Vinciarelli, Alessandro},
+#   booktitle={4 th Workshop on Emotions and Personality in Personalized Systems (EMPIRE) 2016},
+#   pages={18},
+#   year={2016}
+# }
+# ```
+
+# In[3]:
+
+
 DATA_FOLDER = Path("../../dataset/")
 BATCH_SIZE = 4096 # bigger the batch, faster the training but bigger the RAM needed
 TARGET_COL = "Rating"
 
 # data files path are relative DATA_FOLDER
 users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
+
+
+# In[4]:
 
 
 USER_ID = "UserId"
@@ -103,7 +135,7 @@ INCOME_0 = "Income_0"
 INCOME_1 = "Income_1"
 INCOME_2 = "Income_2"
 INCOME_3 = "Income_3"
-# Mostlistenedmusics
+# Mostlistenedmusics = 22 Columns
 MOSTLISTENEDMUSICS_1 = "AlternativeMusic"
 MOSTLISTENEDMUSICS_2 = "AsianPopJPoporKpop"
 MOSTLISTENEDMUSICS_3 = "Blues"
@@ -126,6 +158,39 @@ MOSTLISTENEDMUSICS_19 = "Reggae"
 MOSTLISTENEDMUSICS_20 = "Rock"
 MOSTLISTENEDMUSICS_21 = "SingerSongwriterincFolk"
 MOSTLISTENEDMUSICS_22 = "WorldMusicBeats"
+# Mostreadbooks = 31 Columns
+MOSTREADBOOKS_1 = "ActionandAdventure"
+MOSTREADBOOKS_2 = "Anthologies"
+MOSTREADBOOKS_3 = "Art"
+MOSTREADBOOKS_4 = "Autobiographies"
+MOSTREADBOOKS_5 = "Biographies"
+MOSTREADBOOKS_6 = "Childrens"
+MOSTREADBOOKS_7 = "Childrensliterature"
+MOSTREADBOOKS_8 = "Comics"
+MOSTREADBOOKS_9 = "Cookbooks"
+MOSTREADBOOKS_10 = "Diaries"
+MOSTREADBOOKS_11 = "Drama"
+MOSTREADBOOKS_12 = "Encyclopedias"
+MOSTREADBOOKS_13 = "Eroticfiction"
+MOSTREADBOOKS_14 = "Fantasy"
+MOSTREADBOOKS_15 = "Guide"
+MOSTREADBOOKS_16 = "History"
+MOSTREADBOOKS_17 = "Horror"
+MOSTREADBOOKS_18 = "Journals"
+MOSTREADBOOKS_19 = "Math"
+MOSTREADBOOKS_20 = "Mystery"
+MOSTREADBOOKS_21 = "Poetry"
+MOSTREADBOOKS_22 = "Prayerbooks"
+MOSTREADBOOKS_23 = "Religious"
+MOSTREADBOOKS_24 = "Romance"
+MOSTREADBOOKS_25 = "Satire"
+MOSTREADBOOKS_26 = "Science"
+MOSTREADBOOKS_27 = "Sciencefiction"
+MOSTREADBOOKS_28 = "Selfhelp"
+MOSTREADBOOKS_29 = "Series"
+MOSTREADBOOKS_30 = "Travel"
+MOSTREADBOOKS_31 = "Trilogies"
+
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
 AD_LABEL_FEATURE_1 = 'ad_isAdvertising'
@@ -247,6 +312,37 @@ COL_DEFAULTS = {
     MOSTLISTENEDMUSICS_20: "**",
     MOSTLISTENEDMUSICS_21: "**",
     MOSTLISTENEDMUSICS_22: "**",
+    MOSTREADBOOKS_1: "**",
+    MOSTREADBOOKS_2: "**",
+    MOSTREADBOOKS_3: "**",
+    MOSTREADBOOKS_4: "**",
+    MOSTREADBOOKS_5: "**",
+    MOSTREADBOOKS_6: "**",
+    MOSTREADBOOKS_7: "**",
+    MOSTREADBOOKS_8: "**",
+    MOSTREADBOOKS_9: "**",
+    MOSTREADBOOKS_10: "**",
+    MOSTREADBOOKS_11: "**",
+    MOSTREADBOOKS_12: "**",
+    MOSTREADBOOKS_13: "**",
+    MOSTREADBOOKS_14: "**",
+    MOSTREADBOOKS_15: "**",
+    MOSTREADBOOKS_16: "**",
+    MOSTREADBOOKS_17: "**",
+    MOSTREADBOOKS_18: "**",
+    MOSTREADBOOKS_19: "**",
+    MOSTREADBOOKS_20: "**",
+    MOSTREADBOOKS_21: "**",
+    MOSTREADBOOKS_22: "**",
+    MOSTREADBOOKS_23: "**",
+    MOSTREADBOOKS_24: "**",
+    MOSTREADBOOKS_25: "**",
+    MOSTREADBOOKS_26: "**",
+    MOSTREADBOOKS_27: "**",
+    MOSTREADBOOKS_28: "**",
+    MOSTREADBOOKS_29: "**",
+    MOSTREADBOOKS_30: "**",
+    MOSTREADBOOKS_31: "**",
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -282,22 +378,45 @@ SELECTED_MOSTLISTENEDMUSICS_COLS = [MOSTLISTENEDMUSICS_1, MOSTLISTENEDMUSICS_2, 
                                     MOSTLISTENEDMUSICS_19, MOSTLISTENEDMUSICS_20, MOSTLISTENEDMUSICS_21,
                                     MOSTLISTENEDMUSICS_22]
 
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS
+SELECTED_MOSTREADBOOKS_COLS = [MOSTREADBOOKS_1, MOSTREADBOOKS_2, MOSTREADBOOKS_3, MOSTREADBOOKS_4,
+                               MOSTREADBOOKS_5, MOSTREADBOOKS_6, MOSTREADBOOKS_7, MOSTREADBOOKS_8,
+                               MOSTREADBOOKS_9, MOSTREADBOOKS_10, MOSTREADBOOKS_11, MOSTREADBOOKS_12,
+                               MOSTREADBOOKS_13, MOSTREADBOOKS_14, MOSTREADBOOKS_15, MOSTREADBOOKS_16,
+                               MOSTREADBOOKS_17, MOSTREADBOOKS_18, MOSTREADBOOKS_19, MOSTREADBOOKS_20,
+                               MOSTREADBOOKS_21, MOSTREADBOOKS_22, MOSTREADBOOKS_23, MOSTREADBOOKS_24,
+                               MOSTREADBOOKS_25, MOSTREADBOOKS_26, MOSTREADBOOKS_27, MOSTREADBOOKS_28,
+                               MOSTREADBOOKS_29, MOSTREADBOOKS_30, MOSTREADBOOKS_31] 
+                                    
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS
 
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
 print(SELECTED_COLS)
 
 
+# In[5]:
+
+
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
+
+
+# In[6]:
 
 
 ad_dataset_pd().sample(5).T
 
 
+# ## Transform Data
+
+# In[7]:
+
+
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
+
+
+# In[8]:
 
 
 class IndexerForVocab:
@@ -324,9 +443,19 @@ class IndexerForVocab:
         return [self.index_of(i) for i in items]
 
 
+# ### Age
+# 
+# Convert to a number and remove any outliers
+
+# In[9]:
+
+
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
 
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
+
+
+# In[10]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -341,12 +470,27 @@ def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
     return normalized_age
 
 
+# #### Visual Tests
+
+# In[11]:
+
+
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
+
+
+# ### Zip Code
+# 
+# Prepare zip-code column for one-hot encoding each character
+
+# In[12]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
+
+
+# In[13]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -374,6 +518,11 @@ def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
     return np.ravel(np.eye(len(indexer))[indexer.index_of_mux(zip_digits)])
 
 
+# #### Visual Tests
+
+# In[14]:
+
+
 test_zip_code_indexer = IndexerForVocab(string.digits)
 
 (fix_zip_code("43556", 10, test_zip_code_indexer),
@@ -382,11 +531,23 @@ fix_zip_code("43556", 4, test_zip_code_indexer),
 fix_zip_code(None, 3, test_zip_code_indexer))
 
 
+# ### Favorite Sports
+# 
+# Two approaches,
+# 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
+# 2. Multi label binarize all the sports as there are only 15 unique sports
+
+# In[15]:
+
+
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
 ALL_FAV_SPORTS = ['Olympic sports', 'Winter sports', 'Nothing', 'I do not like Sports', 'Equestrian sports', 'Skating sports', 'Precision sports', 'Hunting sports', 'Motor sports', 'Team sports', 'Individual sports', 'Other', 'Water sports', 'Indoor sports', 'Endurance sports']
 
 fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
+
+
+# In[16]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -410,6 +571,11 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
     return result
 
 
+# #### Visual Tests
+
+# In[17]:
+
+
 (
     fix_fav_sports_mlb("Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports"),
     fix_fav_sports_mlb("Skating sports"),
@@ -418,11 +584,24 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 )
 
 
+# ### Target
+
+# In[18]:
+
+
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
+
+
+# In[19]:
 
 
 def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
+
+
+# ## Featurize
+
+# In[20]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -431,13 +610,16 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
 
-    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] + AD_LABEL_COLS + AD_SAFE_SEARCH_COLS + SELECTED_HOMECOUNTRY_COLS + SELECTED_INCOME_COLS + SELECTED_MOSTLISTENEDMUSICS_COLS
+    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS
     df[int_cols] = df[int_cols].applymap(lambda f: [int(f)])
 
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all examples
     X = np.array([x for x in df["X"]])
     return X
+
+
+# In[21]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
@@ -448,6 +630,9 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
+# In[22]:
+
+
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1, test_frac:float=0.2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Prepare the dataset for training on a fraction of all input data"""
     df = ad_dataset_pd().sample(frac=fraction)
@@ -456,19 +641,47 @@ def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGE
     return X_train, X_test, y_train, y_test
 
 
+# ## Tensorboard
+# 
+# Monitor training and other stats
+
+# In[23]:
+
+
 from tensorboard import notebook
 
 
-get_ipython().run_line_magic('reload_ext', 'tensorboard')
+# In[25]:
 
 
-get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
+get_ipython().magic('reload_ext tensorboard')
+
+
+# Start tensorboard
+
+# In[26]:
+
+
+get_ipython().magic('tensorboard --logdir logs --port 6006')
+
+
+# In[27]:
 
 
 notebook.list()
 
 
+# ## Model
+# 
+# Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
+
+# In[24]:
+
+
 get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test = create_dataset_pd()')
+
+
+# In[25]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -486,9 +699,15 @@ keras_model_metrics = [
 train_histories = []
 
 
+# In[26]:
+
+
 # DON'T CHANGE THE EPOCHS VALUE
 BATCH_SIZE = 4096
 EPOCHS = 1000
+
+
+# In[27]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -498,6 +717,9 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 #     embeddings_freq=epochs,
 )
 print(f"Logging tensorboard data at {logdir}")
+
+
+# In[28]:
 
 
 model = tf.keras.Sequential([
@@ -520,12 +742,29 @@ model.compile(
 model.summary()
 
 
+# In[29]:
+
+
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X_train, y_train,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_data=(X_test, y_test),\n    verbose=0\n))')
+
+
+# In[30]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
 
 metrics_df.tail(1) # pick the last epoch's metrics
+
+
+# `Tip:` You can copy the final metrics row from above and paste it using `Shift + Cmd + V` in our [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130) to accurately place all values in the respective columns
+# 
+# **IMPORTANT**: Please don't forget to update git version ID column after you check-in.
+
+# ### Model Metrics with p-value
+# 
+# TODO: Run multiple times on different samples of `y_test` to compute p-value
+
+# In[31]:
 
 
 from sklearn.metrics import roc_auc_score, classification_report, precision_score, recall_score, f1_score
@@ -535,9 +774,15 @@ from collections import OrderedDict
 sklearn.__version__
 
 
+# In[32]:
+
+
 y_prob = model.predict(X_test, BATCH_SIZE)
 y_true = y_test
 y_pred = (y_prob / np.max(y_prob, axis=1).reshape(-1, 1)).astype(int) # convert probabilities to predictions
+
+
+# In[33]:
 
 
 pd.DataFrame(OrderedDict({
@@ -551,10 +796,27 @@ pd.DataFrame(OrderedDict({
 }))
 
 
+# Also paste the above numbers to our [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130&range=W1:AC1)
+
+# In[54]:
+
+
 print(classification_report(y_true, y_pred))
 
 
+# ## Export
+# 
+# Save the model for future reference
+
+# In[30]:
+
+
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
+
+
+# ## Predict
+
+# In[ ]:
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
@@ -572,10 +834,25 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
+# ## Rough
+
+# ### Featurize using Feature Columns
+# 
+# Create feature columns like one-hot, embeddings, bucketing from raw features created earlier
+
+# In[ ]:
+
+
 EXAMPLE_BATCH = next(iter(input_fn_train(3)))[0]
 
 
+# In[ ]:
+
+
 EXAMPLE_BATCH
+
+
+# In[ ]:
 
 
 def test_feature_column(feature_column):
@@ -583,7 +860,13 @@ def test_feature_column(feature_column):
     return feature_layer(EXAMPLE_BATCH).numpy()
 
 
+# In[ ]:
+
+
 age_fc = tf.feature_column.numeric_column(AGE, normalizer_fn=lambda x: (x - MEAN_AGE) / STD_AGE)
+
+
+# In[ ]:
 
 
 zip_fcs = [
@@ -596,10 +879,19 @@ zip_fcs = [
 ]
 
 
+# In[ ]:
+
+
 EXAMPLE_BATCH[AGE], test_feature_column(age_fc)
 
 
+# In[ ]:
+
+
 {k: v for k, v in EXAMPLE_BATCH.items() if k.startswith(ZIP_CODE)}, test_feature_column(zip_fcs)
+
+
+# In[ ]:
 
 
 tf.keras.layers.concatenate(age_fc, zip_fcs[0])
