@@ -190,26 +190,48 @@ MOSTREADBOOKS_28 = "Selfhelp"
 MOSTREADBOOKS_29 = "Series"
 MOSTREADBOOKS_30 = "Travel"
 MOSTREADBOOKS_31 = "Trilogies"
+# Mostwatchedmovies = 21 Columns
+MOSTWATCHEDMOVIES_1 = "Mostwatchedmovies_Action"
+MOSTWATCHEDMOVIES_2 = "Mostwatchedmovies_Adventure"
+MOSTWATCHEDMOVIES_3 = "Mostwatchedmovies_Animation"
+MOSTWATCHEDMOVIES_4 = "Mostwatchedmovies_Biography"
+MOSTWATCHEDMOVIES_5 = "Mostwatchedmovies_Comedy"
+MOSTWATCHEDMOVIES_6 = "Mostwatchedmovies_CrimeandGangster"
+MOSTWATCHEDMOVIES_7 = "Mostwatchedmovies_Documentary"
+MOSTWATCHEDMOVIES_8 = "Mostwatchedmovies_Drama"
+MOSTWATCHEDMOVIES_9 = "Mostwatchedmovies_EpicHistorical"
+MOSTWATCHEDMOVIES_10 = "Mostwatchedmovies_Erotic"
+MOSTWATCHEDMOVIES_11 = "Mostwatchedmovies_Family"
+MOSTWATCHEDMOVIES_12 = "Mostwatchedmovies_Fantasy"
+MOSTWATCHEDMOVIES_13 = "Mostwatchedmovies_Horror"
+MOSTWATCHEDMOVIES_14 = "Mostwatchedmovies_Musical"
+MOSTWATCHEDMOVIES_15 = "Mostwatchedmovies_Mystery"
+MOSTWATCHEDMOVIES_16 = "Mostwatchedmovies_Romance"
+MOSTWATCHEDMOVIES_17 = "Mostwatchedmovies_SciFi"
+MOSTWATCHEDMOVIES_18 = "Mostwatchedmovies_Sport"
+MOSTWATCHEDMOVIES_19 = "Mostwatchedmovies_Thriller"
+MOSTWATCHEDMOVIES_20 = "Mostwatchedmovies_War"
+MOSTWATCHEDMOVIES_21 = "Mostwatchedmovies_Western"
 
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
 AD_LABEL_FEATURE_1 = 'ad_isAdvertising'
 AD_LABEL_FEATURE_2 = 'ad_isBrand'
-AD_LABEL_FEATURE_3 = 'ad_isElectronic device'
+AD_LABEL_FEATURE_3 = 'ad_isElectronicdevice'
 AD_LABEL_FEATURE_4 = 'ad_isElectronics'
-AD_LABEL_FEATURE_5 = 'ad_isFashion accessory'
-AD_LABEL_FEATURE_6 = 'ad_isFictional character'
+AD_LABEL_FEATURE_5 = 'ad_isFashionaccessory'
+AD_LABEL_FEATURE_6 = 'ad_isFictionalcharacter'
 AD_LABEL_FEATURE_7 = 'ad_isFont'
 AD_LABEL_FEATURE_8 = 'ad_isFurniture'
 AD_LABEL_FEATURE_9 = 'ad_isGadget'
 AD_LABEL_FEATURE_10 = 'ad_isGames'
-AD_LABEL_FEATURE_11 = 'ad_isGraphic design'
+AD_LABEL_FEATURE_11 = 'ad_isGraphicdesign'
 AD_LABEL_FEATURE_12 = 'ad_isGraphics'
 AD_LABEL_FEATURE_13 = 'ad_isJewellery'
 AD_LABEL_FEATURE_14 = 'ad_isLine'
 AD_LABEL_FEATURE_15 = 'ad_isLogo'
 AD_LABEL_FEATURE_16 = 'ad_isMagenta'
-AD_LABEL_FEATURE_17 = 'ad_isMaterial property'
+AD_LABEL_FEATURE_17 = 'ad_isMaterialproperty'
 AD_LABEL_FEATURE_18 = 'ad_isMultimedia'
 AD_LABEL_FEATURE_19 = 'ad_isProduct'
 AD_LABEL_FEATURE_20 = 'ad_isRectangle'
@@ -231,6 +253,32 @@ AD_SAFESEARCH_FEATURE_10 ='ad_isRacy_POSSIBLE'
 AD_SAFESEARCH_FEATURE_11 ='ad_isRacy_UNLIKELY'
 AD_SAFESEARCH_FEATURE_12 ='ad_isRacy_VERY_LIKELY'
 AD_SAFESEARCH_FEATURE_13 ='ad_isRacy_VERY_UNLIKELY'
+AD_OBJECT_FEATURE_1 = 'ad_isAnimal'
+AD_OBJECT_FEATURE_2 ='ad_isBelt'
+AD_OBJECT_FEATURE_3 ='ad_isBottle'
+AD_OBJECT_FEATURE_4 ='ad_isBox'
+AD_OBJECT_FEATURE_5 ='ad_isCameralens'
+AD_OBJECT_FEATURE_6 ='ad_isChair'
+AD_OBJECT_FEATURE_7 ='ad_isClothing'
+AD_OBJECT_FEATURE_8 ='ad_isEarrings'
+AD_OBJECT_FEATURE_9 ='ad_isFood'
+AD_OBJECT_FEATURE_10 ='ad_isHat'
+AD_OBJECT_FEATURE_11 ='ad_isLuggagebags'
+AD_OBJECT_FEATURE_12 ='ad_isMobilephone'
+AD_OBJECT_FEATURE_13 ='ad_isNecklace'
+AD_OBJECT_FEATURE_14 ='ad_isPackagedgoods'
+AD_OBJECT_FEATURE_15 ='ad_isPants'
+AD_OBJECT_FEATURE_16 ='ad_isPen'
+AD_OBJECT_FEATURE_17 ='ad_isPerson'
+AD_OBJECT_FEATURE_18 ='ad_isPillow'
+AD_OBJECT_FEATURE_19 ='ad_isPoster'
+AD_OBJECT_FEATURE_20 ='ad_isShoe'
+AD_OBJECT_FEATURE_21 ='ad_isTop'
+AD_OBJECT_FEATURE_22 ='ad_isToy'
+AD_OBJECT_FEATURE_23 ='ad_isWatch'
+AD_OBJECT_FEATURE_24  ='ad_isWheel'
+
+
 
 # Read all columns as strings to avoid any errors
 COL_DEFAULTS = {
@@ -343,6 +391,27 @@ COL_DEFAULTS = {
     MOSTREADBOOKS_29: "**",
     MOSTREADBOOKS_30: "**",
     MOSTREADBOOKS_31: "**",
+    MOSTWATCHEDMOVIES_1: "**",
+    MOSTWATCHEDMOVIES_2: "**",
+    MOSTWATCHEDMOVIES_3: "**",
+    MOSTWATCHEDMOVIES_4: "**",
+    MOSTWATCHEDMOVIES_5: "**",
+    MOSTWATCHEDMOVIES_6: "**",
+    MOSTWATCHEDMOVIES_7: "**",
+    MOSTWATCHEDMOVIES_8: "**",
+    MOSTWATCHEDMOVIES_9: "**",
+    MOSTWATCHEDMOVIES_10: "**",
+    MOSTWATCHEDMOVIES_11: "**",
+    MOSTWATCHEDMOVIES_12: "**",
+    MOSTWATCHEDMOVIES_13: "**",
+    MOSTWATCHEDMOVIES_14: "**",
+    MOSTWATCHEDMOVIES_15: "**",
+    MOSTWATCHEDMOVIES_16: "**",
+    MOSTWATCHEDMOVIES_17: "**",
+    MOSTWATCHEDMOVIES_18: "**",
+    MOSTWATCHEDMOVIES_19: "**",
+    MOSTWATCHEDMOVIES_20: "**",
+    MOSTWATCHEDMOVIES_21: "**",    
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -354,7 +423,14 @@ AD_LABEL_COLS = [AD_LABEL_FEATURE_1,AD_LABEL_FEATURE_2,AD_LABEL_FEATURE_3,AD_LAB
                 AD_LABEL_FEATURE_11,AD_LABEL_FEATURE_12,AD_LABEL_FEATURE_13,AD_LABEL_FEATURE_14,AD_LABEL_FEATURE_15,
                 AD_LABEL_FEATURE_16,AD_LABEL_FEATURE_17,AD_LABEL_FEATURE_18,AD_LABEL_FEATURE_19,AD_LABEL_FEATURE_20,
                 AD_LABEL_FEATURE_21,AD_LABEL_FEATURE_22,AD_LABEL_FEATURE_23,AD_LABEL_FEATURE_24,AD_LABEL_FEATURE_25]
-AD_OBJECT_COLS = []
+
+AD_OBJECT_COLS = [AD_OBJECT_FEATURE_1,AD_OBJECT_FEATURE_2,AD_OBJECT_FEATURE_3,AD_OBJECT_FEATURE_4,AD_OBJECT_FEATURE_5,
+                AD_OBJECT_FEATURE_6,AD_OBJECT_FEATURE_7,AD_OBJECT_FEATURE_8,AD_OBJECT_FEATURE_9,AD_OBJECT_FEATURE_10,
+                AD_OBJECT_FEATURE_11,AD_OBJECT_FEATURE_12,AD_OBJECT_FEATURE_13,AD_OBJECT_FEATURE_14,AD_OBJECT_FEATURE_15,
+                AD_OBJECT_FEATURE_16,AD_OBJECT_FEATURE_17,AD_OBJECT_FEATURE_18,AD_OBJECT_FEATURE_19,AD_OBJECT_FEATURE_20,
+                AD_OBJECT_FEATURE_21,AD_OBJECT_FEATURE_22,AD_OBJECT_FEATURE_23,AD_OBJECT_FEATURE_24]
+
+
 AD_SAFE_SEARCH_COLS = [AD_SAFESEARCH_FEATURE_1,AD_SAFESEARCH_FEATURE_2,AD_SAFESEARCH_FEATURE_3,AD_SAFESEARCH_FEATURE_4,
                       AD_SAFESEARCH_FEATURE_5,AD_SAFESEARCH_FEATURE_6,AD_SAFESEARCH_FEATURE_7,AD_SAFESEARCH_FEATURE_8,
                       AD_SAFESEARCH_FEATURE_9,AD_SAFESEARCH_FEATURE_10,AD_SAFESEARCH_FEATURE_11,AD_SAFESEARCH_FEATURE_12,AD_SAFESEARCH_FEATURE_13]
@@ -386,8 +462,16 @@ SELECTED_MOSTREADBOOKS_COLS = [MOSTREADBOOKS_1, MOSTREADBOOKS_2, MOSTREADBOOKS_3
                                MOSTREADBOOKS_21, MOSTREADBOOKS_22, MOSTREADBOOKS_23, MOSTREADBOOKS_24,
                                MOSTREADBOOKS_25, MOSTREADBOOKS_26, MOSTREADBOOKS_27, MOSTREADBOOKS_28,
                                MOSTREADBOOKS_29, MOSTREADBOOKS_30, MOSTREADBOOKS_31] 
-                                    
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS
+
+SELECTED_MOSTWATCHEDMOVIES_COLS = [MOSTWATCHEDMOVIES_1, MOSTWATCHEDMOVIES_2, MOSTWATCHEDMOVIES_3,
+                                   MOSTWATCHEDMOVIES_4, MOSTWATCHEDMOVIES_5, MOSTWATCHEDMOVIES_6,
+                                   MOSTWATCHEDMOVIES_7, MOSTWATCHEDMOVIES_8, MOSTWATCHEDMOVIES_9,
+                                   MOSTWATCHEDMOVIES_10, MOSTWATCHEDMOVIES_11, MOSTWATCHEDMOVIES_12,
+                                   MOSTWATCHEDMOVIES_13, MOSTWATCHEDMOVIES_14, MOSTWATCHEDMOVIES_15,
+                                   MOSTWATCHEDMOVIES_16, MOSTWATCHEDMOVIES_17, MOSTWATCHEDMOVIES_18,
+                                   MOSTWATCHEDMOVIES_19, MOSTWATCHEDMOVIES_20, MOSTWATCHEDMOVIES_21]
+                               
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS +                    SELECTED_MOSTWATCHEDMOVIES_COLS
 
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
@@ -610,7 +694,8 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
 
-    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS
+    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS +               SELECTED_MOSTWATCHEDMOVIES_COLS +               AD_OBJECT_COLS
+    
     df[int_cols] = df[int_cols].applymap(lambda f: [int(f)])
 
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
@@ -645,13 +730,13 @@ def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGE
 # 
 # Monitor training and other stats
 
-# In[23]:
+# In[26]:
 
 
 from tensorboard import notebook
 
 
-# In[25]:
+# In[27]:
 
 
 get_ipython().magic('reload_ext tensorboard')
@@ -659,13 +744,13 @@ get_ipython().magic('reload_ext tensorboard')
 
 # Start tensorboard
 
-# In[26]:
+# In[28]:
 
 
 get_ipython().magic('tensorboard --logdir logs --port 6006')
 
 
-# In[27]:
+# In[29]:
 
 
 notebook.list()
@@ -675,13 +760,13 @@ notebook.list()
 # 
 # Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
 
-# In[24]:
+# In[23]:
 
 
 get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test = create_dataset_pd()')
 
 
-# In[25]:
+# In[24]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -699,7 +784,7 @@ keras_model_metrics = [
 train_histories = []
 
 
-# In[26]:
+# In[25]:
 
 
 # DON'T CHANGE THE EPOCHS VALUE
@@ -707,7 +792,7 @@ BATCH_SIZE = 4096
 EPOCHS = 1000
 
 
-# In[27]:
+# In[26]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -719,7 +804,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 print(f"Logging tensorboard data at {logdir}")
 
 
-# In[28]:
+# In[27]:
 
 
 model = tf.keras.Sequential([
@@ -742,13 +827,13 @@ model.compile(
 model.summary()
 
 
-# In[29]:
+# In[28]:
 
 
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X_train, y_train,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_data=(X_test, y_test),\n    verbose=0\n))')
 
 
-# In[30]:
+# In[29]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
