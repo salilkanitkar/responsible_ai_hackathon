@@ -212,6 +212,18 @@ MOSTWATCHEDMOVIES_18 = "Mostwatchedmovies_Sport"
 MOSTWATCHEDMOVIES_19 = "Mostwatchedmovies_Thriller"
 MOSTWATCHEDMOVIES_20 = "Mostwatchedmovies_War"
 MOSTWATCHEDMOVIES_21 = "Mostwatchedmovies_Western"
+# Mostwatchedtvprogrammes = 11 Columns
+MOSTWATCHEDTVPROGRAMMES_1 = "Mostwatchedtvprogrammes_Childrens"
+MOSTWATCHEDTVPROGRAMMES_2 = "Mostwatchedtvprogrammes_Comedy"
+MOSTWATCHEDTVPROGRAMMES_3 = "Mostwatchedtvprogrammes_Drama"
+MOSTWATCHEDTVPROGRAMMES_4 = "Mostwatchedtvprogrammes_EntertainmentVarietyShows"
+MOSTWATCHEDTVPROGRAMMES_5 = "Mostwatchedtvprogrammes_Factual"
+MOSTWATCHEDTVPROGRAMMES_6 = "Mostwatchedtvprogrammes_Learning"
+MOSTWATCHEDTVPROGRAMMES_7 = "Mostwatchedtvprogrammes_Music"
+MOSTWATCHEDTVPROGRAMMES_8 = "Mostwatchedtvprogrammes_News"
+MOSTWATCHEDTVPROGRAMMES_9 = "Mostwatchedtvprogrammes_ReligionampEthics"
+MOSTWATCHEDTVPROGRAMMES_10 = "Mostwatchedtvprogrammes_Sport"
+MOSTWATCHEDTVPROGRAMMES_11 = "Mostwatchedtvprogrammes_Weather"
 
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
@@ -411,7 +423,18 @@ COL_DEFAULTS = {
     MOSTWATCHEDMOVIES_18: "**",
     MOSTWATCHEDMOVIES_19: "**",
     MOSTWATCHEDMOVIES_20: "**",
-    MOSTWATCHEDMOVIES_21: "**",    
+    MOSTWATCHEDMOVIES_21: "**",
+    MOSTWATCHEDTVPROGRAMMES_1: "**",
+    MOSTWATCHEDTVPROGRAMMES_2: "**",
+    MOSTWATCHEDTVPROGRAMMES_3: "**",
+    MOSTWATCHEDTVPROGRAMMES_4: "**",
+    MOSTWATCHEDTVPROGRAMMES_5: "**",
+    MOSTWATCHEDTVPROGRAMMES_6: "**",
+    MOSTWATCHEDTVPROGRAMMES_7: "**",
+    MOSTWATCHEDTVPROGRAMMES_8: "**",
+    MOSTWATCHEDTVPROGRAMMES_9: "**",
+    MOSTWATCHEDTVPROGRAMMES_10: "**",
+    MOSTWATCHEDTVPROGRAMMES_11: "**",    
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -470,8 +493,15 @@ SELECTED_MOSTWATCHEDMOVIES_COLS = [MOSTWATCHEDMOVIES_1, MOSTWATCHEDMOVIES_2, MOS
                                    MOSTWATCHEDMOVIES_13, MOSTWATCHEDMOVIES_14, MOSTWATCHEDMOVIES_15,
                                    MOSTWATCHEDMOVIES_16, MOSTWATCHEDMOVIES_17, MOSTWATCHEDMOVIES_18,
                                    MOSTWATCHEDMOVIES_19, MOSTWATCHEDMOVIES_20, MOSTWATCHEDMOVIES_21]
-                               
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS +                    SELECTED_MOSTWATCHEDMOVIES_COLS
+
+SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS = [MOSTWATCHEDTVPROGRAMMES_1, MOSTWATCHEDTVPROGRAMMES_2,
+                                         MOSTWATCHEDTVPROGRAMMES_3, MOSTWATCHEDTVPROGRAMMES_4,
+                                         MOSTWATCHEDTVPROGRAMMES_5, MOSTWATCHEDTVPROGRAMMES_6,
+                                         MOSTWATCHEDTVPROGRAMMES_7, MOSTWATCHEDTVPROGRAMMES_8,
+                                         MOSTWATCHEDTVPROGRAMMES_9, MOSTWATCHEDTVPROGRAMMES_10,
+                                         MOSTWATCHEDTVPROGRAMMES_11]
+                                   
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS +                    SELECTED_MOSTWATCHEDMOVIES_COLS +                    SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS
 
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
@@ -694,7 +724,7 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
 
-    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS +               SELECTED_MOSTWATCHEDMOVIES_COLS +               AD_OBJECT_COLS
+    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS +               SELECTED_MOSTWATCHEDMOVIES_COLS +               SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS +               AD_OBJECT_COLS
     
     df[int_cols] = df[int_cols].applymap(lambda f: [int(f)])
 
@@ -849,7 +879,7 @@ metrics_df.tail(1) # pick the last epoch's metrics
 # 
 # TODO: Run multiple times on different samples of `y_test` to compute p-value
 
-# In[31]:
+# In[30]:
 
 
 from sklearn.metrics import roc_auc_score, classification_report, precision_score, recall_score, f1_score
