@@ -14,13 +14,14 @@ import time
 import numpy as np
 import pandas as pd
 from pprint import pprint
-from typing import Dict, Any, Union, List
+from typing import Dict, Any, Union, List, Tuple
 from functools import partial
 import re
 import string
 from sklearn.preprocessing import MultiLabelBinarizer
 from math import ceil
 from collections import namedtuple
+from sklearn.model_selection import train_test_split
 
 
 pd.set_option('display.max_rows', None)
@@ -447,10 +448,12 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
-def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
+def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1, test_frac:float=0.2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Prepare the dataset for training on a fraction of all input data"""
     df = ad_dataset_pd().sample(frac=fraction)
-    return transform_pd_X(df, inp_cols), transform_pd_y(df, target_col)
+    X, y = transform_pd_X(df, inp_cols), transform_pd_y(df, target_col)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_frac, random_state=RANDOM_SEED)
+    return X_train, X_test, y_train, y_test
 
 
 from tensorboard import notebook
@@ -465,7 +468,7 @@ get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
 notebook.list()
 
 
-get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
+get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test = create_dataset_pd()')
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -498,7 +501,7 @@ print(f"Logging tensorboard data at {logdir}")
 
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(20, input_shape=(X.shape[1],), activation=tf.keras.layers.LeakyReLU()),
+    tf.keras.layers.Dense(20, input_shape=(X_train.shape[1],), activation=tf.keras.layers.LeakyReLU()),
     tf.keras.layers.Dense(RATINGS_CARDINALITY , activation='softmax')
 ])
 
@@ -517,7 +520,7 @@ model.compile(
 model.summary()
 
 
-get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
+get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X_train, y_train,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_data=(X_test, y_test),\n    verbose=0\n))')
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
@@ -525,11 +528,38 @@ metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest trainin
 metrics_df.tail(1) # pick the last epoch's metrics
 
 
+from sklearn.metrics import roc_auc_score, classification_report, precision_score, recall_score, f1_score
+import sklearn
+from collections import OrderedDict
+
+sklearn.__version__
+
+
+y_prob = model.predict(X_test, BATCH_SIZE)
+y_true = y_test
+y_pred = (y_prob / np.max(y_prob, axis=1).reshape(-1, 1)).astype(int) # convert probabilities to predictions
+
+
+pd.DataFrame(OrderedDict({
+    "macro_roc_auc_ovo": [roc_auc_score(y_test, y_prob, multi_class="ovo", average="macro")],
+    "weighted_roc_auc_ovo": roc_auc_score(y_test, y_prob, multi_class="ovo", average="weighted"),
+    "macro_roc_auc_ovr": roc_auc_score(y_test, y_prob, multi_class="ovr", average="macro"),
+    "weighted_roc_auc_ovr": roc_auc_score(y_test, y_prob, multi_class="ovr", average="weighted"),
+    "weighted_precision": precision_score(y_test, y_pred, average="weighted"),
+    "weighted_recall": recall_score(y_test, y_pred, average="weighted"),
+    "weighted_f1": f1_score(y_test, y_pred, average="weighted")
+}))
+
+
+print(classification_report(y_true, y_pred))
+
+
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
 
+# Create a dataframe with all SELECTED_INP_COLS
 test_df = pd.DataFrame({
     AGE: ["45"],
     ZIP_CODE: ["94086"],
