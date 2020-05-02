@@ -23,7 +23,7 @@ get_ipython().system('pip install git+https://github.com/tensorflow/docs')
 get_ipython().system('pip3 install -q git+https://github.com/tensorflow/docs --user')
 
 
-# In[1]:
+# In[30]:
 
 
 import tensorflow as tf
@@ -47,7 +47,7 @@ from collections import namedtuple
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
 
-# In[2]:
+# In[31]:
 
 
 RANDOM_SEED = int(time.time())
@@ -71,7 +71,7 @@ print(f"Using random seed, {RANDOM_SEED}")
 # }
 # ```
 
-# In[3]:
+# In[32]:
 
 
 DATA_FOLDER = Path("../../dataset/")
@@ -82,7 +82,7 @@ TARGET_COL = "Rating"
 users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
 
 
-# In[4]:
+# In[33]:
 
 
 USER_ID = "UserId"
@@ -138,6 +138,11 @@ HOMECOUNTRY_SINGAPORE = "Homecountry_Singapore"
 HOMECOUNTRY_SLOVENIA = "Homecountry_Slovenia"
 HOMECOUNTRY_UNITEDKINGDOM = "Homecountry_UnitedKingdom"
 HOMECOUNTRY_UNITEDSTATESOFAMERICA = "Homecountry_UnitedStatesofAmerica"
+# Income = 4 Columns
+INCOME_0 = "Income_0"
+INCOME_1 = "Income_1"
+INCOME_2 = "Income_2"
+INCOME_3 = "Income_3"
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
 AD_LABEL_FEATURE_1 = 'ad_isAdvertising'
@@ -233,6 +238,10 @@ COL_DEFAULTS = {
     HOMECOUNTRY_SLOVENIA: "**",
     HOMECOUNTRY_UNITEDKINGDOM: "**",
     HOMECOUNTRY_UNITEDSTATESOFAMERICA: "**",
+    INCOME_0: "**",
+    INCOME_1: "**",
+    INCOME_2: "**",
+    INCOME_3: "**",
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -261,20 +270,23 @@ SELECTED_HOMECOUNTRY_COLS = [HOMECOUNTRY_CANADA, HOMECOUNTRY_CZECHREPUBLIC, HOME
                              HOMECOUNTRY_SAUDIARABIA, HOMECOUNTRY_SINGAPORE, HOMECOUNTRY_SLOVENIA,
                              HOMECOUNTRY_UNITEDKINGDOM, HOMECOUNTRY_UNITEDSTATESOFAMERICA]
 
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] + SELECTED_AD_COLS + SELECTED_HOMECOUNTRY_COLS
+SELECTED_INCOME_COLS = [INCOME_0, INCOME_1, INCOME_2, INCOME_3]
+
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS
+
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
 SELECTED_COLS
 
 
-# In[5]:
+# In[34]:
 
 
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
 
 
-# In[6]:
+# In[35]:
 
 
 ad_dataset_pd().sample(10)
@@ -282,14 +294,14 @@ ad_dataset_pd().sample(10)
 
 # ## Transform Data
 
-# In[7]:
+# In[36]:
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
 
 
-# In[8]:
+# In[37]:
 
 
 class IndexerForVocab:
@@ -320,7 +332,7 @@ class IndexerForVocab:
 # 
 # Convert to a number and remove any outliers
 
-# In[9]:
+# In[38]:
 
 
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
@@ -328,7 +340,7 @@ class IndexerForVocab:
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
 
 
-# In[10]:
+# In[39]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -345,7 +357,7 @@ def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
 
 # #### Visual Tests
 
-# In[11]:
+# In[40]:
 
 
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
@@ -355,7 +367,7 @@ fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("
 # 
 # Prepare zip-code column for one-hot encoding each character
 
-# In[12]:
+# In[41]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
@@ -363,7 +375,7 @@ DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
 
 
-# In[13]:
+# In[42]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -393,7 +405,7 @@ def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
 
 # #### Visual Tests
 
-# In[14]:
+# In[43]:
 
 
 test_zip_code_indexer = IndexerForVocab(string.digits)
@@ -410,7 +422,7 @@ fix_zip_code(None, 3, test_zip_code_indexer))
 # 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
 # 2. Multi label binarize all the sports as there are only 15 unique sports
 
-# In[15]:
+# In[44]:
 
 
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
@@ -420,7 +432,7 @@ fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
 
 
-# In[16]:
+# In[45]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -446,7 +458,7 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 
 # #### Visual Tests
 
-# In[17]:
+# In[46]:
 
 
 (
@@ -459,13 +471,13 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 
 # ### Target
 
-# In[18]:
+# In[47]:
 
 
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
 
 
-# In[19]:
+# In[48]:
 
 
 def create_target_pd(rating_str:str):
@@ -474,7 +486,7 @@ def create_target_pd(rating_str:str):
 
 # ## Featurize
 
-# In[20]:
+# In[49]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -538,14 +550,19 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[HOMECOUNTRY_SLOVENIA] = df[HOMECOUNTRY_SLOVENIA].apply(lambda f: [int(f)])
     df[HOMECOUNTRY_UNITEDKINGDOM] = df[HOMECOUNTRY_UNITEDKINGDOM].apply(lambda f: [int(f)])
     df[HOMECOUNTRY_UNITEDSTATESOFAMERICA] = df[HOMECOUNTRY_UNITEDSTATESOFAMERICA].apply(lambda f: [int(f)])
-    
+
+    df[INCOME_0] = df[INCOME_0].apply(lambda f: [int(f)])
+    df[INCOME_1] = df[INCOME_1].apply(lambda f: [int(f)])
+    df[INCOME_2] = df[INCOME_2].apply(lambda f: [int(f)])
+    df[INCOME_3] = df[INCOME_3].apply(lambda f: [int(f)])
+
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all example
     X = np.array([x for x in df["X"]])
     return X
 
 
-# In[21]:
+# In[50]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
@@ -556,7 +573,7 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
-# In[22]:
+# In[51]:
 
 
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
@@ -599,13 +616,13 @@ notebook.list()
 # 
 # Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
 
-# In[23]:
+# In[52]:
 
 
 get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
 
 
-# In[24]:
+# In[53]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -623,7 +640,7 @@ keras_model_metrics = [
 train_histories = []
 
 
-# In[25]:
+# In[54]:
 
 
 # DON'T CHANGE THE EPOCHS VALUE
@@ -631,7 +648,7 @@ BATCH_SIZE = 4096
 EPOCHS = 1000
 
 
-# In[26]:
+# In[55]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -643,7 +660,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 print(f"Logging tensorboard data at {logdir}")
 
 
-# In[27]:
+# In[56]:
 
 
 model = tf.keras.Sequential([
@@ -666,13 +683,13 @@ model.compile(
 model.summary()
 
 
-# In[28]:
+# In[57]:
 
 
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
 
 
-# In[29]:
+# In[58]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history

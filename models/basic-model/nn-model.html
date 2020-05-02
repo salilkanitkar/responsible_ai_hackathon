@@ -13215,7 +13215,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -13264,7 +13264,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
@@ -13289,7 +13289,7 @@ Successfully built tensorflow-docs
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using random seed, 1588379143
+<pre>Using random seed, 1588383127
 </pre>
 </div>
 </div>
@@ -13316,7 +13316,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DATA_FOLDER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../dataset/&quot;</span><span class="p">)</span>
@@ -13334,7 +13334,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">USER_ID</span> <span class="o">=</span> <span class="s2">&quot;UserId&quot;</span>
@@ -13390,6 +13390,11 @@ Successfully built tensorflow-docs
 <span class="n">HOMECOUNTRY_SLOVENIA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Slovenia&quot;</span>
 <span class="n">HOMECOUNTRY_UNITEDKINGDOM</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_UnitedKingdom&quot;</span>
 <span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_UnitedStatesofAmerica&quot;</span>
+<span class="c1"># Income = 4 Columns</span>
+<span class="n">INCOME_0</span> <span class="o">=</span> <span class="s2">&quot;Income_0&quot;</span>
+<span class="n">INCOME_1</span> <span class="o">=</span> <span class="s2">&quot;Income_1&quot;</span>
+<span class="n">INCOME_2</span> <span class="o">=</span> <span class="s2">&quot;Income_2&quot;</span>
+<span class="n">INCOME_3</span> <span class="o">=</span> <span class="s2">&quot;Income_3&quot;</span>
 <span class="n">RATING</span> <span class="o">=</span> <span class="s2">&quot;Rating&quot;</span>
 <span class="n">AD_NUM_FACES</span> <span class="o">=</span> <span class="s2">&quot;ad_num_faces&quot;</span>
 <span class="n">AD_LABEL_FEATURE_1</span> <span class="o">=</span> <span class="s1">&#39;ad_isAdvertising&#39;</span>
@@ -13485,6 +13490,10 @@ Successfully built tensorflow-docs
     <span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">INCOME_0</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">INCOME_1</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">INCOME_2</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">INCOME_3</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">RATING</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">AD_NUM_FACES</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span>
 <span class="p">}</span>
@@ -13513,7 +13522,13 @@ Successfully built tensorflow-docs
                              <span class="n">HOMECOUNTRY_SAUDIARABIA</span><span class="p">,</span> <span class="n">HOMECOUNTRY_SINGAPORE</span><span class="p">,</span> <span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">,</span>
                              <span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">,</span> <span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span>
 
-<span class="n">SELECTED_INP_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">GENDER_F</span><span class="p">,</span> <span class="n">GENDER_M</span><span class="p">]</span> <span class="o">+</span> <span class="n">SELECTED_AD_COLS</span> <span class="o">+</span> <span class="n">SELECTED_HOMECOUNTRY_COLS</span>
+<span class="n">SELECTED_INCOME_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">INCOME_0</span><span class="p">,</span> <span class="n">INCOME_1</span><span class="p">,</span> <span class="n">INCOME_2</span><span class="p">,</span> <span class="n">INCOME_3</span><span class="p">]</span>
+
+<span class="n">SELECTED_INP_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">GENDER_F</span><span class="p">,</span> <span class="n">GENDER_M</span><span class="p">]</span> <span class="o">+</span>\
+                    <span class="n">SELECTED_AD_COLS</span> <span class="o">+</span>\
+                    <span class="n">SELECTED_HOMECOUNTRY_COLS</span> <span class="o">+</span>\
+                    <span class="n">SELECTED_INCOME_COLS</span>
+
 <span class="n">SELECTED_COLS</span> <span class="o">=</span> <span class="n">SELECTED_INP_COLS</span> <span class="o">+</span> <span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span>
 
 <span class="n">SELECTED_COLS</span>
@@ -13529,7 +13544,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[4]:</div>
+    <div class="prompt output_prompt">Out[33]:</div>
 
 
 
@@ -13591,6 +13606,10 @@ Successfully built tensorflow-docs
  &#39;Homecountry_Slovenia&#39;,
  &#39;Homecountry_UnitedKingdom&#39;,
  &#39;Homecountry_UnitedStatesofAmerica&#39;,
+ &#39;Income_0&#39;,
+ &#39;Income_1&#39;,
+ &#39;Income_2&#39;,
+ &#39;Income_3&#39;,
  &#39;Rating&#39;]</pre>
 </div>
 
@@ -13602,7 +13621,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ad_dataset_pd</span><span class="p">():</span>
@@ -13616,7 +13635,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ad_dataset_pd</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -13632,7 +13651,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[35]:</div>
 
 
 
@@ -13680,17 +13699,17 @@ Successfully built tensorflow-docs
   </thead>
   <tbody>
     <tr>
-      <th>34306</th>
-      <td>21</td>
-      <td>L5M 7X7</td>
+      <th>19900</th>
+      <td>26</td>
+      <td>600002</td>
       <td>Indoor sports</td>
       <td>1.0</td>
       <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>...</td>
       <td>0</td>
       <td>1</td>
@@ -13704,199 +13723,7 @@ Successfully built tensorflow-docs
       <td>1</td>
     </tr>
     <tr>
-      <th>16097</th>
-      <td>21</td>
-      <td>E82 2J4</td>
-      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
-      <td>2.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>7056</th>
-      <td>33</td>
-      <td>60660</td>
-      <td>Equestrian sports‎</td>
-      <td>2.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>7982</th>
-      <td>19</td>
-      <td>N2K4C2</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...) , ...</td>
-      <td>1.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1182</th>
-      <td>24</td>
-      <td>NW1 1EU</td>
-      <td>Individual sports‎ (Tennis, Archery, ...)</td>
-      <td>4.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>6405</th>
-      <td>27</td>
-      <td>90650</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
-      <td>1.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>18518</th>
-      <td>48</td>
-      <td>t6c 3e8</td>
-      <td>Indoor sports, Precision sports‎ (Golf, Bowlin...</td>
-      <td>2.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>32941</th>
-      <td>52</td>
-      <td>7095</td>
-      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
-      <td>4.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>5894</th>
-      <td>22</td>
-      <td>11415</td>
-      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
-      <td>1.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>16825</th>
+      <th>16879</th>
       <td>25</td>
       <td>CH44 4BW</td>
       <td>I do not like Sports</td>
@@ -13911,6 +13738,198 @@ Successfully built tensorflow-docs
       <td>0</td>
       <td>1</td>
       <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13466</th>
+      <td>49</td>
+      <td>10456</td>
+      <td>Individual sports‎ (Tennis, Archery, ...)</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23669</th>
+      <td>18</td>
+      <td>GL4 3QR</td>
+      <td>I do not like Sports</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>32088</th>
+      <td>47</td>
+      <td>60608</td>
+      <td>I do not like Sports</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17674</th>
+      <td>21</td>
+      <td>L6E1K1</td>
+      <td>I do not like Sports</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3227</th>
+      <td>28</td>
+      <td>77088</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Ind...</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8730</th>
+      <td>38</td>
+      <td>90012</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1496</th>
+      <td>34</td>
+      <td>10000</td>
+      <td>Individual sports‎ (Tennis, Archery, ...)</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>701</th>
+      <td>22</td>
+      <td>54942</td>
+      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
+      <td>5.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>1</td>
       <td>1</td>
@@ -13921,7 +13940,7 @@ Successfully built tensorflow-docs
     </tr>
   </tbody>
 </table>
-<p>10 rows × 57 columns</p>
+<p>10 rows × 61 columns</p>
 </div>
 </div>
 
@@ -13940,7 +13959,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -13954,7 +13973,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IndexerForVocab</span><span class="p">:</span>
@@ -13996,7 +14015,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb</span>
@@ -14011,7 +14030,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -14040,7 +14059,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
@@ -14056,7 +14075,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[40]:</div>
 
 
 
@@ -14085,7 +14104,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">,</span> <span class="n">FIRST_K_ZIP_DIGITS</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span><span class="p">,</span> <span class="mi">2</span>
@@ -14100,7 +14119,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code_tensor</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -14142,7 +14161,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
@@ -14163,7 +14182,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[43]:</div>
 
 
 
@@ -14202,7 +14221,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">FAV_SPORTS_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNK_SPORT&quot;</span>
@@ -14222,7 +14241,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[44]:</div>
 
 
 
@@ -14239,7 +14258,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fav_sports_multi_select_str_to_list</span><span class="p">(</span><span class="n">sports_str</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -14277,7 +14296,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
@@ -14298,7 +14317,7 @@ Successfully built tensorflow-docs
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[17]:</div>
+    <div class="prompt output_prompt">Out[46]:</div>
 
 
 
@@ -14325,7 +14344,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RATINGS_CARDINALITY</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># not zero based indexing i.e. ratings range from 1 to 5</span>
@@ -14338,7 +14357,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target_pd</span><span class="p">(</span><span class="n">rating_str</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -14359,7 +14378,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -14423,7 +14442,12 @@ Successfully built tensorflow-docs
     <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
     <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
     <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
-    
+
+    <span class="n">df</span><span class="p">[</span><span class="n">INCOME_0</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">INCOME_0</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">INCOME_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">INCOME_1</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">INCOME_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">INCOME_2</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">INCOME_3</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">INCOME_3</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">inp_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># TODO: vectorize, else inefficient to sequentially loop over all example</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]])</span>
@@ -14437,7 +14461,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -14455,7 +14479,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_pd</span><span class="p">(</span><span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">SELECTED_INP_COLS</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">fraction</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -14609,7 +14633,7 @@ Successfully built tensorflow-docs
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
@@ -14632,8 +14656,8 @@ X, y = create_dataset_pd()
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 1min 5s, sys: 690 ms, total: 1min 6s
-Wall time: 1min 6s
+<pre>CPU times: user 1min 13s, sys: 2.32 s, total: 1min 16s
+Wall time: 1min 16s
 </pre>
 </div>
 </div>
@@ -14644,7 +14668,7 @@ Wall time: 1min 6s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># tf.keras.metrics.SensitivityAtSpecificity(name=&quot;ss&quot;)  # For false positive rate</span>
@@ -14669,7 +14693,7 @@ Wall time: 1min 6s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># DON&#39;T CHANGE THE EPOCHS VALUE</span>
@@ -14684,7 +14708,7 @@ Wall time: 1min 6s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span>
@@ -14710,7 +14734,7 @@ Wall time: 1min 6s
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Logging tensorboard data at logs/20200502-004149
+<pre>Logging tensorboard data at logs/20200502-013347
 </pre>
 </div>
 </div>
@@ -14721,7 +14745,7 @@ Wall time: 1min 6s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
@@ -14758,16 +14782,16 @@ Wall time: 1min 6s
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Model: &#34;sequential&#34;
+<pre>Model: &#34;sequential_1&#34;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-dense (Dense)                (None, 20)                3920      
+dense_2 (Dense)              (None, 20)                4000      
 _________________________________________________________________
-dense_1 (Dense)              (None, 5)                 105       
+dense_3 (Dense)              (None, 5)                 105       
 =================================================================
-Total params: 4,025
-Trainable params: 4,025
+Total params: 4,105
+Trainable params: 4,105
 Non-trainable params: 0
 _________________________________________________________________
 </pre>
@@ -14780,7 +14804,7 @@ _________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
@@ -14810,27 +14834,27 @@ train_histories.append(model.fit(
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-Epoch: 0, accuracy:0.4198,  auc:0.6641,  fn:28722.0000,  fp:67.0000,  loss:1.5080,  precision:0.5379,  recall:0.0027,  tn:115133.0000,  tp:78.0000,  val_accuracy:0.5646,  val_auc:0.7276,  val_fn:6600.0000,  val_fp:418.0000,  val_loss:1.3449,  val_precision:0.5894,  val_recall:0.0833,  val_tn:28382.0000,  val_tp:600.0000,  
+Epoch: 0, accuracy:0.4503,  auc:0.7172,  fn:27760.0000,  fp:522.0000,  loss:1.4263,  precision:0.6658,  recall:0.0361,  tn:114678.0000,  tp:1040.0000,  val_accuracy:0.5579,  val_auc:0.7701,  val_fn:4760.0000,  val_fp:1458.0000,  val_loss:1.2751,  val_precision:0.6260,  val_recall:0.3389,  val_tn:27342.0000,  val_tp:2440.0000,  
 ....................................................................................................
-Epoch: 100, accuracy:0.6224,  auc:0.8696,  fn:14109.0000,  fp:5441.0000,  loss:1.0069,  precision:0.7297,  recall:0.5101,  tn:109759.0000,  tp:14691.0000,  val_accuracy:0.6250,  val_auc:0.8674,  val_fn:3572.0000,  val_fp:1314.0000,  val_loss:1.0136,  val_precision:0.7341,  val_recall:0.5039,  val_tn:27486.0000,  val_tp:3628.0000,  
+Epoch: 100, accuracy:0.6246,  auc:0.8727,  fn:14269.0000,  fp:5278.0000,  loss:0.9955,  precision:0.7336,  recall:0.5045,  tn:109922.0000,  tp:14531.0000,  val_accuracy:0.6247,  val_auc:0.8700,  val_fn:3599.0000,  val_fp:1249.0000,  val_loss:1.0035,  val_precision:0.7425,  val_recall:0.5001,  val_tn:27551.0000,  val_tp:3601.0000,  
 ....................................................................................................
-Epoch: 200, accuracy:0.6281,  auc:0.8750,  fn:14437.0000,  fp:4877.0000,  loss:0.9862,  precision:0.7465,  recall:0.4987,  tn:110323.0000,  tp:14363.0000,  val_accuracy:0.6228,  val_auc:0.8704,  val_fn:3501.0000,  val_fp:1333.0000,  val_loss:1.0029,  val_precision:0.7351,  val_recall:0.5138,  val_tn:27467.0000,  val_tp:3699.0000,  
+Epoch: 200, accuracy:0.6285,  auc:0.8775,  fn:14090.0000,  fp:5187.0000,  loss:0.9768,  precision:0.7393,  recall:0.5108,  tn:110013.0000,  tp:14710.0000,  val_accuracy:0.6272,  val_auc:0.8719,  val_fn:3575.0000,  val_fp:1250.0000,  val_loss:0.9968,  val_precision:0.7436,  val_recall:0.5035,  val_tn:27550.0000,  val_tp:3625.0000,  
 ....................................................................................................
-Epoch: 300, accuracy:0.6297,  auc:0.8781,  fn:13995.0000,  fp:5230.0000,  loss:0.9743,  precision:0.7390,  recall:0.5141,  tn:109970.0000,  tp:14805.0000,  val_accuracy:0.6276,  val_auc:0.8707,  val_fn:3661.0000,  val_fp:1214.0000,  val_loss:1.0005,  val_precision:0.7446,  val_recall:0.4915,  val_tn:27586.0000,  val_tp:3539.0000,  
+Epoch: 300, accuracy:0.6308,  auc:0.8801,  fn:14072.0000,  fp:5062.0000,  loss:0.9667,  precision:0.7442,  recall:0.5114,  tn:110138.0000,  tp:14728.0000,  val_accuracy:0.6182,  val_auc:0.8708,  val_fn:3644.0000,  val_fp:1181.0000,  val_loss:1.0004,  val_precision:0.7507,  val_recall:0.4939,  val_tn:27619.0000,  val_tp:3556.0000,  
 ....................................................................................................
-Epoch: 400, accuracy:0.6335,  auc:0.8796,  fn:14386.0000,  fp:4729.0000,  loss:0.9686,  precision:0.7530,  recall:0.5005,  tn:110471.0000,  tp:14414.0000,  val_accuracy:0.6254,  val_auc:0.8715,  val_fn:3484.0000,  val_fp:1377.0000,  val_loss:0.9994,  val_precision:0.7296,  val_recall:0.5161,  val_tn:27423.0000,  val_tp:3716.0000,  
+Epoch: 400, accuracy:0.6345,  auc:0.8819,  fn:13962.0000,  fp:5051.0000,  loss:0.9593,  precision:0.7460,  recall:0.5152,  tn:110149.0000,  tp:14838.0000,  val_accuracy:0.6229,  val_auc:0.8723,  val_fn:3520.0000,  val_fp:1297.0000,  val_loss:0.9968,  val_precision:0.7394,  val_recall:0.5111,  val_tn:27503.0000,  val_tp:3680.0000,  
 ....................................................................................................
-Epoch: 500, accuracy:0.6342,  auc:0.8813,  fn:14112.0000,  fp:4902.0000,  loss:0.9613,  precision:0.7498,  recall:0.5100,  tn:110298.0000,  tp:14688.0000,  val_accuracy:0.6283,  val_auc:0.8725,  val_fn:3474.0000,  val_fp:1377.0000,  val_loss:0.9965,  val_precision:0.7302,  val_recall:0.5175,  val_tn:27423.0000,  val_tp:3726.0000,  
+Epoch: 500, accuracy:0.6322,  auc:0.8824,  fn:14028.0000,  fp:5009.0000,  loss:0.9568,  precision:0.7468,  recall:0.5129,  tn:110191.0000,  tp:14772.0000,  val_accuracy:0.6162,  val_auc:0.8722,  val_fn:3628.0000,  val_fp:1214.0000,  val_loss:0.9967,  val_precision:0.7463,  val_recall:0.4961,  val_tn:27586.0000,  val_tp:3572.0000,  
 ....................................................................................................
-Epoch: 600, accuracy:0.6352,  auc:0.8825,  fn:14064.0000,  fp:4852.0000,  loss:0.9565,  precision:0.7523,  recall:0.5117,  tn:110348.0000,  tp:14736.0000,  val_accuracy:0.6265,  val_auc:0.8730,  val_fn:3468.0000,  val_fp:1373.0000,  val_loss:0.9945,  val_precision:0.7310,  val_recall:0.5183,  val_tn:27427.0000,  val_tp:3732.0000,  
+Epoch: 600, accuracy:0.6347,  auc:0.8843,  fn:13822.0000,  fp:5108.0000,  loss:0.9497,  precision:0.7457,  recall:0.5201,  tn:110092.0000,  tp:14978.0000,  val_accuracy:0.6197,  val_auc:0.8726,  val_fn:3458.0000,  val_fp:1352.0000,  val_loss:0.9962,  val_precision:0.7346,  val_recall:0.5197,  val_tn:27448.0000,  val_tp:3742.0000,  
 ....................................................................................................
-Epoch: 700, accuracy:0.6373,  auc:0.8832,  fn:14209.0000,  fp:4662.0000,  loss:0.9544,  precision:0.7579,  recall:0.5066,  tn:110538.0000,  tp:14591.0000,  val_accuracy:0.6269,  val_auc:0.8727,  val_fn:3489.0000,  val_fp:1342.0000,  val_loss:0.9945,  val_precision:0.7344,  val_recall:0.5154,  val_tn:27458.0000,  val_tp:3711.0000,  
+Epoch: 700, accuracy:0.6356,  auc:0.8838,  fn:13977.0000,  fp:4942.0000,  loss:0.9513,  precision:0.7500,  recall:0.5147,  tn:110258.0000,  tp:14823.0000,  val_accuracy:0.6244,  val_auc:0.8725,  val_fn:3447.0000,  val_fp:1381.0000,  val_loss:0.9986,  val_precision:0.7310,  val_recall:0.5213,  val_tn:27419.0000,  val_tp:3753.0000,  
 ....................................................................................................
-Epoch: 800, accuracy:0.6402,  auc:0.8845,  fn:13984.0000,  fp:4866.0000,  loss:0.9487,  precision:0.7528,  recall:0.5144,  tn:110334.0000,  tp:14816.0000,  val_accuracy:0.6243,  val_auc:0.8722,  val_fn:3615.0000,  val_fp:1242.0000,  val_loss:0.9953,  val_precision:0.7427,  val_recall:0.4979,  val_tn:27558.0000,  val_tp:3585.0000,  
+Epoch: 800, accuracy:0.6383,  auc:0.8858,  fn:14119.0000,  fp:4744.0000,  loss:0.9432,  precision:0.7558,  recall:0.5098,  tn:110456.0000,  tp:14681.0000,  val_accuracy:0.6231,  val_auc:0.8725,  val_fn:3477.0000,  val_fp:1342.0000,  val_loss:0.9970,  val_precision:0.7350,  val_recall:0.5171,  val_tn:27458.0000,  val_tp:3723.0000,  
 ....................................................................................................
-Epoch: 900, accuracy:0.6398,  auc:0.8851,  fn:13917.0000,  fp:4808.0000,  loss:0.9459,  precision:0.7558,  recall:0.5168,  tn:110392.0000,  tp:14883.0000,  val_accuracy:0.6240,  val_auc:0.8735,  val_fn:3465.0000,  val_fp:1376.0000,  val_loss:0.9939,  val_precision:0.7308,  val_recall:0.5188,  val_tn:27424.0000,  val_tp:3735.0000,  
-....................................................................................................CPU times: user 13min 29s, sys: 1min 53s, total: 15min 23s
-Wall time: 3min 50s
+Epoch: 900, accuracy:0.6373,  auc:0.8865,  fn:13709.0000,  fp:5082.0000,  loss:0.9407,  precision:0.7481,  recall:0.5240,  tn:110118.0000,  tp:15091.0000,  val_accuracy:0.6208,  val_auc:0.8717,  val_fn:3474.0000,  val_fp:1344.0000,  val_loss:0.9995,  val_precision:0.7349,  val_recall:0.5175,  val_tn:27456.0000,  val_tp:3726.0000,  
+....................................................................................................CPU times: user 15min 7s, sys: 2min 3s, total: 17min 11s
+Wall time: 4min 12s
 </pre>
 </div>
 </div>
@@ -14841,7 +14865,7 @@ Wall time: 3min 50s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_histories</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="c1"># pick the latest training history</span>
@@ -14859,7 +14883,7 @@ Wall time: 3min 50s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[29]:</div>
+    <div class="prompt output_prompt">Out[58]:</div>
 
 
 
@@ -14905,24 +14929,24 @@ Wall time: 3min 50s
   <tbody>
     <tr>
       <th>999</th>
-      <td>0.944639</td>
-      <td>0.639722</td>
-      <td>14817.0</td>
-      <td>4824.0</td>
-      <td>110376.0</td>
-      <td>13983.0</td>
-      <td>0.754391</td>
-      <td>0.514479</td>
-      <td>0.885396</td>
-      <td>0.995335</td>
-      <td>0.621528</td>
-      <td>3638.0</td>
-      <td>1271.0</td>
-      <td>27529.0</td>
-      <td>3562.0</td>
-      <td>0.741088</td>
-      <td>0.505278</td>
-      <td>0.872454</td>
+      <td>0.941208</td>
+      <td>0.635903</td>
+      <td>14772.0</td>
+      <td>4795.0</td>
+      <td>110405.0</td>
+      <td>14028.0</td>
+      <td>0.754945</td>
+      <td>0.512917</td>
+      <td>0.886323</td>
+      <td>1.00056</td>
+      <td>0.624583</td>
+      <td>3816.0</td>
+      <td>1468.0</td>
+      <td>27332.0</td>
+      <td>3384.0</td>
+      <td>0.72218</td>
+      <td>0.53</td>
+      <td>0.873077</td>
     </tr>
   </tbody>
 </table>
