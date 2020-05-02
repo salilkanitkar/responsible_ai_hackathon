@@ -15,7 +15,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 data_folder = Path("../dataset")
 # below paths should be realtive to data_folder
-final_dataset= "users-ads-without-gcp-ratings.csv"
+final_dataset= "users-ads-without-gcp-ratings_OHE_MLB.csv"
 derived_dataset = "users-ads-without-gcp-ratings_OHE_MLB.csv"
 
 
@@ -190,7 +190,7 @@ df.head()
 
 # ## MLB: Mostlistenedmusics 
 
-# In[28]:
+# In[7]:
 
 
 def get_unique(list1): 
@@ -367,9 +367,187 @@ df = df.rename({
 df.head()
 
 
+# ## MLB: Mostwatchedmovies 
+
+# In[8]:
+
+
+arr_mostwatchedmovies = ','.join(df.Mostwatchedmovies.unique()).split(",")
+
+for i, s in enumerate(arr_mostwatchedmovies):
+    arr_mostwatchedmovies[i] = s.strip()
+
+arr_mostwatchedmovies = get_unique(arr_mostwatchedmovies)
+arr_mostwatchedmovies.sort()
+print(len(arr_mostwatchedmovies))
+
+
+# In[9]:
+
+
+lst = []
+df_Mostwatchedmovies = pd.DataFrame(lst, columns = arr_mostwatchedmovies) 
+df_Mostwatchedmovies
+
+
+# In[10]:
+
+
+mostwatchedmovies_binarizer = MultiLabelBinarizer()
+mostwatchedmovies_binarizer.fit([arr_mostwatchedmovies])
+
+
+# In[11]:
+
+
+rowCount = len(df.index)
+
+
+# In[12]:
+
+
+for i in range(0, rowCount):
+    vals = df.Mostwatchedmovies[i].split(",")
+    for index, s in enumerate(vals):
+        vals[index] = s.lstrip().rstrip()
+    # print(vals)
+    rowVals = mostwatchedmovies_binarizer.transform([vals])[0]
+    # rowVals
+    df_Mostwatchedmovies = df_Mostwatchedmovies.append(pd.Series(rowVals, index=df_Mostwatchedmovies.columns ), ignore_index=True)
+
+
+# In[13]:
+
+
+len(df_Mostwatchedmovies.index)
+
+
+# In[14]:
+
+
+df_Mostwatchedmovies = df_Mostwatchedmovies.add_prefix('Mostwatchedmovies_')
+df_Mostwatchedmovies.head()
+
+
+# In[15]:
+
+
+df = pd.concat([df, df_Mostwatchedmovies], axis=1)
+
+
+# In[16]:
+
+
+df = df.rename({
+    c: re.sub(r"[^a-zA-Z0-9_]", "", c) for c in df.columns
+}, axis=1)
+
+
+# In[17]:
+
+
+df.head()
+
+
+# ## MLB: Mostwatchedtvprogrammes 
+
+# In[18]:
+
+
+arr_mostwatchedtvprogrammes = ','.join(df.Mostwatchedtvprogrammes.unique()).split(",")
+
+for i, s in enumerate(arr_mostwatchedtvprogrammes):
+    arr_mostwatchedtvprogrammes[i] = s.strip()
+
+arr_mostwatchedtvprogrammes = get_unique(arr_mostwatchedtvprogrammes)
+arr_mostwatchedtvprogrammes.sort()
+print(len(arr_mostwatchedtvprogrammes))
+
+
+# In[19]:
+
+
+lst = []
+df_Mostwatchedtvprogrammes = pd.DataFrame(lst, columns = arr_mostwatchedtvprogrammes) 
+df_Mostwatchedtvprogrammes
+
+
+# In[20]:
+
+
+mostwatchedtvprogrammes_binarizer = MultiLabelBinarizer()
+mostwatchedtvprogrammes_binarizer.fit([arr_mostwatchedtvprogrammes])
+
+
+# In[21]:
+
+
+rowCount = len(df.index)
+
+
+# In[22]:
+
+
+for i in range(0, rowCount):
+    vals = df.Mostwatchedtvprogrammes[i].split(",")
+    for index, s in enumerate(vals):
+        vals[index] = s.lstrip().rstrip()
+    # print(vals)
+    rowVals = mostwatchedtvprogrammes_binarizer.transform([vals])[0]
+    # rowVals
+    df_Mostwatchedtvprogrammes = df_Mostwatchedtvprogrammes.append(pd.Series(rowVals, index=df_Mostwatchedtvprogrammes.columns ), ignore_index=True)
+
+
+# In[23]:
+
+
+len(df_Mostwatchedtvprogrammes.index)
+
+
+# In[24]:
+
+
+df_Mostwatchedtvprogrammes = df_Mostwatchedtvprogrammes.add_prefix('Mostwatchedtvprogrammes_')
+df_Mostwatchedtvprogrammes.head()
+
+
+# In[25]:
+
+
+df = pd.concat([df, df_Mostwatchedtvprogrammes], axis=1)
+
+
+# In[26]:
+
+
+df = df.rename({
+    c: re.sub(r"[^a-zA-Z0-9_]", "", c) for c in df.columns
+}, axis=1)
+
+
+# In[27]:
+
+
+df.head()
+
+
+# ## MLB: Mostvisitedwebsites 
+
+# In[ ]:
+
+
+df.Mostvisitedwebsites.unique()
+
+
+# In[ ]:
+
+
+
+
+
 # ## Write final CSV
 
-# In[49]:
+# In[28]:
 
 
 df.to_csv(data_folder/f"{derived_dataset}", index=False)
