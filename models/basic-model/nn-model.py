@@ -1,7 +1,29 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Neural Network Model
+# 
+# The aim of the notebook is demo end to end pipeline for Ads prediction in Tensorflow
+
+# In[1]:
+
+
 get_ipython().system(' ./setup.sh')
+
+
+# In[36]:
+
+
+get_ipython().system('pip install git+https://github.com/tensorflow/docs')
+
+
+# In[39]:
+
+
+get_ipython().system('pip3 install -q git+https://github.com/tensorflow/docs --user')
+
+
+# In[1]:
 
 
 import tensorflow as tf
@@ -25,6 +47,9 @@ from collections import namedtuple
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
 
+# In[2]:
+
+
 RANDOM_SEED = int(time.time())
 
 tf.random.set_seed(RANDOM_SEED)
@@ -33,12 +58,31 @@ np.random.seed(RANDOM_SEED)
 print(f"Using random seed, {RANDOM_SEED}")
 
 
+# ## Load Data
+# 
+# Dataset credits:
+# ```
+# @inproceedings{roffo2016personality,
+#   title={Personality in computational advertising: A benchmark},
+#   author={Roffo, Giorgio and Vinciarelli, Alessandro},
+#   booktitle={4 th Workshop on Emotions and Personality in Personalized Systems (EMPIRE) 2016},
+#   pages={18},
+#   year={2016}
+# }
+# ```
+
+# In[3]:
+
+
 DATA_FOLDER = Path("../../dataset/")
 BATCH_SIZE = 4096 # bigger the batch, faster the training but bigger the RAM needed
 TARGET_COL = "Rating"
 
 # data files path are relative DATA_FOLDER
 users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
+
+
+# In[4]:
 
 
 USER_ID = "UserId"
@@ -81,10 +125,59 @@ UNFAVE6 = "unfave6"
 ADFILEPATH = "AdFilePath"
 GENDER_F = "Gender_F"
 GENDER_M = "Gender_M"
+# HomeCountry = 12 Columns
+HOMECOUNTRY_CANADA = "Homecountry_Canada"
+HOMECOUNTRY_CZECHREPUBLIC = "Homecountry_CzechRepublic"
+HOMECOUNTRY_GREATBRITAIN = "Homecountry_GreatBritain"
+HOMECOUNTRY_INDIA = "Homecountry_India"
+HOMECOUNTRY_ITALY = "Homecountry_Italy"
+HOMECOUNTRY_PHILLIPINES = "Homecountry_Phillipines"
+HOMECOUNTRY_ROMANIA = "Homecountry_Romania"
+HOMECOUNTRY_SAUDIARABIA = "Homecountry_SaudiArabia"
+HOMECOUNTRY_SINGAPORE = "Homecountry_Singapore"
+HOMECOUNTRY_SLOVENIA = "Homecountry_Slovenia"
+HOMECOUNTRY_UNITEDKINGDOM = "Homecountry_UnitedKingdom"
+HOMECOUNTRY_UNITEDSTATESOFAMERICA = "Homecountry_UnitedStatesofAmerica"
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
-
-
+AD_LABEL_FEATURE_1 = 'ad_isAdvertising'
+AD_LABEL_FEATURE_2 = 'ad_isBrand'
+AD_LABEL_FEATURE_3 = 'ad_isElectronic device'
+AD_LABEL_FEATURE_4 = 'ad_isElectronics'
+AD_LABEL_FEATURE_5 = 'ad_isFashion accessory'
+AD_LABEL_FEATURE_6 = 'ad_isFictional character'
+AD_LABEL_FEATURE_7 = 'ad_isFont'
+AD_LABEL_FEATURE_8 = 'ad_isFurniture'
+AD_LABEL_FEATURE_9 = 'ad_isGadget'
+AD_LABEL_FEATURE_10 = 'ad_isGames'
+AD_LABEL_FEATURE_11 = 'ad_isGraphic design'
+AD_LABEL_FEATURE_12 = 'ad_isGraphics'
+AD_LABEL_FEATURE_13 = 'ad_isJewellery'
+AD_LABEL_FEATURE_14 = 'ad_isLine'
+AD_LABEL_FEATURE_15 = 'ad_isLogo'
+AD_LABEL_FEATURE_16 = 'ad_isMagenta'
+AD_LABEL_FEATURE_17 = 'ad_isMaterial property'
+AD_LABEL_FEATURE_18 = 'ad_isMultimedia'
+AD_LABEL_FEATURE_19 = 'ad_isProduct'
+AD_LABEL_FEATURE_20 = 'ad_isRectangle'
+AD_LABEL_FEATURE_21 = 'ad_isSkin'
+AD_LABEL_FEATURE_22 = 'ad_isTechnology'
+AD_LABEL_FEATURE_23 = 'ad_isText'
+AD_LABEL_FEATURE_24 = 'ad_isVehicle'
+AD_LABEL_FEATURE_25 = 'ad_isYellow'
+AD_SAFESEARCH_FEATURE_1 = 'ad_isAdult_UNLIKELY'
+AD_SAFESEARCH_FEATURE_2 ='ad_isAdult_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_3 ='ad_isSpoof_POSSIBLE'
+AD_SAFESEARCH_FEATURE_4 ='ad_isSpoof_UNLIKELY'
+AD_SAFESEARCH_FEATURE_5 ='ad_isSpoof_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_6 ='ad_isMedical_POSSIBLE'
+AD_SAFESEARCH_FEATURE_7 ='ad_isMedical_UNLIKELY'
+AD_SAFESEARCH_FEATURE_8 ='ad_isMedical_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_9 ='ad_isViolence_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_10 ='ad_isRacy_POSSIBLE'
+AD_SAFESEARCH_FEATURE_11 ='ad_isRacy_UNLIKELY'
+AD_SAFESEARCH_FEATURE_12 ='ad_isRacy_VERY_LIKELY'
+AD_SAFESEARCH_FEATURE_13 ='ad_isRacy_VERY_UNLIKELY'
 
 # Read all columns as strings to avoid any errors
 COL_DEFAULTS = {
@@ -128,6 +221,18 @@ COL_DEFAULTS = {
     ADFILEPATH: "**",
     GENDER_F: "**",
     GENDER_M: "**",
+    HOMECOUNTRY_CANADA: "**",
+    HOMECOUNTRY_CZECHREPUBLIC: "**",
+    HOMECOUNTRY_GREATBRITAIN: "**",
+    HOMECOUNTRY_INDIA: "**",
+    HOMECOUNTRY_ITALY: "**",
+    HOMECOUNTRY_PHILLIPINES: "**",
+    HOMECOUNTRY_ROMANIA: "**",
+    HOMECOUNTRY_SAUDIARABIA: "**",
+    HOMECOUNTRY_SINGAPORE: "**",
+    HOMECOUNTRY_SLOVENIA: "**",
+    HOMECOUNTRY_UNITEDKINGDOM: "**",
+    HOMECOUNTRY_UNITEDSTATESOFAMERICA: "**",
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -138,29 +243,53 @@ COL_DEFAULTS = {
 #                  UNFAVE6, RATING]
 
 AD_FACE_COLS = [AD_NUM_FACES]
-AD_LABEL_COLS = []
+AD_LABEL_COLS = [AD_LABEL_FEATURE_1,AD_LABEL_FEATURE_2,AD_LABEL_FEATURE_3,AD_LABEL_FEATURE_4,AD_LABEL_FEATURE_5,
+                AD_LABEL_FEATURE_6,AD_LABEL_FEATURE_7,AD_LABEL_FEATURE_8,AD_LABEL_FEATURE_9,AD_LABEL_FEATURE_10,
+                AD_LABEL_FEATURE_11,AD_LABEL_FEATURE_12,AD_LABEL_FEATURE_13,AD_LABEL_FEATURE_14,AD_LABEL_FEATURE_15,
+                AD_LABEL_FEATURE_16,AD_LABEL_FEATURE_17,AD_LABEL_FEATURE_18,AD_LABEL_FEATURE_19,AD_LABEL_FEATURE_20,
+                AD_LABEL_FEATURE_21,AD_LABEL_FEATURE_22,AD_LABEL_FEATURE_23,AD_LABEL_FEATURE_24,AD_LABEL_FEATURE_25]
 AD_OBJECT_COLS = []
-AD_SAFE_SEARCH_COLS = []
+AD_SAFE_SEARCH_COLS = [AD_SAFESEARCH_FEATURE_1,AD_SAFESEARCH_FEATURE_2,AD_SAFESEARCH_FEATURE_3,AD_SAFESEARCH_FEATURE_4,
+                      AD_SAFESEARCH_FEATURE_5,AD_SAFESEARCH_FEATURE_6,AD_SAFESEARCH_FEATURE_7,AD_SAFESEARCH_FEATURE_8,
+                      AD_SAFESEARCH_FEATURE_9,AD_SAFESEARCH_FEATURE_10,AD_SAFESEARCH_FEATURE_11,AD_SAFESEARCH_FEATURE_12,AD_SAFESEARCH_FEATURE_13]
 
 
-SELECTED_AD_COLS = AD_FACE_COLS + AD_LABEL_COLS + AD_OBJECT_COLS + AD_SAFE_SEARCH_COLS
+SELECTED_AD_COLS = AD_FACE_COLS  + AD_LABEL_COLS + AD_OBJECT_COLS + AD_SAFE_SEARCH_COLS
 
+SELECTED_HOMECOUNTRY_COLS = [HOMECOUNTRY_CANADA, HOMECOUNTRY_CZECHREPUBLIC, HOMECOUNTRY_GREATBRITAIN,
+                             HOMECOUNTRY_INDIA, HOMECOUNTRY_ITALY, HOMECOUNTRY_PHILLIPINES, HOMECOUNTRY_ROMANIA,
+                             HOMECOUNTRY_SAUDIARABIA, HOMECOUNTRY_SINGAPORE, HOMECOUNTRY_SLOVENIA,
+                             HOMECOUNTRY_UNITEDKINGDOM, HOMECOUNTRY_UNITEDSTATESOFAMERICA]
 
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] + SELECTED_AD_COLS
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] + SELECTED_AD_COLS + SELECTED_HOMECOUNTRY_COLS
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
 SELECTED_COLS
+
+
+# In[5]:
 
 
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
 
 
+# In[6]:
+
+
 ad_dataset_pd().sample(10)
+
+
+# ## Transform Data
+
+# In[7]:
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
+
+
+# In[8]:
 
 
 class IndexerForVocab:
@@ -187,9 +316,19 @@ class IndexerForVocab:
         return [self.index_of(i) for i in items]
 
 
+# ### Age
+# 
+# Convert to a number and remove any outliers
+
+# In[9]:
+
+
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
 
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
+
+
+# In[10]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -204,12 +343,27 @@ def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
     return normalized_age
 
 
+# #### Visual Tests
+
+# In[11]:
+
+
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
+
+
+# ### Zip Code
+# 
+# Prepare zip-code column for one-hot encoding each character
+
+# In[12]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
+
+
+# In[13]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -237,6 +391,11 @@ def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
     return np.ravel(np.eye(len(indexer))[indexer.index_of_mux(zip_digits)])
 
 
+# #### Visual Tests
+
+# In[14]:
+
+
 test_zip_code_indexer = IndexerForVocab(string.digits)
 
 (fix_zip_code("43556", 10, test_zip_code_indexer),
@@ -245,11 +404,23 @@ fix_zip_code("43556", 4, test_zip_code_indexer),
 fix_zip_code(None, 3, test_zip_code_indexer))
 
 
+# ### Favorite Sports
+# 
+# Two approaches,
+# 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
+# 2. Multi label binarize all the sports as there are only 15 unique sports
+
+# In[15]:
+
+
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
 ALL_FAV_SPORTS = ['Olympic sports', 'Winter sports', 'Nothing', 'I do not like Sports', 'Equestrian sports', 'Skating sports', 'Precision sports', 'Hunting sports', 'Motor sports', 'Team sports', 'Individual sports', 'Other', 'Water sports', 'Indoor sports', 'Endurance sports']
 
 fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
+
+
+# In[16]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -273,6 +444,11 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
     return result
 
 
+# #### Visual Tests
+
+# In[17]:
+
+
 (
     fix_fav_sports_mlb("Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports"),
     fix_fav_sports_mlb("Skating sports"),
@@ -281,11 +457,24 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 )
 
 
+# ### Target
+
+# In[18]:
+
+
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
+
+
+# In[19]:
 
 
 def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
+
+
+# ## Featurize
+
+# In[20]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -296,10 +485,67 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[GENDER_F] = df[GENDER_F].apply(lambda gender_f: [int(gender_f)])
     df[GENDER_M] = df[GENDER_M].apply(lambda gender_m: [int(gender_m)])
     df[AD_NUM_FACES] = df[AD_NUM_FACES].apply(lambda ad_num_faces: [int(ad_num_faces)])
+    
+    df[AD_LABEL_FEATURE_1] = df[AD_LABEL_FEATURE_1].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_2] = df[AD_LABEL_FEATURE_2].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_3] = df[AD_LABEL_FEATURE_3].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_4] = df[AD_LABEL_FEATURE_4].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_5] = df[AD_LABEL_FEATURE_5].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_6] = df[AD_LABEL_FEATURE_6].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_7] = df[AD_LABEL_FEATURE_7].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_8] = df[AD_LABEL_FEATURE_8].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_9] = df[AD_LABEL_FEATURE_9].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_10] = df[AD_LABEL_FEATURE_10].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_11] = df[AD_LABEL_FEATURE_11].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_12] = df[AD_LABEL_FEATURE_12].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_13] = df[AD_LABEL_FEATURE_13].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_14] = df[AD_LABEL_FEATURE_14].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_15] = df[AD_LABEL_FEATURE_15].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_16] = df[AD_LABEL_FEATURE_16].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_17] = df[AD_LABEL_FEATURE_17].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_18] = df[AD_LABEL_FEATURE_18].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_19] = df[AD_LABEL_FEATURE_19].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_20] = df[AD_LABEL_FEATURE_20].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_21] = df[AD_LABEL_FEATURE_21].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_22] = df[AD_LABEL_FEATURE_22].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_23] = df[AD_LABEL_FEATURE_23].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_24] = df[AD_LABEL_FEATURE_24].apply(lambda f: [int(f)])
+    df[AD_LABEL_FEATURE_25] = df[AD_LABEL_FEATURE_25].apply(lambda f: [int(f)])
+    
+    df[AD_SAFESEARCH_FEATURE_1] = df[AD_SAFESEARCH_FEATURE_1].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_2] = df[AD_SAFESEARCH_FEATURE_2].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_3] = df[AD_SAFESEARCH_FEATURE_3].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_4] = df[AD_SAFESEARCH_FEATURE_4].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_5] = df[AD_SAFESEARCH_FEATURE_5].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_6] = df[AD_SAFESEARCH_FEATURE_6].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_7] = df[AD_SAFESEARCH_FEATURE_7].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_8] = df[AD_SAFESEARCH_FEATURE_8].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_9] = df[AD_SAFESEARCH_FEATURE_9].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_10] = df[AD_SAFESEARCH_FEATURE_10].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_11] = df[AD_SAFESEARCH_FEATURE_11].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_12] = df[AD_SAFESEARCH_FEATURE_12].apply(lambda f: [int(f)])
+    df[AD_SAFESEARCH_FEATURE_13] = df[AD_SAFESEARCH_FEATURE_13].apply(lambda f: [int(f)])
+            
+    df[HOMECOUNTRY_CANADA] = df[HOMECOUNTRY_CANADA].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_CZECHREPUBLIC] = df[HOMECOUNTRY_CZECHREPUBLIC].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_GREATBRITAIN] = df[HOMECOUNTRY_GREATBRITAIN].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_INDIA] = df[HOMECOUNTRY_INDIA].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_ITALY] = df[HOMECOUNTRY_ITALY].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_PHILLIPINES] = df[HOMECOUNTRY_PHILLIPINES].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_ROMANIA] = df[HOMECOUNTRY_ROMANIA].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_SAUDIARABIA] = df[HOMECOUNTRY_SAUDIARABIA].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_SINGAPORE] = df[HOMECOUNTRY_SINGAPORE].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_SLOVENIA] = df[HOMECOUNTRY_SLOVENIA].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_UNITEDKINGDOM] = df[HOMECOUNTRY_UNITEDKINGDOM].apply(lambda f: [int(f)])
+    df[HOMECOUNTRY_UNITEDSTATESOFAMERICA] = df[HOMECOUNTRY_UNITEDSTATESOFAMERICA].apply(lambda f: [int(f)])
+    
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all example
     X = np.array([x for x in df["X"]])
     return X
+
+
+# In[21]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
@@ -310,25 +556,56 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
+# In[22]:
+
+
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
     """Prepare the dataset for training on a fraction of all input data"""
     df = ad_dataset_pd().sample(frac=fraction)
     return transform_pd_X(df, inp_cols), transform_pd_y(df, target_col)
 
 
+# ## Tensorboard
+# 
+# Monitor training and other stats
+
+# In[23]:
+
+
 from tensorboard import notebook
 
 
-get_ipython().run_line_magic('reload_ext', 'tensorboard')
+# In[24]:
 
 
-get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
+get_ipython().magic('reload_ext tensorboard')
+
+
+# Start tensorboard
+
+# In[25]:
+
+
+get_ipython().magic('tensorboard --logdir logs --port 6006')
+
+
+# In[26]:
 
 
 notebook.list()
 
 
+# ## Model
+# 
+# Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
+
+# In[23]:
+
+
 get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
+
+
+# In[24]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -346,9 +623,15 @@ keras_model_metrics = [
 train_histories = []
 
 
+# In[25]:
+
+
 # DON'T CHANGE THE EPOCHS VALUE
 BATCH_SIZE = 4096
 EPOCHS = 1000
+
+
+# In[26]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -358,6 +641,9 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 #     embeddings_freq=epochs,
 )
 print(f"Logging tensorboard data at {logdir}")
+
+
+# In[27]:
 
 
 model = tf.keras.Sequential([
@@ -380,7 +666,13 @@ model.compile(
 model.summary()
 
 
+# In[28]:
+
+
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
+
+
+# In[29]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
@@ -388,7 +680,27 @@ metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest trainin
 metrics_df.tail(1) # pick the last epoch's metrics
 
 
+# `Tip:` You can copy the final metrics row from above and paste it using `Shift + Cmd + V` in our [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130) to accurately place all values in the respective columns
+# 
+# **IMPORTANT**: Please don't forget to update git version ID column after you check-in.
+
+# ### Model Metrics with p-value
+
+# TODO
+
+# ## Export
+# 
+# Save the model for future reference
+
+# In[30]:
+
+
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
+
+
+# ## Predict
+
+# In[35]:
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
@@ -405,10 +717,25 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
+# ## Rough
+
+# ### Featurize using Feature Columns
+# 
+# Create feature columns like one-hot, embeddings, bucketing from raw features created earlier
+
+# In[ ]:
+
+
 EXAMPLE_BATCH = next(iter(input_fn_train(3)))[0]
 
 
+# In[ ]:
+
+
 EXAMPLE_BATCH
+
+
+# In[ ]:
 
 
 def test_feature_column(feature_column):
@@ -416,7 +743,13 @@ def test_feature_column(feature_column):
     return feature_layer(EXAMPLE_BATCH).numpy()
 
 
+# In[ ]:
+
+
 age_fc = tf.feature_column.numeric_column(AGE, normalizer_fn=lambda x: (x - MEAN_AGE) / STD_AGE)
+
+
+# In[ ]:
 
 
 zip_fcs = [
@@ -429,10 +762,19 @@ zip_fcs = [
 ]
 
 
+# In[ ]:
+
+
 EXAMPLE_BATCH[AGE], test_feature_column(age_fc)
 
 
+# In[ ]:
+
+
 {k: v for k, v in EXAMPLE_BATCH.items() if k.startswith(ZIP_CODE)}, test_feature_column(zip_fcs)
+
+
+# In[ ]:
 
 
 tf.keras.layers.concatenate(age_fc, zip_fcs[0])

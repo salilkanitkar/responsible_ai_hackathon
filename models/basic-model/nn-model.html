@@ -13017,6 +13017,45 @@ ul.typeahead-list  > li > a.pull-right {
 .highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
+<style type="text/css">
+    
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+    </style>
 
 
 <style type="text/css">
@@ -13050,7 +13089,7 @@ div#notebook {
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -13119,28 +13158,10 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">tensorflow_docs</span> <span class="k">as</span> <span class="nn">tfdocs</span>
-<span class="kn">import</span> <span class="nn">tensorflow_docs.modeling</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Tensorflow, </span><span class="si">{tf.__version__}</span><span class="s2"> on Python interpreter, </span><span class="si">{sys.version_info}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install git+https://github.com/tensorflow/docs
 </pre></div>
 
     </div>
@@ -13157,7 +13178,20 @@ Solving environment: done
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using Tensorflow, 2.1.0 on Python interpreter, sys.version_info(major=3, minor=7, micro=5, releaselevel=&#39;final&#39;, serial=0)
+<pre>Collecting git+https://github.com/tensorflow/docs
+  Cloning https://github.com/tensorflow/docs to /private/var/folders/f_/8flgl5n57_dfmnnjzy_w41wm0000gn/T/pip-req-build-zj9ti1z3
+  Running command git clone -q https://github.com/tensorflow/docs /private/var/folders/f_/8flgl5n57_dfmnnjzy_w41wm0000gn/T/pip-req-build-zj9ti1z3
+Requirement already satisfied (use --upgrade to upgrade): tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9- from git+https://github.com/tensorflow/docs in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages
+Requirement already satisfied: astor in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages (from tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9-) (0.8.1)
+Requirement already satisfied: absl-py in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages (from tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9-) (0.9.0)
+Requirement already satisfied: six in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages (from tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9-) (1.14.0)
+Requirement already satisfied: pathlib2 in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages (from tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9-) (2.3.5)
+Requirement already satisfied: pyyaml in /Users/praveenkrishna/miniconda3/lib/python3.7/site-packages (from tensorflow-docs===0.0.0d92131b8cc983025d3b423255b1afb09683fbed9-) (5.3.1)
+Building wheels for collected packages: tensorflow-docs
+  Building wheel for tensorflow-docs (setup.py) ... done
+  Created wheel for tensorflow-docs: filename=tensorflow_docs-0.0.0d92131b8cc983025d3b423255b1afb09683fbed9_-py3-none-any.whl size=98705 sha256=d918741b95d78f55b52fe18e571b925ccd6d05d6ccdf8419855f9a383f158d86
+  Stored in directory: /private/var/folders/f_/8flgl5n57_dfmnnjzy_w41wm0000gn/T/pip-ephem-wheel-cache-h1t38brr/wheels/cc/c4/d8/5341e93b6376c5c929c49469fce21155eb69cef1a4da4ce32c
+Successfully built tensorflow-docs
 </pre>
 </div>
 </div>
@@ -13168,15 +13202,41 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip3 install -q git+https://github.com/tensorflow/docs --user
+</pre></div>
 
-<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
+    </div>
+</div>
+</div>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using random seed, </span><span class="si">{RANDOM_SEED}</span><span class="s2">&quot;</span><span class="p">)</span>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_docs</span> <span class="k">as</span> <span class="nn">tfdocs</span>
+<span class="kn">import</span> <span class="nn">tensorflow_docs.modeling</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">MultiLabelBinarizer</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">ceil</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Using Tensorflow, </span><span class="si">{tf.__version__}</span><span class="s2"> on Python interpreter, </span><span class="si">{sys.version_info}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13193,7 +13253,43 @@ Solving environment: done
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using random seed, 1588306442
+<pre>Using Tensorflow, 2.1.0 on Python interpreter, sys.version_info(major=3, minor=6, micro=1, releaselevel=&#39;final&#39;, serial=0)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Using random seed, </span><span class="si">{RANDOM_SEED}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Using random seed, 1588379143
 </pre>
 </div>
 </div>
@@ -13220,7 +13316,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DATA_FOLDER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../dataset/&quot;</span><span class="p">)</span>
@@ -13238,7 +13334,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">USER_ID</span> <span class="o">=</span> <span class="s2">&quot;UserId&quot;</span>
@@ -13281,10 +13377,59 @@ Solving environment: done
 <span class="n">ADFILEPATH</span> <span class="o">=</span> <span class="s2">&quot;AdFilePath&quot;</span>
 <span class="n">GENDER_F</span> <span class="o">=</span> <span class="s2">&quot;Gender_F&quot;</span>
 <span class="n">GENDER_M</span> <span class="o">=</span> <span class="s2">&quot;Gender_M&quot;</span>
+<span class="c1"># HomeCountry = 12 Columns</span>
+<span class="n">HOMECOUNTRY_CANADA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Canada&quot;</span>
+<span class="n">HOMECOUNTRY_CZECHREPUBLIC</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_CzechRepublic&quot;</span>
+<span class="n">HOMECOUNTRY_GREATBRITAIN</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_GreatBritain&quot;</span>
+<span class="n">HOMECOUNTRY_INDIA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_India&quot;</span>
+<span class="n">HOMECOUNTRY_ITALY</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Italy&quot;</span>
+<span class="n">HOMECOUNTRY_PHILLIPINES</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Phillipines&quot;</span>
+<span class="n">HOMECOUNTRY_ROMANIA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Romania&quot;</span>
+<span class="n">HOMECOUNTRY_SAUDIARABIA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_SaudiArabia&quot;</span>
+<span class="n">HOMECOUNTRY_SINGAPORE</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Singapore&quot;</span>
+<span class="n">HOMECOUNTRY_SLOVENIA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_Slovenia&quot;</span>
+<span class="n">HOMECOUNTRY_UNITEDKINGDOM</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_UnitedKingdom&quot;</span>
+<span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span> <span class="o">=</span> <span class="s2">&quot;Homecountry_UnitedStatesofAmerica&quot;</span>
 <span class="n">RATING</span> <span class="o">=</span> <span class="s2">&quot;Rating&quot;</span>
 <span class="n">AD_NUM_FACES</span> <span class="o">=</span> <span class="s2">&quot;ad_num_faces&quot;</span>
-
-
+<span class="n">AD_LABEL_FEATURE_1</span> <span class="o">=</span> <span class="s1">&#39;ad_isAdvertising&#39;</span>
+<span class="n">AD_LABEL_FEATURE_2</span> <span class="o">=</span> <span class="s1">&#39;ad_isBrand&#39;</span>
+<span class="n">AD_LABEL_FEATURE_3</span> <span class="o">=</span> <span class="s1">&#39;ad_isElectronic device&#39;</span>
+<span class="n">AD_LABEL_FEATURE_4</span> <span class="o">=</span> <span class="s1">&#39;ad_isElectronics&#39;</span>
+<span class="n">AD_LABEL_FEATURE_5</span> <span class="o">=</span> <span class="s1">&#39;ad_isFashion accessory&#39;</span>
+<span class="n">AD_LABEL_FEATURE_6</span> <span class="o">=</span> <span class="s1">&#39;ad_isFictional character&#39;</span>
+<span class="n">AD_LABEL_FEATURE_7</span> <span class="o">=</span> <span class="s1">&#39;ad_isFont&#39;</span>
+<span class="n">AD_LABEL_FEATURE_8</span> <span class="o">=</span> <span class="s1">&#39;ad_isFurniture&#39;</span>
+<span class="n">AD_LABEL_FEATURE_9</span> <span class="o">=</span> <span class="s1">&#39;ad_isGadget&#39;</span>
+<span class="n">AD_LABEL_FEATURE_10</span> <span class="o">=</span> <span class="s1">&#39;ad_isGames&#39;</span>
+<span class="n">AD_LABEL_FEATURE_11</span> <span class="o">=</span> <span class="s1">&#39;ad_isGraphic design&#39;</span>
+<span class="n">AD_LABEL_FEATURE_12</span> <span class="o">=</span> <span class="s1">&#39;ad_isGraphics&#39;</span>
+<span class="n">AD_LABEL_FEATURE_13</span> <span class="o">=</span> <span class="s1">&#39;ad_isJewellery&#39;</span>
+<span class="n">AD_LABEL_FEATURE_14</span> <span class="o">=</span> <span class="s1">&#39;ad_isLine&#39;</span>
+<span class="n">AD_LABEL_FEATURE_15</span> <span class="o">=</span> <span class="s1">&#39;ad_isLogo&#39;</span>
+<span class="n">AD_LABEL_FEATURE_16</span> <span class="o">=</span> <span class="s1">&#39;ad_isMagenta&#39;</span>
+<span class="n">AD_LABEL_FEATURE_17</span> <span class="o">=</span> <span class="s1">&#39;ad_isMaterial property&#39;</span>
+<span class="n">AD_LABEL_FEATURE_18</span> <span class="o">=</span> <span class="s1">&#39;ad_isMultimedia&#39;</span>
+<span class="n">AD_LABEL_FEATURE_19</span> <span class="o">=</span> <span class="s1">&#39;ad_isProduct&#39;</span>
+<span class="n">AD_LABEL_FEATURE_20</span> <span class="o">=</span> <span class="s1">&#39;ad_isRectangle&#39;</span>
+<span class="n">AD_LABEL_FEATURE_21</span> <span class="o">=</span> <span class="s1">&#39;ad_isSkin&#39;</span>
+<span class="n">AD_LABEL_FEATURE_22</span> <span class="o">=</span> <span class="s1">&#39;ad_isTechnology&#39;</span>
+<span class="n">AD_LABEL_FEATURE_23</span> <span class="o">=</span> <span class="s1">&#39;ad_isText&#39;</span>
+<span class="n">AD_LABEL_FEATURE_24</span> <span class="o">=</span> <span class="s1">&#39;ad_isVehicle&#39;</span>
+<span class="n">AD_LABEL_FEATURE_25</span> <span class="o">=</span> <span class="s1">&#39;ad_isYellow&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_1</span> <span class="o">=</span> <span class="s1">&#39;ad_isAdult_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_2</span> <span class="o">=</span><span class="s1">&#39;ad_isAdult_VERY_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_3</span> <span class="o">=</span><span class="s1">&#39;ad_isSpoof_POSSIBLE&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_4</span> <span class="o">=</span><span class="s1">&#39;ad_isSpoof_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_5</span> <span class="o">=</span><span class="s1">&#39;ad_isSpoof_VERY_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_6</span> <span class="o">=</span><span class="s1">&#39;ad_isMedical_POSSIBLE&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_7</span> <span class="o">=</span><span class="s1">&#39;ad_isMedical_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_8</span> <span class="o">=</span><span class="s1">&#39;ad_isMedical_VERY_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_9</span> <span class="o">=</span><span class="s1">&#39;ad_isViolence_VERY_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_10</span> <span class="o">=</span><span class="s1">&#39;ad_isRacy_POSSIBLE&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_11</span> <span class="o">=</span><span class="s1">&#39;ad_isRacy_UNLIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_12</span> <span class="o">=</span><span class="s1">&#39;ad_isRacy_VERY_LIKELY&#39;</span>
+<span class="n">AD_SAFESEARCH_FEATURE_13</span> <span class="o">=</span><span class="s1">&#39;ad_isRacy_VERY_UNLIKELY&#39;</span>
 
 <span class="c1"># Read all columns as strings to avoid any errors</span>
 <span class="n">COL_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
@@ -13328,6 +13473,18 @@ Solving environment: done
     <span class="n">ADFILEPATH</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">GENDER_F</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">GENDER_M</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_CANADA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_CZECHREPUBLIC</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_GREATBRITAIN</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_INDIA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_ITALY</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_PHILLIPINES</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_ROMANIA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_SAUDIARABIA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_SINGAPORE</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">RATING</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
     <span class="n">AD_NUM_FACES</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span>
 <span class="p">}</span>
@@ -13338,15 +13495,25 @@ Solving environment: done
 <span class="c1">#                  UNFAVE6, RATING]</span>
 
 <span class="n">AD_FACE_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AD_NUM_FACES</span><span class="p">]</span>
-<span class="n">AD_LABEL_COLS</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">AD_LABEL_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AD_LABEL_FEATURE_1</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_2</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_3</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_4</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_5</span><span class="p">,</span>
+                <span class="n">AD_LABEL_FEATURE_6</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_7</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_8</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_9</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_10</span><span class="p">,</span>
+                <span class="n">AD_LABEL_FEATURE_11</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_12</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_13</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_14</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_15</span><span class="p">,</span>
+                <span class="n">AD_LABEL_FEATURE_16</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_17</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_18</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_19</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_20</span><span class="p">,</span>
+                <span class="n">AD_LABEL_FEATURE_21</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_22</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_23</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_24</span><span class="p">,</span><span class="n">AD_LABEL_FEATURE_25</span><span class="p">]</span>
 <span class="n">AD_OBJECT_COLS</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">AD_SAFE_SEARCH_COLS</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">AD_SAFE_SEARCH_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_1</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_2</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_3</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_4</span><span class="p">,</span>
+                      <span class="n">AD_SAFESEARCH_FEATURE_5</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_6</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_7</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_8</span><span class="p">,</span>
+                      <span class="n">AD_SAFESEARCH_FEATURE_9</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_10</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_11</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_12</span><span class="p">,</span><span class="n">AD_SAFESEARCH_FEATURE_13</span><span class="p">]</span>
 
 
-<span class="n">SELECTED_AD_COLS</span> <span class="o">=</span> <span class="n">AD_FACE_COLS</span> <span class="o">+</span> <span class="n">AD_LABEL_COLS</span> <span class="o">+</span> <span class="n">AD_OBJECT_COLS</span> <span class="o">+</span> <span class="n">AD_SAFE_SEARCH_COLS</span>
+<span class="n">SELECTED_AD_COLS</span> <span class="o">=</span> <span class="n">AD_FACE_COLS</span>  <span class="o">+</span> <span class="n">AD_LABEL_COLS</span> <span class="o">+</span> <span class="n">AD_OBJECT_COLS</span> <span class="o">+</span> <span class="n">AD_SAFE_SEARCH_COLS</span>
 
+<span class="n">SELECTED_HOMECOUNTRY_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">HOMECOUNTRY_CANADA</span><span class="p">,</span> <span class="n">HOMECOUNTRY_CZECHREPUBLIC</span><span class="p">,</span> <span class="n">HOMECOUNTRY_GREATBRITAIN</span><span class="p">,</span>
+                             <span class="n">HOMECOUNTRY_INDIA</span><span class="p">,</span> <span class="n">HOMECOUNTRY_ITALY</span><span class="p">,</span> <span class="n">HOMECOUNTRY_PHILLIPINES</span><span class="p">,</span> <span class="n">HOMECOUNTRY_ROMANIA</span><span class="p">,</span>
+                             <span class="n">HOMECOUNTRY_SAUDIARABIA</span><span class="p">,</span> <span class="n">HOMECOUNTRY_SINGAPORE</span><span class="p">,</span> <span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">,</span>
+                             <span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">,</span> <span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span>
 
-<span class="n">SELECTED_INP_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">GENDER_F</span><span class="p">,</span> <span class="n">GENDER_M</span><span class="p">]</span> <span class="o">+</span> <span class="n">SELECTED_AD_COLS</span>
+<span class="n">SELECTED_INP_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">,</span> <span class="n">FAVE_SPORTS</span><span class="p">,</span> <span class="n">GENDER_F</span><span class="p">,</span> <span class="n">GENDER_M</span><span class="p">]</span> <span class="o">+</span> <span class="n">SELECTED_AD_COLS</span> <span class="o">+</span> <span class="n">SELECTED_HOMECOUNTRY_COLS</span>
 <span class="n">SELECTED_COLS</span> <span class="o">=</span> <span class="n">SELECTED_INP_COLS</span> <span class="o">+</span> <span class="p">[</span><span class="n">TARGET_COL</span><span class="p">]</span>
 
 <span class="n">SELECTED_COLS</span>
@@ -13362,7 +13529,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -13374,6 +13541,56 @@ Solving environment: done
  &#39;Gender_F&#39;,
  &#39;Gender_M&#39;,
  &#39;ad_num_faces&#39;,
+ &#39;ad_isAdvertising&#39;,
+ &#39;ad_isBrand&#39;,
+ &#39;ad_isElectronic device&#39;,
+ &#39;ad_isElectronics&#39;,
+ &#39;ad_isFashion accessory&#39;,
+ &#39;ad_isFictional character&#39;,
+ &#39;ad_isFont&#39;,
+ &#39;ad_isFurniture&#39;,
+ &#39;ad_isGadget&#39;,
+ &#39;ad_isGames&#39;,
+ &#39;ad_isGraphic design&#39;,
+ &#39;ad_isGraphics&#39;,
+ &#39;ad_isJewellery&#39;,
+ &#39;ad_isLine&#39;,
+ &#39;ad_isLogo&#39;,
+ &#39;ad_isMagenta&#39;,
+ &#39;ad_isMaterial property&#39;,
+ &#39;ad_isMultimedia&#39;,
+ &#39;ad_isProduct&#39;,
+ &#39;ad_isRectangle&#39;,
+ &#39;ad_isSkin&#39;,
+ &#39;ad_isTechnology&#39;,
+ &#39;ad_isText&#39;,
+ &#39;ad_isVehicle&#39;,
+ &#39;ad_isYellow&#39;,
+ &#39;ad_isAdult_UNLIKELY&#39;,
+ &#39;ad_isAdult_VERY_UNLIKELY&#39;,
+ &#39;ad_isSpoof_POSSIBLE&#39;,
+ &#39;ad_isSpoof_UNLIKELY&#39;,
+ &#39;ad_isSpoof_VERY_UNLIKELY&#39;,
+ &#39;ad_isMedical_POSSIBLE&#39;,
+ &#39;ad_isMedical_UNLIKELY&#39;,
+ &#39;ad_isMedical_VERY_UNLIKELY&#39;,
+ &#39;ad_isViolence_VERY_UNLIKELY&#39;,
+ &#39;ad_isRacy_POSSIBLE&#39;,
+ &#39;ad_isRacy_UNLIKELY&#39;,
+ &#39;ad_isRacy_VERY_LIKELY&#39;,
+ &#39;ad_isRacy_VERY_UNLIKELY&#39;,
+ &#39;Homecountry_Canada&#39;,
+ &#39;Homecountry_CzechRepublic&#39;,
+ &#39;Homecountry_GreatBritain&#39;,
+ &#39;Homecountry_India&#39;,
+ &#39;Homecountry_Italy&#39;,
+ &#39;Homecountry_Phillipines&#39;,
+ &#39;Homecountry_Romania&#39;,
+ &#39;Homecountry_SaudiArabia&#39;,
+ &#39;Homecountry_Singapore&#39;,
+ &#39;Homecountry_Slovenia&#39;,
+ &#39;Homecountry_UnitedKingdom&#39;,
+ &#39;Homecountry_UnitedStatesofAmerica&#39;,
  &#39;Rating&#39;]</pre>
 </div>
 
@@ -13385,7 +13602,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ad_dataset_pd</span><span class="p">():</span>
@@ -13399,7 +13616,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ad_dataset_pd</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -13415,7 +13632,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -13444,72 +13661,146 @@ Solving environment: done
       <th>Rating</th>
       <th>Gender_F</th>
       <th>Gender_M</th>
-      <th>ad_num_faces</th>
+      <th>Homecountry_Canada</th>
+      <th>Homecountry_CzechRepublic</th>
+      <th>Homecountry_GreatBritain</th>
+      <th>Homecountry_India</th>
+      <th>...</th>
+      <th>ad_isSpoof_UNLIKELY</th>
+      <th>ad_isSpoof_VERY_UNLIKELY</th>
+      <th>ad_isMedical_POSSIBLE</th>
+      <th>ad_isMedical_UNLIKELY</th>
+      <th>ad_isMedical_VERY_UNLIKELY</th>
+      <th>ad_isViolence_VERY_UNLIKELY</th>
+      <th>ad_isRacy_POSSIBLE</th>
+      <th>ad_isRacy_UNLIKELY</th>
+      <th>ad_isRacy_VERY_LIKELY</th>
+      <th>ad_isRacy_VERY_UNLIKELY</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>25018</th>
-      <td>27</td>
-      <td>CM20 1AY</td>
-      <td>Indoor sports, Olympic sports‎</td>
-      <td>5.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>21370</th>
-      <td>52</td>
-      <td>LE9 6RG</td>
-      <td>Individual sports‎ (Tennis, Archery, ...)</td>
-      <td>3.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>35172</th>
-      <td>18</td>
-      <td>94401-2727</td>
-      <td>I do not like Sports</td>
-      <td>4.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>5649</th>
-      <td>55</td>
-      <td>98684-9440</td>
-      <td>Individual sports‎ (Tennis, Archery, ...)</td>
-      <td>3.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>19245</th>
-      <td>49</td>
-      <td>H4N 2Z1</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
-      <td>2.0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>20877</th>
-      <td>31</td>
-      <td>R2V 3X9</td>
-      <td>Winter sports</td>
+      <th>34306</th>
+      <td>21</td>
+      <td>L5M 7X7</td>
+      <td>Indoor sports</td>
       <td>1.0</td>
       <td>1</td>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>6315</th>
+      <th>16097</th>
+      <td>21</td>
+      <td>E82 2J4</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
+      <td>2.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7056</th>
+      <td>33</td>
+      <td>60660</td>
+      <td>Equestrian sports‎</td>
+      <td>2.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7982</th>
+      <td>19</td>
+      <td>N2K4C2</td>
+      <td>Team sports (Footbal, Baseball, Rugby, ...) , ...</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1182</th>
+      <td>24</td>
+      <td>NW1 1EU</td>
+      <td>Individual sports‎ (Tennis, Archery, ...)</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6405</th>
       <td>27</td>
       <td>90650</td>
       <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
@@ -13517,39 +13808,120 @@ Solving environment: done
       <td>1</td>
       <td>0</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>3873</th>
-      <td>18</td>
-      <td>2380</td>
-      <td>Endurance sports</td>
+      <th>18518</th>
+      <td>48</td>
+      <td>t6c 3e8</td>
+      <td>Indoor sports, Precision sports‎ (Golf, Bowlin...</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>32941</th>
+      <td>52</td>
+      <td>7095</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5894</th>
+      <td>22</td>
+      <td>11415</td>
+      <td>Individual sports‎ (Tennis, Archery, ...), Tea...</td>
       <td>1.0</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>4888</th>
-      <td>20</td>
-      <td>2494</td>
+      <th>16825</th>
+      <td>25</td>
+      <td>CH44 4BW</td>
       <td>I do not like Sports</td>
-      <td>2.0</td>
+      <td>1.0</td>
+      <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-    </tr>
-    <tr>
-      <th>14472</th>
-      <td>30</td>
-      <td>77566</td>
-      <td>Olympic sports‎, Precision sports‎ (Golf, Bowl...</td>
-      <td>3.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>9</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
+<p>10 rows × 57 columns</p>
 </div>
 </div>
 
@@ -13568,7 +13940,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -13582,21 +13954,21 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IndexerForVocab</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_list</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">oov_index</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_list</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">oov_index</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a string indexer for the vocabulary with out of vocabulary (oov) indexing</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_vocab_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vocab_list</span><span class="p">)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_oov</span> <span class="o">=</span> <span class="n">oov_index</span>
         
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Map for {len(self)} keys with 1 OOV key&quot;</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;Map for {len(self)} keys with 1 OOV key&quot;</span>
     
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vocab_map</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         
     <span class="k">def</span> <span class="nf">index_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -13624,7 +13996,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb</span>
@@ -13639,7 +14011,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -13647,7 +14019,7 @@ Solving environment: done
     <span class="k">try</span><span class="p">:</span>
         <span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">age_str</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="n">MAX_AGE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{age}</span><span class="s2"> is not a valid age&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{age}</span><span class="s2"> is not a valid age&quot;</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">age</span> <span class="o">=</span> <span class="n">default_age</span>
     <span class="n">normalized_age</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">-</span> <span class="n">MEAN_AGE</span><span class="p">)</span> <span class="o">/</span> <span class="n">STD_AGE</span>
@@ -13668,7 +14040,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
@@ -13684,7 +14056,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[12]:</div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
 
@@ -13713,7 +14085,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">,</span> <span class="n">FIRST_K_ZIP_DIGITS</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span><span class="p">,</span> <span class="mi">2</span>
@@ -13728,7 +14100,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code_tensor</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -13770,7 +14142,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
@@ -13791,7 +14163,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -13830,7 +14202,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">FAV_SPORTS_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNK_SPORT&quot;</span>
@@ -13850,7 +14222,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -13867,7 +14239,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fav_sports_multi_select_str_to_list</span><span class="p">(</span><span class="n">sports_str</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -13905,7 +14277,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
@@ -13926,7 +14298,7 @@ Solving environment: done
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -13953,7 +14325,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RATINGS_CARDINALITY</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># not zero based indexing i.e. ratings range from 1 to 5</span>
@@ -13966,7 +14338,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target_pd</span><span class="p">(</span><span class="n">rating_str</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -13987,7 +14359,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -13998,6 +14370,60 @@ Solving environment: done
     <span class="n">df</span><span class="p">[</span><span class="n">GENDER_F</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">GENDER_F</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gender_f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">gender_f</span><span class="p">)])</span>
     <span class="n">df</span><span class="p">[</span><span class="n">GENDER_M</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">GENDER_M</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gender_m</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">gender_m</span><span class="p">)])</span>
     <span class="n">df</span><span class="p">[</span><span class="n">AD_NUM_FACES</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_NUM_FACES</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ad_num_faces</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">ad_num_faces</span><span class="p">)])</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_1</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_2</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_3</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_3</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_4</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_4</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_5</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_5</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_6</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_6</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_7</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_7</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_8</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_8</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_9</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_9</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_10</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_10</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_11</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_11</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_12</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_12</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_13</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_13</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_14</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_14</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_15</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_15</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_16</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_16</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_17</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_17</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_18</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_18</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_19</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_19</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_20</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_20</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_21</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_21</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_22</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_22</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_23</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_23</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_24</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_24</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_25</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_LABEL_FEATURE_25</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_1</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_2</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_3</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_3</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_4</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_4</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_5</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_5</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_6</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_6</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_7</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_7</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_8</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_8</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_9</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_9</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_10</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_10</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_11</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_11</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_12</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_12</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_13</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">AD_SAFESEARCH_FEATURE_13</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+            
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_CANADA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_CANADA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_CZECHREPUBLIC</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_CZECHREPUBLIC</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_GREATBRITAIN</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_GREATBRITAIN</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_INDIA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_INDIA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_ITALY</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_ITALY</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_PHILLIPINES</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_PHILLIPINES</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_ROMANIA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_ROMANIA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SAUDIARABIA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SAUDIARABIA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SINGAPORE</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SINGAPORE</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_SLOVENIA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDKINGDOM</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">HOMECOUNTRY_UNITEDSTATESOFAMERICA</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)])</span>
+    
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">inp_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># TODO: vectorize, else inefficient to sequentially loop over all example</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]])</span>
@@ -14011,7 +14437,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -14029,7 +14455,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_pd</span><span class="p">(</span><span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">SELECTED_INP_COLS</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">fraction</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -14053,10 +14479,10 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tensorboard</span> <span class="kn">import</span> <span class="n">notebook</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tensorboard</span> <span class="k">import</span> <span class="n">notebook</span>
 </pre></div>
 
     </div>
@@ -14066,7 +14492,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">reload_ext</span> tensorboard
@@ -14087,7 +14513,7 @@ Solving environment: done
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">tensorboard</span> --logdir logs --port 6006
@@ -14109,11 +14535,30 @@ Solving environment: done
 
 
 <div class="output_text output_subarea ">
-<pre>ERROR: Failed to launch TensorBoard (exited with 255).
-Contents of stderr:
-W0430 21:14:07.963954 123145362190336 plugin_event_accumulator.py:294] Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
-E0430 21:14:08.979719 4556328384 program.py:288] TensorBoard could not bind to port 6006, it was already in use
-ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
+<pre>Reusing TensorBoard on port 6006 (pid 77956), started 6:36:47 ago. (Use &#39;!kill 77956&#39; to kill it.)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+
+      <iframe id="tensorboard-frame-aa2e498f48cd5e44" width="100%" height="800" frameborder="0">
+      </iframe>
+      <script>
+        (function() {
+          const frame = document.getElementById("tensorboard-frame-aa2e498f48cd5e44");
+          const url = new URL("/", window.location);
+          url.port = 6006;
+          frame.src = url;
+        })();
+      </script>
+  
 </div>
 
 </div>
@@ -14124,7 +14569,7 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">notebook</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -14144,7 +14589,8 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>No known TensorBoard instances running.
+<pre>Known TensorBoard instances:
+  - port 6006: logdir logs (started 6:36:47 ago; pid 77956)
 </pre>
 </div>
 </div>
@@ -14163,13 +14609,13 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
 
-<span class="c1"># train_dataset = input_fn_train(BATCH_SIZE)</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">create_dataset_pd</span><span class="p">()</span>
+# train_dataset = input_fn_train(BATCH_SIZE)
+X, y = create_dataset_pd()
 </pre></div>
 
     </div>
@@ -14186,8 +14632,8 @@ ERROR: TensorBoard could not bind to port 6006, it was already in use</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 12.4 s, sys: 266 ms, total: 12.6 s
-Wall time: 13 s
+<pre>CPU times: user 1min 5s, sys: 690 ms, total: 1min 6s
+Wall time: 1min 6s
 </pre>
 </div>
 </div>
@@ -14198,7 +14644,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># tf.keras.metrics.SensitivityAtSpecificity(name=&quot;ss&quot;)  # For false positive rate</span>
@@ -14223,7 +14669,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># DON&#39;T CHANGE THE EPOCHS VALUE</span>
@@ -14238,7 +14684,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span>
@@ -14247,17 +14693,35 @@ Wall time: 13 s
     <span class="n">histogram_freq</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ceil</span><span class="p">(</span><span class="n">EPOCHS</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)),</span> <span class="c1"># to control the amount of logging</span>
 <span class="c1">#     embeddings_freq=epochs,</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logging tensorboard data at </span><span class="si">{logdir}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Logging tensorboard data at </span><span class="si">{logdir}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Logging tensorboard data at logs/20200502-004149
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
@@ -14284,32 +14748,100 @@ Wall time: 13 s
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: &#34;sequential&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense (Dense)                (None, 20)                3920      
+_________________________________________________________________
+dense_1 (Dense)              (None, 5)                 105       
+=================================================================
+Total params: 4,025
+Trainable params: 4,025
+Non-trainable params: 0
+_________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
 
-<span class="n">train_histories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-    <span class="n">BATCH_SIZE</span><span class="p">,</span>
-    <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> 
-    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tensorboard_callback</span><span class="p">,</span> <span class="n">tfdocs</span><span class="o">.</span><span class="n">modeling</span><span class="o">.</span><span class="n">EpochDots</span><span class="p">()],</span>
-    <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span>
-<span class="p">))</span>
+train_histories.append(model.fit(
+    X, y,
+    BATCH_SIZE,
+    epochs=EPOCHS, 
+    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],
+    validation_split=0.2,
+    verbose=0
+))
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Epoch: 0, accuracy:0.4198,  auc:0.6641,  fn:28722.0000,  fp:67.0000,  loss:1.5080,  precision:0.5379,  recall:0.0027,  tn:115133.0000,  tp:78.0000,  val_accuracy:0.5646,  val_auc:0.7276,  val_fn:6600.0000,  val_fp:418.0000,  val_loss:1.3449,  val_precision:0.5894,  val_recall:0.0833,  val_tn:28382.0000,  val_tp:600.0000,  
+....................................................................................................
+Epoch: 100, accuracy:0.6224,  auc:0.8696,  fn:14109.0000,  fp:5441.0000,  loss:1.0069,  precision:0.7297,  recall:0.5101,  tn:109759.0000,  tp:14691.0000,  val_accuracy:0.6250,  val_auc:0.8674,  val_fn:3572.0000,  val_fp:1314.0000,  val_loss:1.0136,  val_precision:0.7341,  val_recall:0.5039,  val_tn:27486.0000,  val_tp:3628.0000,  
+....................................................................................................
+Epoch: 200, accuracy:0.6281,  auc:0.8750,  fn:14437.0000,  fp:4877.0000,  loss:0.9862,  precision:0.7465,  recall:0.4987,  tn:110323.0000,  tp:14363.0000,  val_accuracy:0.6228,  val_auc:0.8704,  val_fn:3501.0000,  val_fp:1333.0000,  val_loss:1.0029,  val_precision:0.7351,  val_recall:0.5138,  val_tn:27467.0000,  val_tp:3699.0000,  
+....................................................................................................
+Epoch: 300, accuracy:0.6297,  auc:0.8781,  fn:13995.0000,  fp:5230.0000,  loss:0.9743,  precision:0.7390,  recall:0.5141,  tn:109970.0000,  tp:14805.0000,  val_accuracy:0.6276,  val_auc:0.8707,  val_fn:3661.0000,  val_fp:1214.0000,  val_loss:1.0005,  val_precision:0.7446,  val_recall:0.4915,  val_tn:27586.0000,  val_tp:3539.0000,  
+....................................................................................................
+Epoch: 400, accuracy:0.6335,  auc:0.8796,  fn:14386.0000,  fp:4729.0000,  loss:0.9686,  precision:0.7530,  recall:0.5005,  tn:110471.0000,  tp:14414.0000,  val_accuracy:0.6254,  val_auc:0.8715,  val_fn:3484.0000,  val_fp:1377.0000,  val_loss:0.9994,  val_precision:0.7296,  val_recall:0.5161,  val_tn:27423.0000,  val_tp:3716.0000,  
+....................................................................................................
+Epoch: 500, accuracy:0.6342,  auc:0.8813,  fn:14112.0000,  fp:4902.0000,  loss:0.9613,  precision:0.7498,  recall:0.5100,  tn:110298.0000,  tp:14688.0000,  val_accuracy:0.6283,  val_auc:0.8725,  val_fn:3474.0000,  val_fp:1377.0000,  val_loss:0.9965,  val_precision:0.7302,  val_recall:0.5175,  val_tn:27423.0000,  val_tp:3726.0000,  
+....................................................................................................
+Epoch: 600, accuracy:0.6352,  auc:0.8825,  fn:14064.0000,  fp:4852.0000,  loss:0.9565,  precision:0.7523,  recall:0.5117,  tn:110348.0000,  tp:14736.0000,  val_accuracy:0.6265,  val_auc:0.8730,  val_fn:3468.0000,  val_fp:1373.0000,  val_loss:0.9945,  val_precision:0.7310,  val_recall:0.5183,  val_tn:27427.0000,  val_tp:3732.0000,  
+....................................................................................................
+Epoch: 700, accuracy:0.6373,  auc:0.8832,  fn:14209.0000,  fp:4662.0000,  loss:0.9544,  precision:0.7579,  recall:0.5066,  tn:110538.0000,  tp:14591.0000,  val_accuracy:0.6269,  val_auc:0.8727,  val_fn:3489.0000,  val_fp:1342.0000,  val_loss:0.9945,  val_precision:0.7344,  val_recall:0.5154,  val_tn:27458.0000,  val_tp:3711.0000,  
+....................................................................................................
+Epoch: 800, accuracy:0.6402,  auc:0.8845,  fn:13984.0000,  fp:4866.0000,  loss:0.9487,  precision:0.7528,  recall:0.5144,  tn:110334.0000,  tp:14816.0000,  val_accuracy:0.6243,  val_auc:0.8722,  val_fn:3615.0000,  val_fp:1242.0000,  val_loss:0.9953,  val_precision:0.7427,  val_recall:0.4979,  val_tn:27558.0000,  val_tp:3585.0000,  
+....................................................................................................
+Epoch: 900, accuracy:0.6398,  auc:0.8851,  fn:13917.0000,  fp:4808.0000,  loss:0.9459,  precision:0.7558,  recall:0.5168,  tn:110392.0000,  tp:14883.0000,  val_accuracy:0.6240,  val_auc:0.8735,  val_fn:3465.0000,  val_fp:1376.0000,  val_loss:0.9939,  val_precision:0.7308,  val_recall:0.5188,  val_tn:27424.0000,  val_tp:3735.0000,  
+....................................................................................................CPU times: user 13min 29s, sys: 1min 53s, total: 15min 23s
+Wall time: 3min 50s
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_histories</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="c1"># pick the latest training history</span>
@@ -14327,7 +14859,7 @@ Wall time: 13 s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[51]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -14373,24 +14905,24 @@ Wall time: 13 s
   <tbody>
     <tr>
       <th>999</th>
-      <td>1.001743</td>
-      <td>0.616771</td>
-      <td>14620.0</td>
-      <td>5769.0</td>
-      <td>109431.0</td>
-      <td>14180.0</td>
-      <td>0.717053</td>
-      <td>0.507639</td>
-      <td>0.869949</td>
-      <td>1.02381</td>
-      <td>0.613056</td>
-      <td>3616.0</td>
-      <td>1479.0</td>
-      <td>27321.0</td>
-      <td>3584.0</td>
-      <td>0.709715</td>
-      <td>0.502222</td>
-      <td>0.865014</td>
+      <td>0.944639</td>
+      <td>0.639722</td>
+      <td>14817.0</td>
+      <td>4824.0</td>
+      <td>110376.0</td>
+      <td>13983.0</td>
+      <td>0.754391</td>
+      <td>0.514479</td>
+      <td>0.885396</td>
+      <td>0.995335</td>
+      <td>0.621528</td>
+      <td>3638.0</td>
+      <td>1271.0</td>
+      <td>27529.0</td>
+      <td>3562.0</td>
+      <td>0.741088</td>
+      <td>0.505278</td>
+      <td>0.872454</td>
     </tr>
   </tbody>
 </table>
@@ -14437,13 +14969,34 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">((</span><span class="n">logdir</span><span class="o">/</span><span class="s2">&quot;keras_saved_model&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span> <span class="n">save_format</span><span class="o">=</span><span class="s2">&quot;tf&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>WARNING:tensorflow:From /export/apps/python/3.6.1/lib/python3.6/site-packages/tensorflow_core/python/ops/resource_variable_ops.py:1786: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+INFO:tensorflow:Assets written to: logs/20200502-004149/keras_saved_model/assets
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -14457,7 +15010,7 @@ Wall time: 13 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">PredictionReport</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PredictionReport&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities predicted_rating confidence&quot;</span><span class="p">)</span>
@@ -14475,6 +15028,80 @@ Wall time: 13 s
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">/usr/local/lib/python3.7/site-packages/pandas/core/indexes/base.py</span> in <span class="ansi-cyan-fg">get_loc</span><span class="ansi-blue-fg">(self, key, method, tolerance)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2896</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2897</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2898</span>             <span class="ansi-green-fg">except</span> KeyError<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-red-fg">KeyError</span>: &#39;Gender_F&#39;
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-35-fd508781cf61&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> })
+<span class="ansi-green-intense-fg ansi-bold">      8</span> 
+<span class="ansi-green-fg">----&gt; 9</span><span class="ansi-red-fg"> </span>probabilities <span class="ansi-blue-fg">=</span> model<span class="ansi-blue-fg">.</span>predict<span class="ansi-blue-fg">(</span>transform_pd_X<span class="ansi-blue-fg">(</span>test_df<span class="ansi-blue-fg">,</span> SELECTED_INP_COLS<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     10</span> predicted_rating<span class="ansi-blue-fg">,</span> confidence <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>argmax<span class="ansi-blue-fg">(</span>probabilities<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> np<span class="ansi-blue-fg">.</span>max<span class="ansi-blue-fg">(</span>probabilities<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span> 
+
+<span class="ansi-green-fg">&lt;ipython-input-20-2f8a9d0f9e47&gt;</span> in <span class="ansi-cyan-fg">transform_pd_X</span><span class="ansi-blue-fg">(df, inp_cols)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     df<span class="ansi-blue-fg">[</span>ZIP_CODE<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">[</span>ZIP_CODE<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>apply<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">lambda</span> zc<span class="ansi-blue-fg">:</span> fix_zip_code<span class="ansi-blue-fg">(</span>zc<span class="ansi-blue-fg">,</span> n_digits<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> indexer<span class="ansi-blue-fg">=</span>zip_code_indexer<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     df<span class="ansi-blue-fg">[</span>FAVE_SPORTS<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">[</span>FAVE_SPORTS<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>apply<span class="ansi-blue-fg">(</span>fix_fav_sports_mlb<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg">     </span>df<span class="ansi-blue-fg">[</span>GENDER_F<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">[</span>GENDER_F<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>apply<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">lambda</span> gender_f<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>int<span class="ansi-blue-fg">(</span>gender_f<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>     df<span class="ansi-blue-fg">[</span>GENDER_M<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">[</span>GENDER_M<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>apply<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">lambda</span> gender_m<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>int<span class="ansi-blue-fg">(</span>gender_m<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span>     df<span class="ansi-blue-fg">[</span>AD_NUM_FACES<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">[</span>AD_NUM_FACES<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>apply<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">lambda</span> ad_num_faces<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>int<span class="ansi-blue-fg">(</span>ad_num_faces<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.7/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2993</span>             <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>columns<span class="ansi-blue-fg">.</span>nlevels <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   2994</span>                 <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_getitem_multilevel<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 2995</span><span class="ansi-red-fg">             </span>indexer <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>columns<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2996</span>             <span class="ansi-green-fg">if</span> is_integer<span class="ansi-blue-fg">(</span>indexer<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   2997</span>                 indexer <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>indexer<span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.7/site-packages/pandas/core/indexes/base.py</span> in <span class="ansi-cyan-fg">get_loc</span><span class="ansi-blue-fg">(self, key, method, tolerance)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2897</span>                 <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2898</span>             <span class="ansi-green-fg">except</span> KeyError<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2899</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_maybe_cast_indexer<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2900</span>         indexer <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_indexer<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>key<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> method<span class="ansi-blue-fg">=</span>method<span class="ansi-blue-fg">,</span> tolerance<span class="ansi-blue-fg">=</span>tolerance<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2901</span>         <span class="ansi-green-fg">if</span> indexer<span class="ansi-blue-fg">.</span>ndim <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">1</span> <span class="ansi-green-fg">or</span> indexer<span class="ansi-blue-fg">.</span>size <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-red-fg">KeyError</span>: &#39;Gender_F&#39;</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -14556,7 +15183,7 @@ Wall time: 13 s
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">zip_fcs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">indicator_column</span><span class="p">(</span>
         <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">categorical_column_with_vocabulary_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{ZIP_CODE}{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vocabulary_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">),</span> 
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{ZIP_CODE}{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vocabulary_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">),</span> 
             <span class="n">num_oov_buckets</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">FIRST_K_ZIP_DIGITS</span><span class="p">)</span>
