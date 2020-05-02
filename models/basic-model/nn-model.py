@@ -1,29 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Neural Network Model
-# 
-# The aim of the notebook is demo end to end pipeline for Ads prediction in Tensorflow
-
-# In[1]:
-
-
-get_ipython().system(' ./setup.sh')
-
-
-# In[36]:
-
-
-get_ipython().system('pip install git+https://github.com/tensorflow/docs')
-
-
-# In[39]:
-
-
-get_ipython().system('pip3 install -q git+https://github.com/tensorflow/docs --user')
-
-
-# In[1]:
+# ! ./setup.sh # uncomment if you wish to install any new packages
 
 
 import tensorflow as tf
@@ -44,10 +22,10 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from math import ceil
 from collections import namedtuple
 
+
+pd.set_option('display.max_rows', None)
+
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
-
-
-# In[2]:
 
 
 RANDOM_SEED = int(time.time())
@@ -58,31 +36,12 @@ np.random.seed(RANDOM_SEED)
 print(f"Using random seed, {RANDOM_SEED}")
 
 
-# ## Load Data
-# 
-# Dataset credits:
-# ```
-# @inproceedings{roffo2016personality,
-#   title={Personality in computational advertising: A benchmark},
-#   author={Roffo, Giorgio and Vinciarelli, Alessandro},
-#   booktitle={4 th Workshop on Emotions and Personality in Personalized Systems (EMPIRE) 2016},
-#   pages={18},
-#   year={2016}
-# }
-# ```
-
-# In[3]:
-
-
 DATA_FOLDER = Path("../../dataset/")
 BATCH_SIZE = 4096 # bigger the batch, faster the training but bigger the RAM needed
 TARGET_COL = "Rating"
 
 # data files path are relative DATA_FOLDER
 users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
-
-
-# In[4]:
 
 
 USER_ID = "UserId"
@@ -291,10 +250,6 @@ COL_DEFAULTS = {
     AD_NUM_FACES: "**"
 }
 
-# SELECTED_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER, HOME_COUNTRY, HOME_TOWN, INCOME, MOST_LISTENED_MUSICS, MOST_READ_BOOKS, 
-#                  MOST_VISITED_WEBSITES, MOST_WATCHED_MOVIES, MOST_WATCHED_TV_PROGRAMMES, TIMEPASS, TYPE_OF_JOB, WEEKLY_WORKING_HOURS, 
-#                  FAVE1, FAVE2, FAVE3, FAVE4, FAVE5, FAVE6, FAVE7, FAVE8, FAVE9, FAVE10, UNFAVE1, UNFAVE2, UNFAVE3, UNFAVE4, UNFAVE5, 
-#                  UNFAVE6, RATING]
 
 AD_FACE_COLS = [AD_NUM_FACES]
 AD_LABEL_COLS = [AD_LABEL_FEATURE_1,AD_LABEL_FEATURE_2,AD_LABEL_FEATURE_3,AD_LABEL_FEATURE_4,AD_LABEL_FEATURE_5,
@@ -330,32 +285,18 @@ SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +          
 
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
-SELECTED_COLS
-
-
-# In[5]:
+print(SELECTED_COLS)
 
 
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
 
 
-# In[6]:
-
-
-ad_dataset_pd().sample(10)
-
-
-# ## Transform Data
-
-# In[7]:
+ad_dataset_pd().sample(5).T
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
-
-
-# In[8]:
 
 
 class IndexerForVocab:
@@ -382,19 +323,9 @@ class IndexerForVocab:
         return [self.index_of(i) for i in items]
 
 
-# ### Age
-# 
-# Convert to a number and remove any outliers
-
-# In[9]:
-
-
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
 
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
-
-
-# In[10]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -409,27 +340,12 @@ def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
     return normalized_age
 
 
-# #### Visual Tests
-
-# In[11]:
-
-
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
-
-
-# ### Zip Code
-# 
-# Prepare zip-code column for one-hot encoding each character
-
-# In[12]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
-
-
-# In[13]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -457,11 +373,6 @@ def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
     return np.ravel(np.eye(len(indexer))[indexer.index_of_mux(zip_digits)])
 
 
-# #### Visual Tests
-
-# In[14]:
-
-
 test_zip_code_indexer = IndexerForVocab(string.digits)
 
 (fix_zip_code("43556", 10, test_zip_code_indexer),
@@ -470,23 +381,11 @@ fix_zip_code("43556", 4, test_zip_code_indexer),
 fix_zip_code(None, 3, test_zip_code_indexer))
 
 
-# ### Favorite Sports
-# 
-# Two approaches,
-# 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
-# 2. Multi label binarize all the sports as there are only 15 unique sports
-
-# In[15]:
-
-
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
 ALL_FAV_SPORTS = ['Olympic sports', 'Winter sports', 'Nothing', 'I do not like Sports', 'Equestrian sports', 'Skating sports', 'Precision sports', 'Hunting sports', 'Motor sports', 'Team sports', 'Individual sports', 'Other', 'Water sports', 'Indoor sports', 'Endurance sports']
 
 fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
-
-
-# In[16]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -510,11 +409,6 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
     return result
 
 
-# #### Visual Tests
-
-# In[17]:
-
-
 (
     fix_fav_sports_mlb("Individual sports (Tennis, Archery, ...), Indoor sports, Endurance sports, Skating sports"),
     fix_fav_sports_mlb("Skating sports"),
@@ -523,24 +417,11 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 )
 
 
-# ### Target
-
-# In[18]:
-
-
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
-
-
-# In[19]:
 
 
 def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
-
-
-# ## Featurize
-
-# In[20]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -548,109 +429,22 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[AGE] = df[AGE].apply(lambda age: [fix_age(age)])
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
-    df[GENDER_F] = df[GENDER_F].apply(lambda gender_f: [int(gender_f)])
-    df[GENDER_M] = df[GENDER_M].apply(lambda gender_m: [int(gender_m)])
-    df[AD_NUM_FACES] = df[AD_NUM_FACES].apply(lambda ad_num_faces: [int(ad_num_faces)])
-    
-    df[AD_LABEL_FEATURE_1] = df[AD_LABEL_FEATURE_1].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_2] = df[AD_LABEL_FEATURE_2].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_3] = df[AD_LABEL_FEATURE_3].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_4] = df[AD_LABEL_FEATURE_4].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_5] = df[AD_LABEL_FEATURE_5].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_6] = df[AD_LABEL_FEATURE_6].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_7] = df[AD_LABEL_FEATURE_7].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_8] = df[AD_LABEL_FEATURE_8].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_9] = df[AD_LABEL_FEATURE_9].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_10] = df[AD_LABEL_FEATURE_10].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_11] = df[AD_LABEL_FEATURE_11].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_12] = df[AD_LABEL_FEATURE_12].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_13] = df[AD_LABEL_FEATURE_13].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_14] = df[AD_LABEL_FEATURE_14].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_15] = df[AD_LABEL_FEATURE_15].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_16] = df[AD_LABEL_FEATURE_16].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_17] = df[AD_LABEL_FEATURE_17].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_18] = df[AD_LABEL_FEATURE_18].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_19] = df[AD_LABEL_FEATURE_19].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_20] = df[AD_LABEL_FEATURE_20].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_21] = df[AD_LABEL_FEATURE_21].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_22] = df[AD_LABEL_FEATURE_22].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_23] = df[AD_LABEL_FEATURE_23].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_24] = df[AD_LABEL_FEATURE_24].apply(lambda f: [int(f)])
-    df[AD_LABEL_FEATURE_25] = df[AD_LABEL_FEATURE_25].apply(lambda f: [int(f)])
-    
-    df[AD_SAFESEARCH_FEATURE_1] = df[AD_SAFESEARCH_FEATURE_1].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_2] = df[AD_SAFESEARCH_FEATURE_2].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_3] = df[AD_SAFESEARCH_FEATURE_3].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_4] = df[AD_SAFESEARCH_FEATURE_4].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_5] = df[AD_SAFESEARCH_FEATURE_5].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_6] = df[AD_SAFESEARCH_FEATURE_6].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_7] = df[AD_SAFESEARCH_FEATURE_7].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_8] = df[AD_SAFESEARCH_FEATURE_8].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_9] = df[AD_SAFESEARCH_FEATURE_9].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_10] = df[AD_SAFESEARCH_FEATURE_10].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_11] = df[AD_SAFESEARCH_FEATURE_11].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_12] = df[AD_SAFESEARCH_FEATURE_12].apply(lambda f: [int(f)])
-    df[AD_SAFESEARCH_FEATURE_13] = df[AD_SAFESEARCH_FEATURE_13].apply(lambda f: [int(f)])
-            
-    df[HOMECOUNTRY_CANADA] = df[HOMECOUNTRY_CANADA].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_CZECHREPUBLIC] = df[HOMECOUNTRY_CZECHREPUBLIC].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_GREATBRITAIN] = df[HOMECOUNTRY_GREATBRITAIN].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_INDIA] = df[HOMECOUNTRY_INDIA].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_ITALY] = df[HOMECOUNTRY_ITALY].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_PHILLIPINES] = df[HOMECOUNTRY_PHILLIPINES].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_ROMANIA] = df[HOMECOUNTRY_ROMANIA].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_SAUDIARABIA] = df[HOMECOUNTRY_SAUDIARABIA].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_SINGAPORE] = df[HOMECOUNTRY_SINGAPORE].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_SLOVENIA] = df[HOMECOUNTRY_SLOVENIA].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_UNITEDKINGDOM] = df[HOMECOUNTRY_UNITEDKINGDOM].apply(lambda f: [int(f)])
-    df[HOMECOUNTRY_UNITEDSTATESOFAMERICA] = df[HOMECOUNTRY_UNITEDSTATESOFAMERICA].apply(lambda f: [int(f)])
 
-    df[INCOME_0] = df[INCOME_0].apply(lambda f: [int(f)])
-    df[INCOME_1] = df[INCOME_1].apply(lambda f: [int(f)])
-    df[INCOME_2] = df[INCOME_2].apply(lambda f: [int(f)])
-    df[INCOME_3] = df[INCOME_3].apply(lambda f: [int(f)])
-
-    df[MOSTLISTENEDMUSICS_1] = df[MOSTLISTENEDMUSICS_1].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_2] = df[MOSTLISTENEDMUSICS_2].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_3] = df[MOSTLISTENEDMUSICS_3].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_4] = df[MOSTLISTENEDMUSICS_4].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_5] = df[MOSTLISTENEDMUSICS_5].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_6] = df[MOSTLISTENEDMUSICS_6].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_7] = df[MOSTLISTENEDMUSICS_7].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_8] = df[MOSTLISTENEDMUSICS_8].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_9] = df[MOSTLISTENEDMUSICS_9].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_10] = df[MOSTLISTENEDMUSICS_10].apply(lambda f: [int(f)])    
-    df[MOSTLISTENEDMUSICS_11] = df[MOSTLISTENEDMUSICS_11].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_12] = df[MOSTLISTENEDMUSICS_12].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_13] = df[MOSTLISTENEDMUSICS_13].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_14] = df[MOSTLISTENEDMUSICS_14].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_15] = df[MOSTLISTENEDMUSICS_15].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_16] = df[MOSTLISTENEDMUSICS_16].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_17] = df[MOSTLISTENEDMUSICS_17].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_18] = df[MOSTLISTENEDMUSICS_18].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_19] = df[MOSTLISTENEDMUSICS_19].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_20] = df[MOSTLISTENEDMUSICS_20].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_21] = df[MOSTLISTENEDMUSICS_21].apply(lambda f: [int(f)])
-    df[MOSTLISTENEDMUSICS_22] = df[MOSTLISTENEDMUSICS_22].apply(lambda f: [int(f)])
+    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] + AD_LABEL_COLS + AD_SAFE_SEARCH_COLS + SELECTED_HOMECOUNTRY_COLS + SELECTED_INCOME_COLS + SELECTED_MOSTLISTENEDMUSICS_COLS
+    df[int_cols] = df[int_cols].applymap(lambda f: [int(f)])
 
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
-    # TODO: vectorize, else inefficient to sequentially loop over all example
+    # TODO: vectorize, else inefficient to sequentially loop over all examples
     X = np.array([x for x in df["X"]])
     return X
-
-
-# In[21]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
     """Original dataframe will be modified"""
     df["y"] = df[target_col].apply(create_target_pd)
-    # TODO: vectorize, else inefficient to sequentially loop over all example
+    # TODO: vectorize, else inefficient to sequentially loop over all examples
     y = np.array([y for y in df["y"]])
     return y
-
-
-# In[22]:
 
 
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
@@ -659,47 +453,19 @@ def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGE
     return transform_pd_X(df, inp_cols), transform_pd_y(df, target_col)
 
 
-# ## Tensorboard
-# 
-# Monitor training and other stats
-
-# In[23]:
-
-
 from tensorboard import notebook
 
 
-# In[24]:
+get_ipython().run_line_magic('reload_ext', 'tensorboard')
 
 
-get_ipython().magic('reload_ext tensorboard')
-
-
-# Start tensorboard
-
-# In[25]:
-
-
-get_ipython().magic('tensorboard --logdir logs --port 6006')
-
-
-# In[26]:
+get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
 
 
 notebook.list()
 
 
-# ## Model
-# 
-# Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
-
-# In[23]:
-
-
 get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
-
-
-# In[24]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -717,15 +483,9 @@ keras_model_metrics = [
 train_histories = []
 
 
-# In[25]:
-
-
 # DON'T CHANGE THE EPOCHS VALUE
 BATCH_SIZE = 4096
 EPOCHS = 1000
-
-
-# In[26]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -735,9 +495,6 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 #     embeddings_freq=epochs,
 )
 print(f"Logging tensorboard data at {logdir}")
-
-
-# In[27]:
 
 
 model = tf.keras.Sequential([
@@ -760,13 +517,7 @@ model.compile(
 model.summary()
 
 
-# In[28]:
-
-
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
-
-
-# In[29]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
@@ -774,27 +525,7 @@ metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest trainin
 metrics_df.tail(1) # pick the last epoch's metrics
 
 
-# `Tip:` You can copy the final metrics row from above and paste it using `Shift + Cmd + V` in our [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130) to accurately place all values in the respective columns
-# 
-# **IMPORTANT**: Please don't forget to update git version ID column after you check-in.
-
-# ### Model Metrics with p-value
-
-# TODO
-
-# ## Export
-# 
-# Save the model for future reference
-
-# In[30]:
-
-
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
-
-
-# ## Predict
-
-# In[35]:
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
@@ -811,25 +542,10 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
-# ## Rough
-
-# ### Featurize using Feature Columns
-# 
-# Create feature columns like one-hot, embeddings, bucketing from raw features created earlier
-
-# In[ ]:
-
-
 EXAMPLE_BATCH = next(iter(input_fn_train(3)))[0]
 
 
-# In[ ]:
-
-
 EXAMPLE_BATCH
-
-
-# In[ ]:
 
 
 def test_feature_column(feature_column):
@@ -837,13 +553,7 @@ def test_feature_column(feature_column):
     return feature_layer(EXAMPLE_BATCH).numpy()
 
 
-# In[ ]:
-
-
 age_fc = tf.feature_column.numeric_column(AGE, normalizer_fn=lambda x: (x - MEAN_AGE) / STD_AGE)
-
-
-# In[ ]:
 
 
 zip_fcs = [
@@ -856,19 +566,10 @@ zip_fcs = [
 ]
 
 
-# In[ ]:
-
-
 EXAMPLE_BATCH[AGE], test_feature_column(age_fc)
 
 
-# In[ ]:
-
-
 {k: v for k, v in EXAMPLE_BATCH.items() if k.startswith(ZIP_CODE)}, test_feature_column(zip_fcs)
-
-
-# In[ ]:
 
 
 tf.keras.layers.concatenate(age_fc, zip_fcs[0])
