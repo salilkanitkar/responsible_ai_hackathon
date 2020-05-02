@@ -23,7 +23,7 @@ get_ipython().system('pip install git+https://github.com/tensorflow/docs')
 get_ipython().system('pip3 install -q git+https://github.com/tensorflow/docs --user')
 
 
-# In[30]:
+# In[1]:
 
 
 import tensorflow as tf
@@ -47,7 +47,7 @@ from collections import namedtuple
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
 
 
-# In[31]:
+# In[2]:
 
 
 RANDOM_SEED = int(time.time())
@@ -71,7 +71,7 @@ print(f"Using random seed, {RANDOM_SEED}")
 # }
 # ```
 
-# In[32]:
+# In[3]:
 
 
 DATA_FOLDER = Path("../../dataset/")
@@ -82,7 +82,7 @@ TARGET_COL = "Rating"
 users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB.csv"
 
 
-# In[33]:
+# In[4]:
 
 
 USER_ID = "UserId"
@@ -143,6 +143,29 @@ INCOME_0 = "Income_0"
 INCOME_1 = "Income_1"
 INCOME_2 = "Income_2"
 INCOME_3 = "Income_3"
+# Mostlistenedmusics
+MOSTLISTENEDMUSICS_1 = "AlternativeMusic"
+MOSTLISTENEDMUSICS_2 = "AsianPopJPoporKpop"
+MOSTLISTENEDMUSICS_3 = "Blues"
+MOSTLISTENEDMUSICS_4 = "ClassicalMusic"
+MOSTLISTENEDMUSICS_5 = "CountryMusic"
+MOSTLISTENEDMUSICS_6 = "DanceMusic"
+MOSTLISTENEDMUSICS_7 = "EasyListening"
+MOSTLISTENEDMUSICS_8 = "ElectronicMusic"
+MOSTLISTENEDMUSICS_9 = "EuropeanMusicFolkPop"
+MOSTLISTENEDMUSICS_10 = "HipHopRap"
+MOSTLISTENEDMUSICS_11 = "IndiePop"
+MOSTLISTENEDMUSICS_12 = "InspirationalinclGospel"
+MOSTLISTENEDMUSICS_13 = "Jazz"
+MOSTLISTENEDMUSICS_14 = "LatinMusic"
+MOSTLISTENEDMUSICS_15 = "NewAge"
+MOSTLISTENEDMUSICS_16 = "Opera"
+MOSTLISTENEDMUSICS_17 = "PopPopularmusic"
+MOSTLISTENEDMUSICS_18 = "RampBSoul"
+MOSTLISTENEDMUSICS_19 = "Reggae"
+MOSTLISTENEDMUSICS_20 = "Rock"
+MOSTLISTENEDMUSICS_21 = "SingerSongwriterincFolk"
+MOSTLISTENEDMUSICS_22 = "WorldMusicBeats"
 RATING = "Rating"
 AD_NUM_FACES = "ad_num_faces"
 AD_LABEL_FEATURE_1 = 'ad_isAdvertising'
@@ -242,6 +265,28 @@ COL_DEFAULTS = {
     INCOME_1: "**",
     INCOME_2: "**",
     INCOME_3: "**",
+    MOSTLISTENEDMUSICS_1: "**",
+    MOSTLISTENEDMUSICS_2: "**",
+    MOSTLISTENEDMUSICS_3: "**",
+    MOSTLISTENEDMUSICS_4: "**",
+    MOSTLISTENEDMUSICS_5: "**",
+    MOSTLISTENEDMUSICS_6: "**",
+    MOSTLISTENEDMUSICS_7: "**",
+    MOSTLISTENEDMUSICS_8: "**",
+    MOSTLISTENEDMUSICS_9: "**",
+    MOSTLISTENEDMUSICS_10: "**",
+    MOSTLISTENEDMUSICS_11: "**",
+    MOSTLISTENEDMUSICS_12: "**",
+    MOSTLISTENEDMUSICS_13: "**",
+    MOSTLISTENEDMUSICS_14: "**",
+    MOSTLISTENEDMUSICS_15: "**",
+    MOSTLISTENEDMUSICS_16: "**",
+    MOSTLISTENEDMUSICS_17: "**",
+    MOSTLISTENEDMUSICS_18: "**",
+    MOSTLISTENEDMUSICS_19: "**",
+    MOSTLISTENEDMUSICS_20: "**",
+    MOSTLISTENEDMUSICS_21: "**",
+    MOSTLISTENEDMUSICS_22: "**",
     RATING: "**",
     AD_NUM_FACES: "**"
 }
@@ -272,21 +317,30 @@ SELECTED_HOMECOUNTRY_COLS = [HOMECOUNTRY_CANADA, HOMECOUNTRY_CZECHREPUBLIC, HOME
 
 SELECTED_INCOME_COLS = [INCOME_0, INCOME_1, INCOME_2, INCOME_3]
 
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS
+SELECTED_MOSTLISTENEDMUSICS_COLS = [MOSTLISTENEDMUSICS_1, MOSTLISTENEDMUSICS_2, MOSTLISTENEDMUSICS_3,
+                                    MOSTLISTENEDMUSICS_4, MOSTLISTENEDMUSICS_5, MOSTLISTENEDMUSICS_6,
+                                    MOSTLISTENEDMUSICS_7, MOSTLISTENEDMUSICS_8, MOSTLISTENEDMUSICS_9,
+                                    MOSTLISTENEDMUSICS_10, MOSTLISTENEDMUSICS_11, MOSTLISTENEDMUSICS_12,
+                                    MOSTLISTENEDMUSICS_13, MOSTLISTENEDMUSICS_14, MOSTLISTENEDMUSICS_15,
+                                    MOSTLISTENEDMUSICS_16, MOSTLISTENEDMUSICS_17, MOSTLISTENEDMUSICS_18,
+                                    MOSTLISTENEDMUSICS_19, MOSTLISTENEDMUSICS_20, MOSTLISTENEDMUSICS_21,
+                                    MOSTLISTENEDMUSICS_22]
+
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS
 
 SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 
 SELECTED_COLS
 
 
-# In[34]:
+# In[5]:
 
 
 def ad_dataset_pd():
     return pd.read_csv(users_ads_rating_csv, usecols=SELECTED_COLS, dtype=str)
 
 
-# In[35]:
+# In[6]:
 
 
 ad_dataset_pd().sample(10)
@@ -294,14 +348,14 @@ ad_dataset_pd().sample(10)
 
 # ## Transform Data
 
-# In[36]:
+# In[7]:
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
     return {k:v for k, v in d.items() if k in cols}
 
 
-# In[37]:
+# In[8]:
 
 
 class IndexerForVocab:
@@ -332,7 +386,7 @@ class IndexerForVocab:
 # 
 # Convert to a number and remove any outliers
 
-# In[38]:
+# In[9]:
 
 
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
@@ -340,7 +394,7 @@ class IndexerForVocab:
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
 
 
-# In[39]:
+# In[10]:
 
 
 def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
@@ -357,7 +411,7 @@ def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
 
 # #### Visual Tests
 
-# In[40]:
+# In[11]:
 
 
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
@@ -367,7 +421,7 @@ fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("
 # 
 # Prepare zip-code column for one-hot encoding each character
 
-# In[41]:
+# In[12]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
@@ -375,7 +429,7 @@ DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
 
 
-# In[42]:
+# In[13]:
 
 
 def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
@@ -405,7 +459,7 @@ def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
 
 # #### Visual Tests
 
-# In[43]:
+# In[14]:
 
 
 test_zip_code_indexer = IndexerForVocab(string.digits)
@@ -422,7 +476,7 @@ fix_zip_code(None, 3, test_zip_code_indexer))
 # 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
 # 2. Multi label binarize all the sports as there are only 15 unique sports
 
-# In[44]:
+# In[15]:
 
 
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
@@ -432,7 +486,7 @@ fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
 
 
-# In[45]:
+# In[16]:
 
 
 def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
@@ -458,7 +512,7 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 
 # #### Visual Tests
 
-# In[46]:
+# In[17]:
 
 
 (
@@ -471,13 +525,13 @@ def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List
 
 # ### Target
 
-# In[47]:
+# In[18]:
 
 
 RATINGS_CARDINALITY = 5 # not zero based indexing i.e. ratings range from 1 to 5
 
 
-# In[48]:
+# In[19]:
 
 
 def create_target_pd(rating_str:str):
@@ -486,7 +540,7 @@ def create_target_pd(rating_str:str):
 
 # ## Featurize
 
-# In[49]:
+# In[20]:
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -556,13 +610,36 @@ def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     df[INCOME_2] = df[INCOME_2].apply(lambda f: [int(f)])
     df[INCOME_3] = df[INCOME_3].apply(lambda f: [int(f)])
 
+    df[MOSTLISTENEDMUSICS_1] = df[MOSTLISTENEDMUSICS_1].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_2] = df[MOSTLISTENEDMUSICS_2].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_3] = df[MOSTLISTENEDMUSICS_3].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_4] = df[MOSTLISTENEDMUSICS_4].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_5] = df[MOSTLISTENEDMUSICS_5].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_6] = df[MOSTLISTENEDMUSICS_6].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_7] = df[MOSTLISTENEDMUSICS_7].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_8] = df[MOSTLISTENEDMUSICS_8].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_9] = df[MOSTLISTENEDMUSICS_9].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_10] = df[MOSTLISTENEDMUSICS_10].apply(lambda f: [int(f)])    
+    df[MOSTLISTENEDMUSICS_11] = df[MOSTLISTENEDMUSICS_11].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_12] = df[MOSTLISTENEDMUSICS_12].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_13] = df[MOSTLISTENEDMUSICS_13].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_14] = df[MOSTLISTENEDMUSICS_14].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_15] = df[MOSTLISTENEDMUSICS_15].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_16] = df[MOSTLISTENEDMUSICS_16].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_17] = df[MOSTLISTENEDMUSICS_17].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_18] = df[MOSTLISTENEDMUSICS_18].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_19] = df[MOSTLISTENEDMUSICS_19].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_20] = df[MOSTLISTENEDMUSICS_20].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_21] = df[MOSTLISTENEDMUSICS_21].apply(lambda f: [int(f)])
+    df[MOSTLISTENEDMUSICS_22] = df[MOSTLISTENEDMUSICS_22].apply(lambda f: [int(f)])
+
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all example
     X = np.array([x for x in df["X"]])
     return X
 
 
-# In[50]:
+# In[21]:
 
 
 def transform_pd_y(df:pd.DataFrame, target_col:str):
@@ -573,7 +650,7 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
-# In[51]:
+# In[22]:
 
 
 def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1) -> pd.DataFrame:
@@ -616,13 +693,13 @@ notebook.list()
 # 
 # Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
 
-# In[52]:
+# In[23]:
 
 
 get_ipython().run_cell_magic('time', '', '\n# train_dataset = input_fn_train(BATCH_SIZE)\nX, y = create_dataset_pd()')
 
 
-# In[53]:
+# In[24]:
 
 
 # tf.keras.metrics.SensitivityAtSpecificity(name="ss")  # For false positive rate
@@ -640,7 +717,7 @@ keras_model_metrics = [
 train_histories = []
 
 
-# In[54]:
+# In[25]:
 
 
 # DON'T CHANGE THE EPOCHS VALUE
@@ -648,7 +725,7 @@ BATCH_SIZE = 4096
 EPOCHS = 1000
 
 
-# In[55]:
+# In[26]:
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -660,7 +737,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 print(f"Logging tensorboard data at {logdir}")
 
 
-# In[56]:
+# In[27]:
 
 
 model = tf.keras.Sequential([
@@ -683,13 +760,13 @@ model.compile(
 model.summary()
 
 
-# In[57]:
+# In[28]:
 
 
 get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    X, y,\n    BATCH_SIZE,\n    epochs=EPOCHS, \n    callbacks=[tensorboard_callback, tfdocs.modeling.EpochDots()],\n    validation_split=0.2,\n    verbose=0\n))')
 
 
-# In[58]:
+# In[29]:
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
