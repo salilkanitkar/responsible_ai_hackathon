@@ -3,7 +3,7 @@
 
 # # Part 1: Dealing with embeddings
 
-# In[239]:
+# In[1]:
 
 
 import datetime
@@ -26,41 +26,40 @@ import pandas as pd
 from pathlib import Path
 
 
-# In[240]:
+# In[45]:
 
 
 data_folder = Path("../dataset")
 # below paths should be realtive to data_folder
 users_file_glob = "AllUsers.csv"
 ads_file_glob = "AllAds.csv"
-final_dataset = "AllUsers_Ads_Ratings_df.csv"
-derived_dataset = "AllUsers_Ads_Ratings_Fav_Unfav_Merged_df.csv"
+final_dataset = "users-ads-without-gcp-ratings_OHE_MLB.csv"
+derived_dataset = "users-ads-without-gcp-ratings_OHE_MLB_FAV_UNFAV_Merged.csv"
 
 
-# In[293]:
+# In[46]:
 
 
 df = pd.read_csv(data_folder / f"{final_dataset}")
 
 
-# In[294]:
+# In[56]:
 
 
-# environment settings
-# pd.set_option('display.max_column',None)
-# pd.set_option('display.max_rows',None)
-# pd.set_option('display.max_seq_items',None)
-# pd.set_option('display.max_colwidth', 500)
-# pd.set_option('expand_frame_repr', True)
+pd.set_option('display.max_column', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_seq_items', None)
+pd.set_option('display.max_colwidth', 500)
+pd.set_option('expand_frame_repr', True)
 
 
-# In[295]:
+# In[48]:
 
 
 df.head()
 
 
-# In[296]:
+# In[49]:
 
 
 # Merge the cols into one
@@ -69,7 +68,7 @@ df["fav"] = df[['fave1', 'fave2', 'fave3', 'fave4', 'fave5']].apply(lambda x: ' 
 df["unfav"] = df[['unfave1', 'unfave2', 'unfave3', 'unfave4', 'unfave5']].apply(lambda x: ' '.join(x.map(str)), axis=1)
 
 
-# In[297]:
+# In[50]:
 
 
 # Drop the cols now
@@ -78,33 +77,33 @@ favs = ['fave' + str(i) for i in range(1, 11)]
 unfavs = ['unfave' + str(i) for i in range(1, 11)]
 
 
-# In[298]:
+# In[51]:
 
 
 for fav in favs:
     df.drop(fav, inplace=True, axis=1)
 
 
-# In[299]:
+# In[52]:
 
 
 for unfav in unfavs:
     df.drop(unfav, inplace=True, axis=1)
 
 
-# In[300]:
+# In[57]:
 
 
-df.sample(10)
+df.head()
 
 
-# In[301]:
+# In[60]:
 
 
 print(df.info())
 
 
-# In[302]:
+# In[61]:
 
 
 # Save it back on disk
@@ -126,10 +125,10 @@ df.to_csv(data_folder / f"{derived_dataset}")
 
 # ## Use Embedding layer and pass pre trained glove embeddings
 
-# In[303]:
+# In[367]:
 
 
-# In[304]:
+# In[368]:
 
 
 df = pd.read_csv(data_folder / f"{derived_dataset}")
@@ -138,11 +137,14 @@ df = pd.read_csv(data_folder / f"{derived_dataset}")
 # Reference -
 # https://github.com/balajibalasubramanian/Kaggle-Toxic-Comments-Challenge/blob/master/Keras%20lstm%201%20layer%20%2B%20GloVe%20%2B%20Early%20Stopping%20%2B%20attention%20%2B%20K-fold%20cross-validation.ipynb
 
-# In[305]:
+# In[370]:
 
 
 # define text data
-df_new = df['fav'].astype(str)
+df_new = df['favs'].astype(str)
+
+
+# In[ ]:
 
 
 # In[306]:
@@ -561,9 +563,13 @@ print('Accuracy: %f' % (accuracy * 100))
 
 # ### References
 
+# https://machinelearningmastery.com/use-word-embedding-layers-deep-learning-keras/ <br>
+# https://machinelearningmastery.com/how-to-prepare-categorical-data-for-deep-learning-in-python/ <br>
+# https://github.com/guillaume-chevalier/GloVe-as-a-TensorFlow-Embedding-Layer/blob/master/README.md <br>
+#
+# https://stackoverflow.com/questions/52485242/how-to-use-embedding-layer-and-other-feature-columns-together-in-a-network-using
+
 # In[ ]:
 
 
-https: // machinelearningmastery.com / use - word - embedding - layers - deep - learning - keras/
-https: // machinelearningmastery.com / how - to - prepare - categorical - data - for-deep - learning - in-python/
-https: // github.com / guillaume - chevalier / GloVe - as-a - TensorFlow - Embedding - Layer / blob / master / README.md
+# In[ ]:
