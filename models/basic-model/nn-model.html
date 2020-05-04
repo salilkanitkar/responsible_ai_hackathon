@@ -13094,6 +13094,97 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting package metadata (current_repodata.json): done
+Solving environment: / 
+The environment is inconsistent, please check the package plan carefully
+The following packages are causing the inconsistency:
+
+  - defaults/osx-64::matplotlib==3.1.3=py37_0
+  - conda-forge/osx-64::bokeh==1.4.0=py37_0
+  - defaults/osx-64::pandas==1.0.3=py37h6c726b0_0
+  - conda-forge/noarch::datashape==0.5.4=py_1
+  - conda-forge/osx-64::pywavelets==1.1.1=py37h3b54f70_0
+  - conda-forge/noarch::dask-ml==1.2.0=py_0
+  - defaults/osx-64::numba==0.48.0=py37h6c726b0_0
+  - defaults/osx-64::matplotlib-base==3.1.3=py37h9aa3819_0
+  - conda-forge/noarch::xarray==0.15.1=py_0
+  - conda-forge/osx-64::distributed==2.11.0=py37_0
+  - defaults/osx-64::scikit-image==0.16.2=py37h6c726b0_0
+  - conda-forge/noarch::dask-glm==0.2.0=py_1
+  - conda-forge/osx-64::scipy==1.2.1=py37hbd7caa9_1
+  - conda-forge/noarch::dask==2.11.0=py_0
+  - conda-forge/noarch::imageio==2.8.0=py_0
+  - conda-forge/noarch::datashader==0.10.0=py_0
+done
+
+## Package Plan ##
+
+  environment location: /Users/nipasuma/opt/miniconda3/envs/env37
+
+  added / updated specs:
+    - pandas
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    blas-1.0                   |         openblas          45 KB
+    dask-2.15.0                |             py_0          14 KB
+    dask-core-2.15.0           |             py_0         575 KB
+    distributed-2.15.0         |           py37_0         972 KB
+    numpy-1.18.1               |   py37h0c13f30_0           5 KB
+    numpy-base-1.18.1          |   py37ha711998_1         3.9 MB
+    scikit-learn-0.22.1        |   py37hebd9d1a_0         4.7 MB
+    ------------------------------------------------------------
+                                           Total:        10.1 MB
+
+The following NEW packages will be INSTALLED:
+
+  blas               pkgs/main/osx-64::blas-1.0-openblas
+  dask-core          pkgs/main/noarch::dask-core-2.15.0-py_0
+  numpy              pkgs/main/osx-64::numpy-1.18.1-py37h0c13f30_0
+  numpy-base         pkgs/main/osx-64::numpy-base-1.18.1-py37ha711998_1
+  scikit-learn       pkgs/main/osx-64::scikit-learn-0.22.1-py37hebd9d1a_0
+
+The following packages will be UPDATED:
+
+  dask                        conda-forge::dask-2.11.0-py_0 --&gt; pkgs/main::dask-2.15.0-py_0
+  distributed        conda-forge::distributed-2.11.0-py37_0 --&gt; pkgs/main::distributed-2.15.0-py37_0
+
+
+
+Downloading and Extracting Packages
+dask-core-2.15.0     | 575 KB    | ##################################### | 100% 
+numpy-1.18.1         | 5 KB      | ##################################### | 100% 
+distributed-2.15.0   | 972 KB    | ##################################### | 100% 
+scikit-learn-0.22.1  | 4.7 MB    | ##################################### | 100% 
+blas-1.0             | 45 KB     | ##################################### | 100% 
+dask-2.15.0          | 14 KB     | ##################################### | 100% 
+numpy-base-1.18.1    | 3.9 MB    | ##################################### | 100% 
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+<span class="ansi-red-fg">ERROR: tensorflow-serving-api 2.0.0 has requirement tensorflow~=2.0.0, but you&#39;ll have tensorflow 2.1.0 which is incompatible.</span>
+<span class="ansi-red-fg">ERROR: tensorflow-data-validation 0.21.5 has requirement pandas&lt;1,&gt;=0.24, but you&#39;ll have pandas 1.0.3 which is incompatible.</span>
+<span class="ansi-red-fg">ERROR: tensorflow-data-validation 0.21.5 has requirement scikit-learn&lt;0.22,&gt;=0.18, but you&#39;ll have scikit-learn 0.22.2.post1 which is incompatible.</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13195,7 +13286,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Using random seed, 1588574263
+<pre>Using random seed, 1588585419
 </pre>
 </div>
 </div>
@@ -13735,51 +13826,51 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>32659</th>
-      <th>29110</th>
-      <th>13133</th>
-      <th>28384</th>
-      <th>32079</th>
+      <th>33</th>
+      <th>1931</th>
+      <th>6571</th>
+      <th>14678</th>
+      <th>13209</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Age</th>
-      <td>41</td>
-      <td>26</td>
-      <td>22</td>
-      <td>20</td>
-      <td>47</td>
+      <td>62</td>
+      <td>18</td>
+      <td>27</td>
+      <td>30</td>
+      <td>49</td>
     </tr>
     <tr>
       <th>CapZipCode</th>
-      <td>49866</td>
-      <td>90291</td>
-      <td>52748</td>
-      <td>30024</td>
-      <td>60608</td>
+      <td>15613</td>
+      <td>25070</td>
+      <td>90650</td>
+      <td>77566</td>
+      <td>10456</td>
     </tr>
     <tr>
       <th>FaveSports</th>
-      <td>Water sports</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...) , ...</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
       <td>I do not like Sports</td>
+      <td>Nothing</td>
+      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
+      <td>Olympic sports‎, Precision sports‎ (Golf, Bowl...</td>
+      <td>Individual sports‎ (Tennis, Archery, ...)</td>
     </tr>
     <tr>
       <th>Rating</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
       <td>2.0</td>
-      <td>3.0</td>
-      <td>1.0</td>
-      <td>3.0</td>
-      <td>1.0</td>
+      <td>5.0</td>
     </tr>
     <tr>
       <th>Gender_F</th>
       <td>1</td>
       <td>1</td>
-      <td>0</td>
+      <td>1</td>
       <td>1</td>
       <td>0</td>
     </tr>
@@ -13787,7 +13878,7 @@ div#notebook {
       <th>Gender_M</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>1</td>
     </tr>
@@ -13890,25 +13981,25 @@ div#notebook {
     <tr>
       <th>Income_0</th>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>Income_1</th>
       <td>1</td>
+      <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
     </tr>
     <tr>
       <th>Income_2</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -13916,16 +14007,16 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>AlternativeMusic</th>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>AsianPopJPoporKpop</th>
@@ -13937,7 +14028,7 @@ div#notebook {
     </tr>
     <tr>
       <th>Blues</th>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -13945,18 +14036,18 @@ div#notebook {
     </tr>
     <tr>
       <th>ClassicalMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>CountryMusic</th>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -13969,7 +14060,7 @@ div#notebook {
     </tr>
     <tr>
       <th>EasyListening</th>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -13978,14 +14069,14 @@ div#notebook {
     <tr>
       <th>ElectronicMusic</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>EuropeanMusicFolkPop</th>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -13993,19 +14084,19 @@ div#notebook {
     </tr>
     <tr>
       <th>HipHopRap</th>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>IndiePop</th>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>InspirationalinclGospel</th>
@@ -14017,10 +14108,10 @@ div#notebook {
     </tr>
     <tr>
       <th>Jazz</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14050,7 +14141,7 @@ div#notebook {
     <tr>
       <th>PopPopularmusic</th>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14059,7 +14150,7 @@ div#notebook {
       <th>RampBSoul</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14067,7 +14158,7 @@ div#notebook {
       <th>Reggae</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14075,9 +14166,9 @@ div#notebook {
       <th>Rock</th>
       <td>0</td>
       <td>1</td>
-      <td>1</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>SingerSongwriterincFolk</th>
@@ -14100,7 +14191,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14114,16 +14205,16 @@ div#notebook {
     <tr>
       <th>Art</th>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Autobiographies</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14131,16 +14222,16 @@ div#notebook {
       <th>Biographies</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Childrens</th>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14148,7 +14239,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14157,15 +14248,15 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Cookbooks</th>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Diaries</th>
@@ -14177,11 +14268,11 @@ div#notebook {
     </tr>
     <tr>
       <th>Drama</th>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
+      <td>1</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>Encyclopedias</th>
@@ -14196,7 +14287,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14210,32 +14301,32 @@ div#notebook {
     <tr>
       <th>Guide</th>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>History</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Horror</th>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Journals</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14249,10 +14340,10 @@ div#notebook {
     </tr>
     <tr>
       <th>Mystery</th>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -14260,14 +14351,14 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Prayerbooks</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14275,7 +14366,7 @@ div#notebook {
       <th>Religious</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14284,7 +14375,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14292,8 +14383,8 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Science</th>
@@ -14301,23 +14392,23 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Sciencefiction</th>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>Selfhelp</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Series</th>
@@ -14330,17 +14421,17 @@ div#notebook {
     <tr>
       <th>Travel</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Trilogies</th>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14365,7 +14456,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>ad_isElectronics</th>
@@ -14381,7 +14472,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>ad_isFictionalcharacter</th>
@@ -14395,9 +14486,9 @@ div#notebook {
       <th>ad_isFont</th>
       <td>1</td>
       <td>1</td>
-      <td>0</td>
       <td>1</td>
       <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>ad_isFurniture</th>
@@ -14420,7 +14511,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14451,17 +14542,17 @@ div#notebook {
       <th>ad_isLine</th>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>ad_isLogo</th>
       <td>0</td>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>ad_isMagenta</th>
@@ -14490,8 +14581,8 @@ div#notebook {
     <tr>
       <th>ad_isProduct</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14517,14 +14608,14 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>ad_isText</th>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>1</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14533,20 +14624,20 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>ad_isYellow</th>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>ad_num_faces</th>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14554,7 +14645,7 @@ div#notebook {
     <tr>
       <th>ad_isAdult_UNLIKELY</th>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14562,7 +14653,7 @@ div#notebook {
     <tr>
       <th>ad_isAdult_VERY_UNLIKELY</th>
       <td>1</td>
-      <td>1</td>
+      <td>0</td>
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -14578,7 +14669,7 @@ div#notebook {
     <tr>
       <th>ad_isSpoof_UNLIKELY</th>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14586,7 +14677,7 @@ div#notebook {
     <tr>
       <th>ad_isSpoof_VERY_UNLIKELY</th>
       <td>1</td>
-      <td>0</td>
+      <td>1</td>
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -14594,7 +14685,7 @@ div#notebook {
     <tr>
       <th>ad_isMedical_POSSIBLE</th>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14605,20 +14696,20 @@ div#notebook {
       <td>0</td>
       <td>1</td>
       <td>1</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>ad_isMedical_VERY_UNLIKELY</th>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>ad_isViolence_VERY_UNLIKELY</th>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -14626,7 +14717,7 @@ div#notebook {
     <tr>
       <th>ad_isRacy_POSSIBLE</th>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14634,8 +14725,8 @@ div#notebook {
     <tr>
       <th>ad_isRacy_UNLIKELY</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14651,7 +14742,7 @@ div#notebook {
       <th>ad_isRacy_VERY_UNLIKELY</th>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>1</td>
       <td>1</td>
     </tr>
@@ -14666,10 +14757,10 @@ div#notebook {
     <tr>
       <th>ad_isBelt</th>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>ad_isBottle</th>
@@ -14684,7 +14775,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14770,7 +14861,7 @@ div#notebook {
     <tr>
       <th>ad_isPants</th>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14786,7 +14877,7 @@ div#notebook {
     <tr>
       <th>ad_isPerson</th>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14795,7 +14886,7 @@ div#notebook {
       <th>ad_isPillow</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -14829,7 +14920,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>ad_isWatch</th>
@@ -14851,72 +14942,72 @@ div#notebook {
       <th>Mostwatchedmovies_Action</th>
       <td>1</td>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
       <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Adventure</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Animation</th>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Biography</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Comedy</th>
-      <td>0</td>
       <td>1</td>
       <td>1</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_CrimeandGangster</th>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Documentary</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Drama</th>
-      <td>0</td>
       <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_EpicHistorical</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14932,39 +15023,39 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Fantasy</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Horror</th>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Musical</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Mystery</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -14981,23 +15072,23 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Sport</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_Thriller</th>
-      <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedmovies_War</th>
@@ -15020,7 +15111,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -15035,40 +15126,40 @@ div#notebook {
       <th>Mostwatchedtvprogrammes_Drama</th>
       <td>1</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>Mostwatchedtvprogrammes_EntertainmentVarietyShows</th>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>Mostwatchedtvprogrammes_Factual</th>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedtvprogrammes_Learning</th>
-      <td>1</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedtvprogrammes_Music</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>1</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
@@ -15077,7 +15168,7 @@ div#notebook {
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Mostwatchedtvprogrammes_ReligionampEthics</th>
@@ -15091,7 +15182,7 @@ div#notebook {
       <th>Mostwatchedtvprogrammes_Sport</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -15099,8 +15190,8 @@ div#notebook {
       <th>Mostwatchedtvprogrammes_Weather</th>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
+      <td>1</td>
       <td>0</td>
     </tr>
   </tbody>
@@ -15183,7 +15274,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">WORD_VEC_DIMENSIONS</span> <span class="o">=</span> <span class="mi">100</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">WORD_VEC_DIMENSIONS</span> <span class="o">=</span> <span class="mi">50</span>
 </pre></div>
 
     </div>
@@ -15193,12 +15284,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">embedding_index</span> <span class="o">=</span> <span class="n">EmbeddingFactory</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./embeddings/&quot;</span><span class="p">),</span> <span class="s2">&quot;GloVe.6B.100d&quot;</span><span class="p">,</span> <span class="n">WORD_VEC_DIMENSIONS</span><span class="p">,</span> <span class="s2">&quot;embeddings/glove-wiki&quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">embedding_index</span> <span class="o">=</span> <span class="n">EmbeddingFactory</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./embeddings/&quot;</span><span class="p">),</span> <span class="s2">&quot;GloVe.6B.50d&quot;</span><span class="p">,</span> <span class="n">WORD_VEC_DIMENSIONS</span><span class="p">,</span> <span class="s2">&quot;embeddings/glove-wiki&quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15215,8 +15306,8 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 1.33 ms, sys: 2.02 ms, total: 3.35 ms
-Wall time: 1.86 ms
+<pre>CPU times: user 5.57 s, sys: 2.8 s, total: 8.37 s
+Wall time: 13 s
 </pre>
 </div>
 </div>
@@ -15234,7 +15325,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -15249,7 +15340,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IndexerForVocab</span><span class="p">:</span>
@@ -15290,7 +15381,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">CACHE</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span> <span class="c1"># Store matrix and metadata for each embedding column for later use</span>
@@ -15303,7 +15394,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[191]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_embed_cols</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">embed_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -15353,7 +15444,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[192]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">transform_embed_cols</span><span class="p">(</span><span class="n">ad_dataset_pd</span><span class="p">([</span><span class="n">FAV</span><span class="p">])</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">FAV</span><span class="p">)</span>
@@ -15370,22 +15461,18 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[192]:</div>
+    <div class="prompt output_prompt">Out[16]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  3,
-        25, 26,  0,  0,  0],
-       [ 4, 27,  5, 28, 29, 30, 31,  4, 32, 33, 34, 35, 36, 37, 38, 39,
-        40,  0,  0,  0,  0],
-       [41, 42, 43, 44, 45, 46,  6, 47,  7, 48, 49, 50, 51, 52, 53,  6,
-        54,  7, 55, 56, 57],
-       [58, 59, 60, 61, 62, 63, 64,  5,  0,  0,  0,  0,  0,  0,  0,  0,
-         0,  0,  0,  0,  0],
-       [ 1, 65, 66,  8,  1,  8,  1,  2,  9,  1,  2, 67,  1,  2,  3,  9,
-         0,  0,  0,  0,  0]], dtype=int32)</pre>
+<pre>array([[ 7,  8,  2,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,  2, 20],
+       [21, 22, 23, 24, 25, 26,  3,  3,  4, 27,  5, 28,  4, 29, 30,  0],
+       [31, 32, 33, 34, 35, 36, 37, 38, 39,  1, 40,  0,  0,  0,  0,  0],
+       [41, 42, 43, 44, 45, 46, 47, 48, 49, 50,  5, 51, 52, 53, 54, 55],
+       [56, 57, 58,  1,  6, 59, 60, 61, 62,  1,  6, 63, 64, 65, 66, 67]],
+      dtype=int32)</pre>
 </div>
 
 </div>
@@ -15396,7 +15483,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[194]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">CACHE</span><span class="p">,</span> <span class="n">CACHE</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;embed_matrix&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
@@ -15412,7 +15499,7 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[194]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -15420,26 +15507,21 @@ Wall time: 1.86 ms
 <div class="output_text output_subarea output_execute_result">
 <pre>(defaultdict(dict,
              {&#39;fav&#39;: {&#39;vocab_size&#39;: 68,
-               &#39;maxlen&#39;: 21,
-               &#39;embed_matrix&#39;: array([[ 0.     ,  0.     ,  0.     , ...,  0.     ,  0.     ,  0.     ],
-                      [ 0.08026, -0.1086 ,  0.7207 , ..., -0.3484 ,  0.3147 ,  1.009  ],
-                      [-0.1068 ,  0.5923 ,  0.675  , ..., -0.3096 ,  0.5723 ,  0.793  ],
+               &#39;maxlen&#39;: 16,
+               &#39;embed_matrix&#39;: array([[ 0.      ,  0.      ,  0.      , ...,  0.      ,  0.      ,
+                        0.      ],
+                      [ 0.699   ,  0.643   , -1.439   , ...,  0.2463  ,  0.5215  ,
+                        0.1166  ],
+                      [-0.543   ,  0.3643  , -1.679   , ..., -0.193   , -0.3228  ,
+                       -0.7056  ],
                       ...,
-                      [ 0.3396 , -0.4136 ,  0.2262 , ..., -0.4885 , -0.0871 , -0.598  ],
-                      [-0.07196,  0.2313 ,  0.02373, ..., -0.7188 ,  0.869  ,  0.1954 ],
-                      [ 0.2656 ,  0.03485,  0.4905 , ...,  0.3914 ,  0.9824 ,  0.0692 ]],
-                     dtype=float16)},
-              &#39;unfav&#39;: {&#39;vocab_size&#39;: 948,
-               &#39;maxlen&#39;: 34,
-               &#39;embed_matrix&#39;: array([[-0.1649 ,  0.92   ,  0.2274 , ..., -0.06793,  1.507  ,  0.609  ],
-                      [ 0.419  , -0.135  ,  0.516  , ..., -0.6284 ,  0.876  , -0.6216 ],
-                      [-0.1573 , -0.755  ,  0.3684 , ..., -0.5415 ,  0.678  , -0.1725 ],
-                      ...,
-                      [ 0.2428 ,  0.617  ,  0.664  , ..., -0.2213 ,  1.061  ,  0.5654 ],
-                      [-0.762  ,  0.5903 ,  1.188  , ...,  0.0457 ,  0.8516 , -0.3887 ],
-                      [ 0.2146 ,  0.7393 ,  0.7983 , ..., -0.833  ,  0.167  ,  0.4197 ]],
-                     dtype=float16)}}),
- (68, 100))</pre>
+                      [-0.755   ,  0.278   , -0.11304 , ..., -0.4756  , -0.3367  ,
+                       -0.4424  ],
+                      [ 0.0658  ,  0.501   , -0.5605  , ..., -0.554   , -0.659   ,
+                        0.06805 ],
+                      [ 0.3655  , -0.1575  , -0.2396  , ...,  0.011444, -1.5     ,
+                       -0.3992  ]], dtype=float16)}}),
+ (68, 50))</pre>
 </div>
 
 </div>
@@ -15458,7 +15540,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb</span>
@@ -15473,7 +15555,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -15502,7 +15584,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
@@ -15518,7 +15600,7 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[64]:</div>
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -15547,7 +15629,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">,</span> <span class="n">FIRST_K_ZIP_DIGITS</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span><span class="p">,</span> <span class="mi">2</span>
@@ -15562,7 +15644,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code_tensor</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -15604,7 +15686,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
@@ -15625,7 +15707,7 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[67]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -15664,7 +15746,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">FAV_SPORTS_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNK_SPORT&quot;</span>
@@ -15684,7 +15766,7 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[68]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -15701,7 +15783,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fav_sports_multi_select_str_to_list</span><span class="p">(</span><span class="n">sports_str</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -15739,7 +15821,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
@@ -15760,7 +15842,7 @@ Wall time: 1.86 ms
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[70]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -15787,7 +15869,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RATINGS_CARDINALITY</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># not zero based indexing i.e. ratings range from 1 to 5</span>
@@ -15800,7 +15882,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target_pd</span><span class="p">(</span><span class="n">rating_str</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -15821,7 +15903,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -15856,7 +15938,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -15874,7 +15956,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[195]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_pd</span><span class="p">(</span><span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">SELECTED_INP_COLS</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">fraction</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_frac</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
@@ -15914,7 +15996,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tensorboard</span> <span class="kn">import</span> <span class="n">notebook</span>
@@ -15927,7 +16009,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">reload_ext</span> tensorboard
@@ -15948,7 +16030,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">tensorboard</span> --logdir logs --port 6006
@@ -15968,13 +16050,26 @@ Wall time: 1.86 ms
 
 
 
+
+<div class="output_text output_subarea ">
+<pre>Reusing TensorBoard on port 6006 (pid 68247), started 2:47:00 ago. (Use &#39;!kill 68247&#39; to kill it.)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 
-      <iframe id="tensorboard-frame-db8189c7b8a2ac64" width="100%" height="800" frameborder="0">
+      <iframe id="tensorboard-frame-cf698bf7cf88dd98" width="100%" height="800" frameborder="0">
       </iframe>
       <script>
         (function() {
-          const frame = document.getElementById("tensorboard-frame-db8189c7b8a2ac64");
+          const frame = document.getElementById("tensorboard-frame-cf698bf7cf88dd98");
           const url = new URL("/", window.location);
           url.port = 6006;
           frame.src = url;
@@ -15991,7 +16086,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">notebook</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -16012,7 +16107,7 @@ Wall time: 1.86 ms
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Known TensorBoard instances:
-  - port 6006: logdir logs (started 0:00:05 ago; pid 68247)
+  - port 6006: logdir logs (started 2:47:00 ago; pid 68247)
 </pre>
 </div>
 </div>
@@ -16039,7 +16134,7 @@ Wall time: 1.86 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[196]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -16100,8 +16195,8 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 2min 25s, sys: 1.43 s, total: 2min 26s
-Wall time: 2min 27s
+<pre>CPU times: user 2min 28s, sys: 1.89 s, total: 2min 30s
+Wall time: 2min 32s
 </pre>
 </div>
 </div>
@@ -16112,7 +16207,7 @@ Wall time: 2min 27s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[197]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of train cat &amp; num features &quot;</span><span class="p">,</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -16151,7 +16246,7 @@ No. of embedded features  2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[223]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Let&#39;s check what CACHE contains and check it&#39;s shape</span>
@@ -16168,7 +16263,7 @@ No. of embedded features  2
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[223]:</div>
+    <div class="prompt output_prompt">Out[34]:</div>
 
 
 
@@ -16177,23 +16272,23 @@ No. of embedded features  2
 <pre>defaultdict(dict,
             {&#39;fav&#39;: {&#39;vocab_size&#39;: 1168,
               &#39;maxlen&#39;: 40,
-              &#39;embed_matrix&#39;: array([[ 0.     ,  0.     ,  0.     , ...,  0.     ,  0.     ,  0.     ],
-                     [-0.0667 ,  0.02673,  0.783  , ..., -0.2866 , -0.11725,  0.2272 ],
-                     [-0.1649 ,  0.92   ,  0.2274 , ..., -0.06793,  1.507  ,  0.609  ],
+              &#39;embed_matrix&#39;: array([[ 0.    ,  0.    ,  0.    , ...,  0.    ,  0.    ,  0.    ],
+                     [ 0.2212, -0.1628, -0.5483, ..., -0.4102,  0.8545,  0.886 ],
+                     [ 0.4722, -0.4456, -0.5186, ...,  0.3494,  0.3394,  0.255 ],
                      ...,
-                     [ 0.00941,  0.927  , -0.2158 , ..., -0.4497 ,  0.5967 , -0.0648 ],
-                     [-0.00566,  0.481  , -0.1461 , ..., -0.417  ,  0.2344 , -0.402  ],
-                     [-0.1497 ,  0.1648 , -0.3552 , ...,  0.336  ,  0.09265, -0.376  ]],
+                     [ 0.    ,  0.    ,  0.    , ...,  0.    ,  0.    ,  0.    ],
+                     [ 0.    ,  0.    ,  0.    , ...,  0.    ,  0.    ,  0.    ],
+                     [ 0.    ,  0.    ,  0.    , ...,  0.    ,  0.    ,  0.    ]],
                     dtype=float16)},
              &#39;unfav&#39;: {&#39;vocab_size&#39;: 949,
               &#39;maxlen&#39;: 34,
               &#39;embed_matrix&#39;: array([[ 0.     ,  0.     ,  0.     , ...,  0.     ,  0.     ,  0.     ],
-                     [-0.1649 ,  0.92   ,  0.2274 , ..., -0.06793,  1.507  ,  0.609  ],
-                     [ 0.419  , -0.135  ,  0.516  , ..., -0.6284 ,  0.876  , -0.6216 ],
+                     [ 0.4722 , -0.4456 , -0.5186 , ...,  0.3494 ,  0.3394 ,  0.255  ],
+                     [-0.7734 , -0.1727 ,  0.4092 , ...,  0.505  ,  0.732  ,  0.8203 ],
                      ...,
-                     [ 0.2993 , -0.1135 , -0.4553 , ...,  0.4072 , -0.2208 ,  0.313  ],
-                     [-0.7886 ,  0.1611 ,  0.1549 , ..., -0.2805 ,  0.03976,  0.05045],
-                     [-0.3838 ,  0.03183, -0.4734 , ...,  0.567  ,  0.505  , -0.4714 ]],
+                     [-0.3174 , -0.1404 ,  0.323  , ...,  0.991  ,  0.03102, -0.3542 ],
+                     [ 0.321  , -0.693  ,  0.4792 , ..., -0.4355 , -0.1108 , -0.585  ],
+                     [-0.282  ,  0.0746 ,  0.8413 , ..., -0.2983 , -0.8276 ,  0.4167 ]],
                     dtype=float16)}})</pre>
 </div>
 
@@ -16205,7 +16300,7 @@ No. of embedded features  2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[242]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">log_unknown_word_count</span><span class="p">(</span><span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -16238,7 +16333,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[242]:</div>
+    <div class="prompt output_prompt">Out[35]:</div>
 
 
 
@@ -16255,7 +16350,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[199]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_embed_flat_layer</span><span class="p">(</span><span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">trainable_embed</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -16273,7 +16368,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Input layers</span>
@@ -16289,7 +16384,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[208]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Concatenate the layers</span>
@@ -16306,7 +16401,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[209]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create the model</span>
@@ -16323,7 +16418,7 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[210]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -16343,35 +16438,35 @@ WARNING:root:Could&#39;t find embeddings for 52 words in unfav column
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Model: &#34;model_3&#34;
+<pre>Model: &#34;model&#34;
 __________________________________________________________________________________________________
 Layer (type)                    Output Shape         Param #     Connected to                     
 ==================================================================================================
-input_10 (InputLayer)           [(None, 40)]         0                                            
+input_2 (InputLayer)            [(None, 40)]         0                                            
 __________________________________________________________________________________________________
-input_11 (InputLayer)           [(None, 34)]         0                                            
+input_3 (InputLayer)            [(None, 34)]         0                                            
 __________________________________________________________________________________________________
-embedding_5 (Embedding)         (None, 40, 100)      116800      input_10[0][0]                   
+embedding (Embedding)           (None, 40, 50)       58400       input_2[0][0]                    
 __________________________________________________________________________________________________
-embedding_6 (Embedding)         (None, 34, 100)      94900       input_11[0][0]                   
+embedding_1 (Embedding)         (None, 34, 50)       47450       input_3[0][0]                    
 __________________________________________________________________________________________________
-flatten_4 (Flatten)             (None, 4000)         0           embedding_5[0][0]                
+flatten (Flatten)               (None, 2000)         0           embedding[0][0]                  
 __________________________________________________________________________________________________
-flatten_5 (Flatten)             (None, 3400)         0           embedding_6[0][0]                
+flatten_1 (Flatten)             (None, 1700)         0           embedding_1[0][0]                
 __________________________________________________________________________________________________
-input_9 (InputLayer)            [(None, 308)]        0                                            
+input_1 (InputLayer)            [(None, 308)]        0                                            
 __________________________________________________________________________________________________
-concatenate_3 (Concatenate)     (None, 7708)         0           flatten_4[0][0]                  
-                                                                 flatten_5[0][0]                  
-                                                                 input_9[0][0]                    
+concatenate (Concatenate)       (None, 4008)         0           flatten[0][0]                    
+                                                                 flatten_1[0][0]                  
+                                                                 input_1[0][0]                    
 __________________________________________________________________________________________________
-dense_6 (Dense)                 (None, 10)           77090       concatenate_3[0][0]              
+dense (Dense)                   (None, 10)           40090       concatenate[0][0]                
 __________________________________________________________________________________________________
-dense_7 (Dense)                 (None, 5)            55          dense_6[0][0]                    
+dense_1 (Dense)                 (None, 5)            55          dense[0][0]                      
 ==================================================================================================
-Total params: 288,845
-Trainable params: 77,145
-Non-trainable params: 211,700
+Total params: 145,995
+Trainable params: 40,145
+Non-trainable params: 105,850
 __________________________________________________________________________________________________
 </pre>
 </div>
@@ -16383,7 +16478,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[211]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">keras_model_metrics</span> <span class="o">=</span> <span class="p">[</span>
@@ -16406,7 +16501,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[212]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
@@ -16426,11 +16521,11 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[213]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
-<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">300</span>
 </pre></div>
 
     </div>
@@ -16448,7 +16543,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[214]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span>
@@ -16474,7 +16569,7 @@ ________________________________________________________________________________
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Logging tensorboard data at logs/20200504-015010
+<pre>Logging tensorboard data at logs/20200504-025234
 </pre>
 </div>
 </div>
@@ -16485,7 +16580,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[215]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -16516,27 +16611,13 @@ ________________________________________________________________________________
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-Epoch: 0, accuracy:0.4838,  auc:0.7644,  fn:20458.0000,  fp:4947.0000,  loss:1.3620,  precision:0.6277,  recall:0.2897,  tn:110253.0000,  tp:8342.0000,  val_accuracy:0.5885,  val_auc:0.8325,  val_fn:4427.0000,  val_fp:842.0000,  val_loss:1.1273,  val_precision:0.7671,  val_recall:0.3851,  val_tn:27958.0000,  val_tp:2773.0000,  
+Epoch: 0, accuracy:0.3202,  auc:0.5639,  fn:28567.0000,  fp:389.0000,  loss:1.6083,  precision:0.3746,  recall:0.0081,  tn:114811.0000,  tp:233.0000,  val_accuracy:0.4229,  val_auc:0.6942,  val_fn:7076.0000,  val_fp:101.0000,  val_loss:1.5579,  val_precision:0.5511,  val_recall:0.0172,  val_tn:28699.0000,  val_tp:124.0000,  
 ....................................................................................................
-Epoch: 100, accuracy:0.6098,  auc:0.8611,  fn:14345.0000,  fp:5606.0000,  loss:1.0288,  precision:0.7206,  recall:0.5019,  tn:109594.0000,  tp:14455.0000,  val_accuracy:0.6136,  val_auc:0.8574,  val_fn:3679.0000,  val_fp:1267.0000,  val_loss:1.0434,  val_precision:0.7354,  val_recall:0.4890,  val_tn:27533.0000,  val_tp:3521.0000,  
+Epoch: 100, accuracy:0.6033,  auc:0.8610,  fn:14785.0000,  fp:5438.0000,  loss:1.0311,  precision:0.7205,  recall:0.4866,  tn:109762.0000,  tp:14015.0000,  val_accuracy:0.6021,  val_auc:0.8598,  val_fn:3658.0000,  val_fp:1360.0000,  val_loss:1.0373,  val_precision:0.7226,  val_recall:0.4919,  val_tn:27440.0000,  val_tp:3542.0000,  
 ....................................................................................................
-Epoch: 200, accuracy:0.6136,  auc:0.8664,  fn:14223.0000,  fp:5512.0000,  loss:1.0117,  precision:0.7256,  recall:0.5061,  tn:109688.0000,  tp:14577.0000,  val_accuracy:0.6150,  val_auc:0.8613,  val_fn:3648.0000,  val_fp:1280.0000,  val_loss:1.0319,  val_precision:0.7351,  val_recall:0.4933,  val_tn:27520.0000,  val_tp:3552.0000,  
-....................................................................................................
-Epoch: 300, accuracy:0.6090,  auc:0.8648,  fn:14898.0000,  fp:4926.0000,  loss:1.0154,  precision:0.7384,  recall:0.4827,  tn:110274.0000,  tp:13902.0000,  val_accuracy:0.6079,  val_auc:0.8591,  val_fn:3663.0000,  val_fp:1253.0000,  val_loss:1.0368,  val_precision:0.7384,  val_recall:0.4913,  val_tn:27547.0000,  val_tp:3537.0000,  
-....................................................................................................
-Epoch: 400, accuracy:0.6102,  auc:0.8659,  fn:14747.0000,  fp:5074.0000,  loss:1.0122,  precision:0.7347,  recall:0.4880,  tn:110126.0000,  tp:14053.0000,  val_accuracy:0.6081,  val_auc:0.8607,  val_fn:3641.0000,  val_fp:1315.0000,  val_loss:1.0353,  val_precision:0.7302,  val_recall:0.4943,  val_tn:27485.0000,  val_tp:3559.0000,  
-....................................................................................................
-Epoch: 500, accuracy:0.6127,  auc:0.8665,  fn:14799.0000,  fp:5034.0000,  loss:1.0099,  precision:0.7355,  recall:0.4861,  tn:110166.0000,  tp:14001.0000,  val_accuracy:0.6122,  val_auc:0.8606,  val_fn:3691.0000,  val_fp:1269.0000,  val_loss:1.0333,  val_precision:0.7344,  val_recall:0.4874,  val_tn:27531.0000,  val_tp:3509.0000,  
-....................................................................................................
-Epoch: 600, accuracy:0.6123,  auc:0.8663,  fn:14450.0000,  fp:5361.0000,  loss:1.0112,  precision:0.7280,  recall:0.4983,  tn:109839.0000,  tp:14350.0000,  val_accuracy:0.6111,  val_auc:0.8613,  val_fn:3793.0000,  val_fp:1128.0000,  val_loss:1.0327,  val_precision:0.7513,  val_recall:0.4732,  val_tn:27672.0000,  val_tp:3407.0000,  
-....................................................................................................
-Epoch: 700, accuracy:0.6137,  auc:0.8669,  fn:14916.0000,  fp:4854.0000,  loss:1.0087,  precision:0.7410,  recall:0.4821,  tn:110346.0000,  tp:13884.0000,  val_accuracy:0.6133,  val_auc:0.8607,  val_fn:3721.0000,  val_fp:1212.0000,  val_loss:1.0351,  val_precision:0.7416,  val_recall:0.4832,  val_tn:27588.0000,  val_tp:3479.0000,  
-....................................................................................................
-Epoch: 800, accuracy:0.6144,  auc:0.8678,  fn:14626.0000,  fp:5083.0000,  loss:1.0053,  precision:0.7360,  recall:0.4922,  tn:110117.0000,  tp:14174.0000,  val_accuracy:0.6131,  val_auc:0.8608,  val_fn:3619.0000,  val_fp:1299.0000,  val_loss:1.0340,  val_precision:0.7338,  val_recall:0.4974,  val_tn:27501.0000,  val_tp:3581.0000,  
-....................................................................................................
-Epoch: 900, accuracy:0.6160,  auc:0.8680,  fn:14356.0000,  fp:5311.0000,  loss:1.0050,  precision:0.7312,  recall:0.5015,  tn:109889.0000,  tp:14444.0000,  val_accuracy:0.6157,  val_auc:0.8605,  val_fn:3551.0000,  val_fp:1383.0000,  val_loss:1.0393,  val_precision:0.7252,  val_recall:0.5068,  val_tn:27417.0000,  val_tp:3649.0000,  
-....................................................................................................CPU times: user 46min 31s, sys: 1h 9min 1s, total: 1h 55min 32s
-Wall time: 23min 42s
+Epoch: 200, accuracy:0.6069,  auc:0.8644,  fn:14858.0000,  fp:5294.0000,  loss:1.0203,  precision:0.7248,  recall:0.4841,  tn:109906.0000,  tp:13942.0000,  val_accuracy:0.6053,  val_auc:0.8623,  val_fn:3732.0000,  val_fp:1303.0000,  val_loss:1.0314,  val_precision:0.7269,  val_recall:0.4817,  val_tn:27497.0000,  val_tp:3468.0000,  
+....................................................................................................CPU times: user 10min 41s, sys: 8min 2s, total: 18min 44s
+Wall time: 3min 46s
 </pre>
 </div>
 </div>
@@ -16547,7 +16628,7 @@ Wall time: 23min 42s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[216]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_histories</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="c1"># pick the latest training history</span>
@@ -16565,7 +16646,7 @@ Wall time: 23min 42s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[216]:</div>
+    <div class="prompt output_prompt">Out[55]:</div>
 
 
 
@@ -16610,25 +16691,25 @@ Wall time: 23min 42s
   </thead>
   <tbody>
     <tr>
-      <th>999</th>
-      <td>1.006822</td>
-      <td>0.616562</td>
-      <td>13972.0</td>
-      <td>4905.0</td>
-      <td>110295.0</td>
-      <td>14828.0</td>
-      <td>0.74016</td>
-      <td>0.485139</td>
-      <td>0.867818</td>
-      <td>1.033145</td>
-      <td>0.615833</td>
-      <td>3469.0</td>
-      <td>1183.0</td>
-      <td>27617.0</td>
-      <td>3731.0</td>
-      <td>0.745701</td>
-      <td>0.481806</td>
-      <td>0.861656</td>
+      <th>299</th>
+      <td>1.016906</td>
+      <td>0.610278</td>
+      <td>14016.0</td>
+      <td>5299.0</td>
+      <td>109901.0</td>
+      <td>14784.0</td>
+      <td>0.725654</td>
+      <td>0.486667</td>
+      <td>0.865604</td>
+      <td>1.027957</td>
+      <td>0.609722</td>
+      <td>3537.0</td>
+      <td>1348.0</td>
+      <td>27452.0</td>
+      <td>3663.0</td>
+      <td>0.724053</td>
+      <td>0.49125</td>
+      <td>0.863813</td>
     </tr>
   </tbody>
 </table>
@@ -16660,14 +16741,14 @@ Wall time: 23min 42s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[217]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span>
 <span class="kn">import</span> <span class="nn">sklearn</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
-<span class="k">assert</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s1">&#39;0.22.2.post1&#39;</span><span class="p">,</span> <span class="s2">&quot;Please upgrade scikit-learn (https://scikit-learn.org/stable/install.html)&quot;</span>
+<span class="k">assert</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;0.22&#39;</span><span class="p">),</span> <span class="s2">&quot;Please upgrade scikit-learn (https://scikit-learn.org/stable/install.html)&quot;</span>
 </pre></div>
 
     </div>
@@ -16677,7 +16758,7 @@ Wall time: 23min 42s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[219]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">embed_features</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">UNFAV</span><span class="p">][</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">X_test</span><span class="p">],</span> <span class="n">BATCH_SIZE</span><span class="p">)</span>
@@ -16692,7 +16773,7 @@ Wall time: 23min 42s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[220]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
@@ -16716,7 +16797,7 @@ Wall time: 23min 42s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[220]:</div>
+    <div class="prompt output_prompt">Out[52]:</div>
 
 
 
@@ -16751,13 +16832,13 @@ Wall time: 23min 42s
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.777016</td>
-      <td>0.788035</td>
-      <td>0.777016</td>
-      <td>0.788035</td>
-      <td>0.539299</td>
-      <td>0.615833</td>
-      <td>0.537922</td>
+      <td>0.778781</td>
+      <td>0.786804</td>
+      <td>0.778781</td>
+      <td>0.786804</td>
+      <td>0.506449</td>
+      <td>0.609722</td>
+      <td>0.518249</td>
     </tr>
   </tbody>
 </table>
@@ -16780,43 +16861,13 @@ Wall time: 23min 42s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[221]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>              precision    recall  f1-score   support
-
-           0       0.67      0.95      0.78      3968
-           1       0.45      0.39      0.42      1305
-           2       0.30      0.02      0.04       913
-           3       0.34      0.04      0.07       582
-           4       0.39      0.29      0.33       432
-
-   micro avg       0.62      0.62      0.62      7200
-   macro avg       0.43      0.34      0.33      7200
-weighted avg       0.54      0.62      0.54      7200
- samples avg       0.62      0.62      0.62      7200
-
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 

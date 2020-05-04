@@ -482,10 +482,10 @@ ad_dataset_pd(SELECTED_COLS).sample(5).T
 chakin.search(lang='English')
 
 
-WORD_VEC_DIMENSIONS = 100
+WORD_VEC_DIMENSIONS = 50
 
 
-get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.100d", WORD_VEC_DIMENSIONS, "embeddings/glove-wiki", nrows=None, skiprows=None)')
+get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.50d", WORD_VEC_DIMENSIONS, "embeddings/glove-wiki", nrows=None, skiprows=None)')
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
@@ -796,7 +796,7 @@ model.compile(
 
 
 BATCH_SIZE = 4096
-EPOCHS = 1000
+EPOCHS = 300
 
 
 logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -820,7 +820,7 @@ from sklearn.metrics import roc_auc_score, classification_report, precision_scor
 import sklearn
 from collections import OrderedDict
 
-assert sklearn.__version__ == '0.22.2.post1', "Please upgrade scikit-learn (https://scikit-learn.org/stable/install.html)"
+assert sklearn.__version__.startswith('0.22'), "Please upgrade scikit-learn (https://scikit-learn.org/stable/install.html)"
 
 
 y_prob = model.predict([embed_features[FAV]["test"], embed_features[UNFAV]["test"], X_test], BATCH_SIZE)
