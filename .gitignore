@@ -1,4 +1,6 @@
 ads16-dataset
 .ipynb_checkpoints
-**/embeddings/*
+models/basic-model/embeddings
 models/basic-model/logs
+.idea
+__pycache__/
