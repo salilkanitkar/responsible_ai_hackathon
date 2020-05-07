@@ -485,7 +485,7 @@ chakin.search(lang='English')
 WORD_VEC_DIMENSIONS = 50
 
 
-get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.50d", WORD_VEC_DIMENSIONS, "embeddings/glove-wiki", nrows=None, skiprows=None)')
+get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.50d", WORD_VEC_DIMENSIONS, nrows=None, skiprows=None)')
 
 
 def dict_project(d:Dict, cols:List[str]) -> Dict:
@@ -722,6 +722,19 @@ notebook.list()
 get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test, embed_features = create_dataset_pd()')
 
 
+keras_model_metrics = [
+    "accuracy",
+    tf.keras.metrics.TruePositives(name='tp'),
+    tf.keras.metrics.FalsePositives(name='fp'),
+    tf.keras.metrics.TrueNegatives(name='tn'),
+    tf.keras.metrics.FalseNegatives(name='fn'), 
+    tf.keras.metrics.Precision(name='precision'),
+    tf.keras.metrics.Recall(name='recall'),
+    tf.keras.metrics.AUC(name='auc')
+]
+train_histories = []
+
+
 print("Size of train cat & num features ",X_train.shape)
 print("Size of output for train ",y_train.shape)
 print("Size of test cat & num features ",X_test.shape)
@@ -749,42 +762,51 @@ def create_embed_flat_layer(col:str, trainable_embed:bool=False):
     return col_input, col_embedded_flat
 
 
-# Input layers
-selected_cols_input = Input(shape=(X_train.shape[1],))
-fav_input, fav_embed = create_embed_flat_layer(FAV)
-unfav_input, unfav_embed = create_embed_flat_layer(UNFAV)
+def create_model_with_embeddings():
+    # Input layers
+    selected_cols_input = Input(shape=(X_train.shape[1],))
+    fav_input, fav_embed = create_embed_flat_layer(FAV)
+    unfav_input, unfav_embed = create_embed_flat_layer(UNFAV)
+
+    # Concatenate the layers
+
+    concatenated = concatenate([fav_embed, unfav_embed, selected_cols_input]) 
+    out = Dense(10, activation='relu')(concatenated)
+    out = Dense(RATINGS_CARDINALITY, activation='softmax')(out)
+
+    # Create the model
+    return Model(
+        inputs = [fav_input, unfav_input, selected_cols_input],
+        outputs = out,
+    )
 
 
-# Concatenate the layers
+def create_model_without_embeddings():
+    selected_cols_input = Input(shape=(X_train.shape[1],))
+    out = Dense(10, activation='relu')(selected_cols_input)
+    out = Dense(RATINGS_CARDINALITY, activation='softmax')(out)
 
-concatenated = concatenate([fav_embed, unfav_embed, selected_cols_input]) 
-out = Dense(10, activation='relu')(concatenated)
-out = Dense(RATINGS_CARDINALITY, activation='softmax')(out)
-
-
-# Create the model
-model = Model(
-    inputs = [fav_input, unfav_input, selected_cols_input],
-    outputs = out,
-)
+    # Create the model
+    return Model(
+        inputs = selected_cols_input,
+        outputs = out,
+    )
 
 
-model.summary()
+def model_fit_data(with_embed:bool=True):
+    d = {}
+    if with_embed:
+        d["X_train"] = [embed_features[FAV]["train"], embed_features[UNFAV]["train"], X_train]
+        d["y_train"] = y_train
+        d["val_data"] = ([embed_features[FAV]["test"], embed_features[UNFAV]["test"], X_test], y_test)
+    else:
+        d["X_train"] = X_train
+        d["y_train"] = y_train
+        d["val_data"] = (X_test, y_test)
+    return d
 
 
-keras_model_metrics = [
-    "accuracy",
-    tf.keras.metrics.TruePositives(name='tp'),
-    tf.keras.metrics.FalsePositives(name='fp'),
-    tf.keras.metrics.TrueNegatives(name='tn'),
-    tf.keras.metrics.FalseNegatives(name='fn'), 
-    tf.keras.metrics.Precision(name='precision'),
-    tf.keras.metrics.Recall(name='recall'),
-    tf.keras.metrics.AUC(name='auc')
-]
-train_histories = []
-
-
+model = create_model_without_embeddings()
 model.compile(
     optimizer=tf.optimizers.Adam(
         learning_rate=0.003,
@@ -793,6 +815,8 @@ model.compile(
     loss="categorical_crossentropy",
     metrics=keras_model_metrics
 )
+
+model.summary()
 
 
 BATCH_SIZE = 4096
@@ -808,7 +832,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
 print(f"Logging tensorboard data at {logdir}")
 
 
-get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    [embed_features[FAV]["train"], embed_features[UNFAV]["train"], X_train],\n    y_train,\n    batch_size=BATCH_SIZE,\n    epochs=EPOCHS,\n    validation_data=([embed_features[FAV]["test"], embed_features[UNFAV]["test"], X_test], y_test),\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0\n))')
+get_ipython().run_cell_magic('time', '', '\nmfd = model_fit_data(with_embed=False)\ntrain_histories.append(model.fit(\n    mfd["X_train"], mfd["y_train"],\n    batch_size=BATCH_SIZE,\n    epochs=3,\n    validation_data=mfd["val_data"],\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0\n))')
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
@@ -840,6 +864,59 @@ pd.DataFrame(OrderedDict({
 
 
 print(classification_report(y_true, y_pred))
+
+
+# ! pip install -q -U tensorflow-model-analysis==0.21.6 apache-beam==2.19.0 fairness-indicators && pip list | grep -E "analysis|beam|fairness"
+
+
+import apache_beam as beam
+
+import tensorflow_model_analysis as tfma
+from tensorflow_model_analysis.addons.fairness.post_export_metrics import fairness_indicators
+from tensorflow_model_analysis.addons.fairness.view import widget_view
+from fairness_indicators.examples import util
+
+
+model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
+print(f"Saved in {logdir}")
+
+
+pd.DataFrame(X_train)
+
+
+tfma_eval_result_path = logdir/'tfma_eval_result'
+
+slice_spec = [
+    tfma.slicer.SingleSliceSpec(), # Overall slice
+#     tfma.slicer.SingleSliceSpec(columns=[slice_selection]),
+]
+
+# Add the fairness metrics.
+add_metrics_callbacks = [
+  tfma.post_export_metrics.fairness_indicators(
+      thresholds=[0.1, 0.3, 0.5, 0.7, 0.9],
+      labels_key=TARGET_COL
+      )
+]
+
+eval_shared_model = tfma.default_eval_shared_model(
+    eval_saved_model_path=tfma_export_dir,
+    add_metrics_callbacks=add_metrics_callbacks)
+
+# Run the fairness evaluation.
+with beam.Pipeline() as pipeline:
+  _ = (
+      pipeline
+      | 'ReadData' >> beam.io.ReadFromTFRecord(validate_tf_file)
+      | 'ExtractEvaluateAndWriteResults' >>
+       tfma.ExtractEvaluateAndWriteResults(
+                 eval_shared_model=eval_shared_model,
+                 slice_spec=slice_spec,
+                 compute_confidence_intervals=compute_confidence_intervals,
+                 output_path=tfma_eval_result_path)
+  )
+
+eval_result = tfma.load_eval_result(output_path=tfma_eval_result_path)
 
 
 model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
