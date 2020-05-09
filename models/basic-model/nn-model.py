@@ -1,73 +1,59 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Neural Network Model
-#
-# The aim of the notebook is demo end to end pipeline for Ads prediction in Tensorflow
-
-# In[1]:
+# ! ./setup.sh # uncomment if you wish to install any new packages
 
 
-from fairness_indicators.examples import util
-from tensorflow_model_analysis.addons.fairness.view import widget_view
-from tensorflow_model_analysis.addons.fairness.post_export_metrics import fairness_indicators
-import tensorflow_model_analysis as tfma
-import apache_beam as beam
-from collections import OrderedDict
-import sklearn
-from sklearn.metrics import roc_auc_score, classification_report, precision_score, recall_score, f1_score
-from tensorboard import notebook
-from EmbeddingFactory import EmbeddingFactory
-from tensorflow.keras.layers import concatenate
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Input
-from tensorflow.keras.models import Model
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.preprocessing.text import Tokenizer
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import NearMiss
-from imblearn.over_sampling import SMOTE
-from fastprogress import progress_bar
-from tempfile import TemporaryDirectory
-import logging
-import sqlite3
-import zipfile
-from collections import defaultdict
-import os
-import json
-import chakin
-from sklearn.model_selection import train_test_split
-from collections import namedtuple
-from math import ceil
-from sklearn.preprocessing import MultiLabelBinarizer
-import string
-import re
-from functools import partial
-from typing import Dict, Any, Union, List, Tuple
-from pprint import pprint
-import pandas as pd
-import numpy as np
-import time
-import datetime
-from pathlib import Path
-import sys
-import tensorflow_docs.modeling
-import tensorflow_docs as tfdocs
 import tensorflow as tf
-get_ipython().system(' ./setup.sh # uncomment if you wish to install any new packages')
+import tensorflow_docs as tfdocs
+import tensorflow_docs.modeling
+import sys
+from pathlib import Path
+import datetime
+import time
+import numpy as np
+import pandas as pd
+from pprint import pprint
+from typing import Dict, Any, Union, List, Tuple
+from functools import partial
+import re
+import string
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.metrics import confusion_matrix
+from math import ceil
+from collections import namedtuple
+from sklearn.model_selection import train_test_split
+import pickle
 
+import chakin
+import json
+import os
+from collections import defaultdict
+import zipfile
+import sqlite3
+import logging
+from tempfile import TemporaryDirectory
+from fastprogress import progress_bar
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import NearMiss
+from imblearn.over_sampling import RandomOverSampler
 
-# In[2]:
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import concatenate
 
+import seaborn as sns
+
+from EmbeddingFactory import EmbeddingFactory
 
 pd.set_option('display.max_rows', None)
 
 print(f"Using Tensorflow, {tf.__version__} on Python interpreter, {sys.version_info}")
-
-
-# In[3]:
 
 
 RANDOM_SEED = int(time.time())
@@ -78,33 +64,12 @@ np.random.seed(RANDOM_SEED)
 print(f"Using random seed, {RANDOM_SEED}")
 
 
-# ## Load Data
-#
-# Dataset credits:
-# ```
-# @inproceedings{roffo2016personality,
-#   title={Personality in computational advertising: A benchmark},
-#   author={Roffo, Giorgio and Vinciarelli, Alessandro},
-#   booktitle={4 th Workshop on Emotions and Personality in Personalized Systems (EMPIRE) 2016},
-#   pages={18},
-#   year={2016}
-# }
-# ```
-
-# In[4]:
-
-
 DATA_FOLDER = Path("../../dataset/")
-BATCH_SIZE = 4096  # bigger the batch, faster the training but bigger the RAM needed
+BATCH_SIZE = 4096 # bigger the batch, faster the training but bigger the RAM needed
 TARGET_COL = "Rating"
 
 # data files path are relative DATA_FOLDER
-users_ads_rating_csv = DATA_FOLDER / "users-ads-without-gcp-ratings_OHE_MLB_FAV_UNFAV_Merged.csv"
-
-
-# #### Declare columns names
-
-# In[5]:
+users_ads_rating_csv = DATA_FOLDER/"users-ads-without-gcp-ratings_OHE_MLB_FAV_UNFAV_Merged.csv"
 
 
 USER_ID = "UserId"
@@ -267,42 +232,42 @@ AD_LABEL_FEATURE_23 = 'ad_isText'
 AD_LABEL_FEATURE_24 = 'ad_isVehicle'
 AD_LABEL_FEATURE_25 = 'ad_isYellow'
 AD_SAFESEARCH_FEATURE_1 = 'ad_isAdult_UNLIKELY'
-AD_SAFESEARCH_FEATURE_2 = 'ad_isAdult_VERY_UNLIKELY'
-AD_SAFESEARCH_FEATURE_3 = 'ad_isSpoof_POSSIBLE'
-AD_SAFESEARCH_FEATURE_4 = 'ad_isSpoof_UNLIKELY'
-AD_SAFESEARCH_FEATURE_5 = 'ad_isSpoof_VERY_UNLIKELY'
-AD_SAFESEARCH_FEATURE_6 = 'ad_isMedical_POSSIBLE'
-AD_SAFESEARCH_FEATURE_7 = 'ad_isMedical_UNLIKELY'
-AD_SAFESEARCH_FEATURE_8 = 'ad_isMedical_VERY_UNLIKELY'
-AD_SAFESEARCH_FEATURE_9 = 'ad_isViolence_VERY_UNLIKELY'
-AD_SAFESEARCH_FEATURE_10 = 'ad_isRacy_POSSIBLE'
-AD_SAFESEARCH_FEATURE_11 = 'ad_isRacy_UNLIKELY'
-AD_SAFESEARCH_FEATURE_12 = 'ad_isRacy_VERY_LIKELY'
-AD_SAFESEARCH_FEATURE_13 = 'ad_isRacy_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_2 ='ad_isAdult_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_3 ='ad_isSpoof_POSSIBLE'
+AD_SAFESEARCH_FEATURE_4 ='ad_isSpoof_UNLIKELY'
+AD_SAFESEARCH_FEATURE_5 ='ad_isSpoof_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_6 ='ad_isMedical_POSSIBLE'
+AD_SAFESEARCH_FEATURE_7 ='ad_isMedical_UNLIKELY'
+AD_SAFESEARCH_FEATURE_8 ='ad_isMedical_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_9 ='ad_isViolence_VERY_UNLIKELY'
+AD_SAFESEARCH_FEATURE_10 ='ad_isRacy_POSSIBLE'
+AD_SAFESEARCH_FEATURE_11 ='ad_isRacy_UNLIKELY'
+AD_SAFESEARCH_FEATURE_12 ='ad_isRacy_VERY_LIKELY'
+AD_SAFESEARCH_FEATURE_13 ='ad_isRacy_VERY_UNLIKELY'
 AD_OBJECT_FEATURE_1 = 'ad_isAnimal'
-AD_OBJECT_FEATURE_2 = 'ad_isBelt'
-AD_OBJECT_FEATURE_3 = 'ad_isBottle'
-AD_OBJECT_FEATURE_4 = 'ad_isBox'
-AD_OBJECT_FEATURE_5 = 'ad_isCameralens'
-AD_OBJECT_FEATURE_6 = 'ad_isChair'
-AD_OBJECT_FEATURE_7 = 'ad_isClothing'
-AD_OBJECT_FEATURE_8 = 'ad_isEarrings'
-AD_OBJECT_FEATURE_9 = 'ad_isFood'
-AD_OBJECT_FEATURE_10 = 'ad_isHat'
-AD_OBJECT_FEATURE_11 = 'ad_isLuggagebags'
-AD_OBJECT_FEATURE_12 = 'ad_isMobilephone'
-AD_OBJECT_FEATURE_13 = 'ad_isNecklace'
-AD_OBJECT_FEATURE_14 = 'ad_isPackagedgoods'
-AD_OBJECT_FEATURE_15 = 'ad_isPants'
-AD_OBJECT_FEATURE_16 = 'ad_isPen'
-AD_OBJECT_FEATURE_17 = 'ad_isPerson'
-AD_OBJECT_FEATURE_18 = 'ad_isPillow'
-AD_OBJECT_FEATURE_19 = 'ad_isPoster'
-AD_OBJECT_FEATURE_20 = 'ad_isShoe'
-AD_OBJECT_FEATURE_21 = 'ad_isTop'
-AD_OBJECT_FEATURE_22 = 'ad_isToy'
-AD_OBJECT_FEATURE_23 = 'ad_isWatch'
-AD_OBJECT_FEATURE_24 = 'ad_isWheel'
+AD_OBJECT_FEATURE_2 ='ad_isBelt'
+AD_OBJECT_FEATURE_3 ='ad_isBottle'
+AD_OBJECT_FEATURE_4 ='ad_isBox'
+AD_OBJECT_FEATURE_5 ='ad_isCameralens'
+AD_OBJECT_FEATURE_6 ='ad_isChair'
+AD_OBJECT_FEATURE_7 ='ad_isClothing'
+AD_OBJECT_FEATURE_8 ='ad_isEarrings'
+AD_OBJECT_FEATURE_9 ='ad_isFood'
+AD_OBJECT_FEATURE_10 ='ad_isHat'
+AD_OBJECT_FEATURE_11 ='ad_isLuggagebags'
+AD_OBJECT_FEATURE_12 ='ad_isMobilephone'
+AD_OBJECT_FEATURE_13 ='ad_isNecklace'
+AD_OBJECT_FEATURE_14 ='ad_isPackagedgoods'
+AD_OBJECT_FEATURE_15 ='ad_isPants'
+AD_OBJECT_FEATURE_16 ='ad_isPen'
+AD_OBJECT_FEATURE_17 ='ad_isPerson'
+AD_OBJECT_FEATURE_18 ='ad_isPillow'
+AD_OBJECT_FEATURE_19 ='ad_isPoster'
+AD_OBJECT_FEATURE_20 ='ad_isShoe'
+AD_OBJECT_FEATURE_21 ='ad_isTop'
+AD_OBJECT_FEATURE_22 ='ad_isToy'
+AD_OBJECT_FEATURE_23 ='ad_isWatch'
+AD_OBJECT_FEATURE_24  ='ad_isWheel'
 FAV = 'fav'
 UNFAV = 'unfav'
 
@@ -433,7 +398,7 @@ COL_DEFAULTS = {
     MOSTWATCHEDTVPROGRAMMES_8: "**",
     MOSTWATCHEDTVPROGRAMMES_9: "**",
     MOSTWATCHEDTVPROGRAMMES_10: "**",
-    MOSTWATCHEDTVPROGRAMMES_11: "**",
+    MOSTWATCHEDTVPROGRAMMES_11: "**",    
     RATING: "**",
     AD_NUM_FACES: "**",
     FAV: "**",
@@ -442,25 +407,25 @@ COL_DEFAULTS = {
 
 
 AD_FACE_COLS = [AD_NUM_FACES]
-AD_LABEL_COLS = [AD_LABEL_FEATURE_1, AD_LABEL_FEATURE_2, AD_LABEL_FEATURE_3, AD_LABEL_FEATURE_4, AD_LABEL_FEATURE_5,
-                 AD_LABEL_FEATURE_6, AD_LABEL_FEATURE_7, AD_LABEL_FEATURE_8, AD_LABEL_FEATURE_9, AD_LABEL_FEATURE_10,
-                 AD_LABEL_FEATURE_11, AD_LABEL_FEATURE_12, AD_LABEL_FEATURE_13, AD_LABEL_FEATURE_14, AD_LABEL_FEATURE_15,
-                 AD_LABEL_FEATURE_16, AD_LABEL_FEATURE_17, AD_LABEL_FEATURE_18, AD_LABEL_FEATURE_19, AD_LABEL_FEATURE_20,
-                 AD_LABEL_FEATURE_21, AD_LABEL_FEATURE_22, AD_LABEL_FEATURE_23, AD_LABEL_FEATURE_24, AD_LABEL_FEATURE_25]
+AD_LABEL_COLS = [AD_LABEL_FEATURE_1,AD_LABEL_FEATURE_2,AD_LABEL_FEATURE_3,AD_LABEL_FEATURE_4,AD_LABEL_FEATURE_5,
+                AD_LABEL_FEATURE_6,AD_LABEL_FEATURE_7,AD_LABEL_FEATURE_8,AD_LABEL_FEATURE_9,AD_LABEL_FEATURE_10,
+                AD_LABEL_FEATURE_11,AD_LABEL_FEATURE_12,AD_LABEL_FEATURE_13,AD_LABEL_FEATURE_14,AD_LABEL_FEATURE_15,
+                AD_LABEL_FEATURE_16,AD_LABEL_FEATURE_17,AD_LABEL_FEATURE_18,AD_LABEL_FEATURE_19,AD_LABEL_FEATURE_20,
+                AD_LABEL_FEATURE_21,AD_LABEL_FEATURE_22,AD_LABEL_FEATURE_23,AD_LABEL_FEATURE_24,AD_LABEL_FEATURE_25]
 
-AD_OBJECT_COLS = [AD_OBJECT_FEATURE_1, AD_OBJECT_FEATURE_2, AD_OBJECT_FEATURE_3, AD_OBJECT_FEATURE_4, AD_OBJECT_FEATURE_5,
-                  AD_OBJECT_FEATURE_6, AD_OBJECT_FEATURE_7, AD_OBJECT_FEATURE_8, AD_OBJECT_FEATURE_9, AD_OBJECT_FEATURE_10,
-                  AD_OBJECT_FEATURE_11, AD_OBJECT_FEATURE_12, AD_OBJECT_FEATURE_13, AD_OBJECT_FEATURE_14, AD_OBJECT_FEATURE_15,
-                  AD_OBJECT_FEATURE_16, AD_OBJECT_FEATURE_17, AD_OBJECT_FEATURE_18, AD_OBJECT_FEATURE_19, AD_OBJECT_FEATURE_20,
-                  AD_OBJECT_FEATURE_21, AD_OBJECT_FEATURE_22, AD_OBJECT_FEATURE_23, AD_OBJECT_FEATURE_24]
-
-
-AD_SAFE_SEARCH_COLS = [AD_SAFESEARCH_FEATURE_1, AD_SAFESEARCH_FEATURE_2, AD_SAFESEARCH_FEATURE_3, AD_SAFESEARCH_FEATURE_4,
-                       AD_SAFESEARCH_FEATURE_5, AD_SAFESEARCH_FEATURE_6, AD_SAFESEARCH_FEATURE_7, AD_SAFESEARCH_FEATURE_8,
-                       AD_SAFESEARCH_FEATURE_9, AD_SAFESEARCH_FEATURE_10, AD_SAFESEARCH_FEATURE_11, AD_SAFESEARCH_FEATURE_12, AD_SAFESEARCH_FEATURE_13]
+AD_OBJECT_COLS = [AD_OBJECT_FEATURE_1,AD_OBJECT_FEATURE_2,AD_OBJECT_FEATURE_3,AD_OBJECT_FEATURE_4,AD_OBJECT_FEATURE_5,
+                AD_OBJECT_FEATURE_6,AD_OBJECT_FEATURE_7,AD_OBJECT_FEATURE_8,AD_OBJECT_FEATURE_9,AD_OBJECT_FEATURE_10,
+                AD_OBJECT_FEATURE_11,AD_OBJECT_FEATURE_12,AD_OBJECT_FEATURE_13,AD_OBJECT_FEATURE_14,AD_OBJECT_FEATURE_15,
+                AD_OBJECT_FEATURE_16,AD_OBJECT_FEATURE_17,AD_OBJECT_FEATURE_18,AD_OBJECT_FEATURE_19,AD_OBJECT_FEATURE_20,
+                AD_OBJECT_FEATURE_21,AD_OBJECT_FEATURE_22,AD_OBJECT_FEATURE_23,AD_OBJECT_FEATURE_24]
 
 
-SELECTED_AD_COLS = AD_FACE_COLS + AD_LABEL_COLS + AD_OBJECT_COLS + AD_SAFE_SEARCH_COLS
+AD_SAFE_SEARCH_COLS = [AD_SAFESEARCH_FEATURE_1,AD_SAFESEARCH_FEATURE_2,AD_SAFESEARCH_FEATURE_3,AD_SAFESEARCH_FEATURE_4,
+                      AD_SAFESEARCH_FEATURE_5,AD_SAFESEARCH_FEATURE_6,AD_SAFESEARCH_FEATURE_7,AD_SAFESEARCH_FEATURE_8,
+                      AD_SAFESEARCH_FEATURE_9,AD_SAFESEARCH_FEATURE_10,AD_SAFESEARCH_FEATURE_11,AD_SAFESEARCH_FEATURE_12,AD_SAFESEARCH_FEATURE_13]
+
+
+SELECTED_AD_COLS = AD_FACE_COLS  + AD_LABEL_COLS + AD_OBJECT_COLS + AD_SAFE_SEARCH_COLS
 
 SELECTED_HOMECOUNTRY_COLS = [HOMECOUNTRY_CANADA, HOMECOUNTRY_CZECHREPUBLIC, HOMECOUNTRY_GREATBRITAIN,
                              HOMECOUNTRY_INDIA, HOMECOUNTRY_ITALY, HOMECOUNTRY_PHILLIPINES, HOMECOUNTRY_ROMANIA,
@@ -485,7 +450,7 @@ SELECTED_MOSTREADBOOKS_COLS = [MOSTREADBOOKS_1, MOSTREADBOOKS_2, MOSTREADBOOKS_3
                                MOSTREADBOOKS_17, MOSTREADBOOKS_18, MOSTREADBOOKS_19, MOSTREADBOOKS_20,
                                MOSTREADBOOKS_21, MOSTREADBOOKS_22, MOSTREADBOOKS_23, MOSTREADBOOKS_24,
                                MOSTREADBOOKS_25, MOSTREADBOOKS_26, MOSTREADBOOKS_27, MOSTREADBOOKS_28,
-                               MOSTREADBOOKS_29, MOSTREADBOOKS_30, MOSTREADBOOKS_31]
+                               MOSTREADBOOKS_29, MOSTREADBOOKS_30, MOSTREADBOOKS_31] 
 
 SELECTED_MOSTWATCHEDMOVIES_COLS = [MOSTWATCHEDMOVIES_1, MOSTWATCHEDMOVIES_2, MOSTWATCHEDMOVIES_3,
                                    MOSTWATCHEDMOVIES_4, MOSTWATCHEDMOVIES_5, MOSTWATCHEDMOVIES_6,
@@ -501,9 +466,8 @@ SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS = [MOSTWATCHEDTVPROGRAMMES_1, MOSTWATCHEDT
                                          MOSTWATCHEDTVPROGRAMMES_7, MOSTWATCHEDTVPROGRAMMES_8,
                                          MOSTWATCHEDTVPROGRAMMES_9, MOSTWATCHEDTVPROGRAMMES_10,
                                          MOSTWATCHEDTVPROGRAMMES_11]
-
-SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] + SELECTED_AD_COLS + SELECTED_HOMECOUNTRY_COLS + SELECTED_INCOME_COLS + \
-    SELECTED_MOSTLISTENEDMUSICS_COLS + SELECTED_MOSTREADBOOKS_COLS + SELECTED_MOSTWATCHEDMOVIES_COLS + SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS
+                                   
+SELECTED_INP_COLS = [AGE, ZIP_CODE, FAVE_SPORTS, GENDER_F, GENDER_M] +                    SELECTED_AD_COLS +                    SELECTED_HOMECOUNTRY_COLS +                    SELECTED_INCOME_COLS +                    SELECTED_MOSTLISTENEDMUSICS_COLS +                    SELECTED_MOSTREADBOOKS_COLS +                    SELECTED_MOSTWATCHEDMOVIES_COLS +                    SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS
 
 EMBED_COLS = [FAV, UNFAV]
 
@@ -512,185 +476,88 @@ SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 print(SELECTED_COLS)
 
 
-# #### Load dataset
-
-# In[6]:
-
-
-def ad_dataset_pd(usecols: List[str] = None):
+def ad_dataset_pd(usecols:List[str]=None):
     """
     Read from csv files given set of columns into Pandas Dataframe
     """
-    return pd.read_csv(users_ads_rating_csv, usecols=usecols, dtype=str)
-
-
-# In[7]:
+    return pd.read_csv(users_ads_rating_csv,usecols=usecols, dtype=str)
 
 
 ad_dataset_pd(SELECTED_COLS).sample(5).T
 
 
-# ## Prepare Word Embeddings
-
-# #### Load and prepare embedding for use
-
-# In[8]:
-
-
 chakin.search(lang='English')
-
-
-# In[9]:
 
 
 WORD_VEC_DIMENSIONS = 50
 
 
-# In[10]:
-
-
 get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.50d", WORD_VEC_DIMENSIONS, nrows=None, skiprows=None)')
 
 
-# #### Populate metadata for embedding columns in CACHE for later use
-
-# In[11]:
-
-
-CACHE = defaultdict(dict)  # Store matrix and metadata for each embedding column for later use
-
-
-# In[12]:
-
-
-def populate_embedding_metadata_in_cache():
-
-    CACHE = defaultdict(dict)
-
-    df = ad_dataset_pd(EMBED_COLS)
+def create_embedding_data(df:pd.DataFrame) -> Dict:
+    """Compute metadata and embedding matrix for each embedding column in df"""
+    
+    embedding_store = defaultdict(dict)
     for embed_col in EMBED_COLS:
         # Input dataframe and embed_col
         t = Tokenizer()
         t.fit_on_texts(df[embed_col])
-
-        CACHE[embed_col]["tokenizer"] = t
+        embedding_store[embed_col]["tokenizer"] = t
 
         # UNK added as tokenizer starts indexing from 1
-        words = ["UNK"] + list(t.word_index.keys())  # in order of tokenizer
-        CACHE[embed_col]["vocab_size"] = len(words)
+        words = ["UNK"] + list(t.word_index.keys()) # in order of tokenizer
+        embedding_store[embed_col]["vocab_size"] = len(words)
 
         # integer encode the text data
         encoded_col = t.texts_to_sequences(df[embed_col])
 
         # calculate max len of vector and make length equal by padding with zeros
-        maxlen = max(len(x) for x in encoded_col)
-        CACHE[embed_col]["maxlen"] = maxlen
-
-        padded_col = pad_sequences(encoded_col, maxlen=maxlen, padding='post')
+        maxlen = max(len(x) for x in encoded_col) 
+        embedding_store[embed_col]["maxlen"] = maxlen
+        embedding_store[embed_col]["padded_col"] = pad_sequences(encoded_col, maxlen=maxlen, padding='post')
 
         # create a weight matrix
-        embeddings = dict.fromkeys(words, " ".join(["0"] * WORD_VEC_DIMENSIONS))  # default embeddings to all words as 0
-        embeddings.update(dict(embedding_index.fetch_word_vectors(words)))  # update for known words
+        embeddings = dict.fromkeys(words, " ".join(["0"] * WORD_VEC_DIMENSIONS)) # default embeddings to all words as 0
+        embeddings.update(dict(embedding_index.fetch_word_vectors(words))) # update for known words
         # reorder to match tokenizer's indexing
         emb_matrix = pd.DataFrame.from_dict(embeddings, orient="index").loc[words, 0].str.split(" ", expand=True).to_numpy().astype(np.float16)
-        CACHE[embed_col]["embed_matrix"] = emb_matrix
-        assert emb_matrix.shape[0] == len(words), "Not all words have embeddings"
+        embedding_store[embed_col]["embed_matrix"] = emb_matrix
+        assert emb_matrix.shape[0] == len(words), f"For {embed_col}, not all words have embeddings"
+        
+    return embedding_store
 
 
-# In[13]:
+create_embedding_data(ad_dataset_pd(EMBED_COLS).sample(n=3))
 
 
-# Populate the metadata for later use
-populate_embedding_metadata_in_cache()
-
-
-# ## Transform Data
-
-# In[16]:
-
-
-def dict_project(d: Dict, cols: List[str]) -> Dict:
+def dict_project(d:Dict, cols:List[str]) -> Dict:
     """Returns a new dictionary with only cols keys"""
-    return {k: v for k, v in d.items() if k in cols}
-
-
-# In[17]:
+    return {k:v for k, v in d.items() if k in cols}
 
 
 class IndexerForVocab:
-    def __init__(self, vocab_list: List[str], oov_index: int = 0):
+    def __init__(self, vocab_list:List[str], oov_index:int=0):
         """
         Creates a string indexer for the vocabulary with out of vocabulary (oov) indexing
         """
-        self._vocab_map = {v: i + 1 for i, v in enumerate(vocab_list)}
+        self._vocab_map = {v:i+1 for i, v in enumerate(vocab_list)}
         self._oov = oov_index
-
+        
     def __repr__(self):
         return f"Map for {len(self)} keys with 1 OOV key"
-
+    
     def __len__(self):
         return len(self._vocab_map) + 1
-
-    def index_of(self, item: str):
+        
+    def index_of(self, item:str):
         """
         Index of item in the vocabulary
         """
         return self._vocab_map.get(item, self._oov)
-
-    def index_of_mux(self, items: List[str]):
+    
+    def index_of_mux(self, items:List[str]):
         return [self.index_of(i) for i in items]
-
-
-# ### Embedded columns
-
-# In[18]:
-
-
-def transform_embed_cols(df: pd.DataFrame, embed_col: str):
-    """
-    Takes dataframe and column name and transforms column and stores
-    vocab size, max len & embedding matrix into CACHE
-    """
-
-    t = CACHE[embed_col]["tokenizer"]
-    t.fit_on_texts(df[embed_col])
-
-    # integer encode the text data
-    encoded_col = t.texts_to_sequences(df[embed_col])
-    maxlen = CACHE[embed_col]["maxlen"]
-    # pad the embedding columns to macth length to maxlen
-    padded_col = pad_sequences(encoded_col, maxlen=maxlen, padding='post')
-
-    return padded_col, t
-
-
-# #### Visual test
-
-# In[19]:
-
-
-p, _ = transform_embed_cols(ad_dataset_pd([FAV]).sample(n=1), FAV)
-p.shape
-
-
-# In[20]:
-
-
-p, _ = transform_embed_cols(ad_dataset_pd([UNFAV]).sample(n=1), UNFAV)
-p.shape
-
-
-# In[21]:
-
-
-CACHE, CACHE[FAV]["embed_matrix"].shape
-
-
-# ### Age
-#
-# Convert to a number and remove any outliers
-
-# In[22]:
 
 
 # Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb
@@ -698,34 +565,19 @@ CACHE, CACHE[FAV]["embed_matrix"].shape
 MEAN_AGE, STD_AGE, MEDIAN_AGE, MAX_AGE = 31.74, 12.07, 29, 140
 
 
-# In[23]:
-
-
-def fix_age(age_str: tf.string, default_age=MEDIAN_AGE) -> int:
+def fix_age(age_str:tf.string, default_age=MEDIAN_AGE) -> int:
     """Typecast age to an integer and update outliers with the default"""
     try:
         age = int(age_str)
         if age < 0 or age > MAX_AGE:
             raise ValueError(f"{age} is not a valid age")
-    except BaseException:
+    except:
         age = default_age
     normalized_age = (age - MEAN_AGE) / STD_AGE
     return normalized_age
 
 
-# #### Visual Tests
-
-# In[24]:
-
-
 fix_age("50"), fix_age("50.5"), fix_age("-10"), fix_age("bad_age_10"), fix_age("300")
-
-
-# ### Zip Code
-#
-# Prepare zip-code column for one-hot encoding each character
-
-# In[25]:
 
 
 DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
@@ -733,108 +585,65 @@ DEFAULT_ZIP_CODE, FIRST_K_ZIP_DIGITS = "00000", 2
 zip_code_indexer = IndexerForVocab(string.digits + string.ascii_lowercase + string.ascii_uppercase)
 
 
-# In[26]:
-
-
-def fix_zip_code_tensor(zip_code: tf.string, n_digits, indexer) -> List[str]:
+def fix_zip_code_tensor(zip_code:tf.string, n_digits, indexer) -> List[str]:
     """Extracts the the first n_digits as a list"""
     zip_digits = []
     try:
         if isinstance(zip_code, tf.Tensor):
-            zip_code = zip_code.numpy()[0].decode('ascii', errors="ignore")  # very ineffecient way
+            zip_code = zip_code.numpy()[0].decode('ascii', errors="ignore") # very ineffecient way
         zip_digits = list(zip_code.strip()[:n_digits])
-    except BaseException:
+    except:
         zip_digits = list(DEFAULT_ZIP_CODE[:n_digits])
-    return tf.concat([
+    return tf.concat( [
         tf.one_hot(
             indexer.index_of(d), len(indexer)
         ) for d in zip_digits
-    ], 0)
+    ], 0 )
 
-
-def fix_zip_code(zip_code: str, n_digits, indexer) -> List[str]:
+def fix_zip_code(zip_code:str, n_digits, indexer) -> List[str]:
     """Extracts the the first n_digits as a list"""
     zip_digits = []
     try:
         zip_digits = list(zip_code.strip()[:n_digits])
-    except BaseException:
+    except:
         zip_digits = list(DEFAULT_ZIP_CODE[:n_digits])
     return np.ravel(np.eye(len(indexer))[indexer.index_of_mux(zip_digits)])
-
-
-# #### Visual Tests
-
-# In[27]:
 
 
 test_zip_code_indexer = IndexerForVocab(string.digits)
 
 (fix_zip_code("43556", 10, test_zip_code_indexer),
- fix_zip_code("43556", 2, test_zip_code_indexer),
- fix_zip_code("43556", 4, test_zip_code_indexer),
- fix_zip_code(None, 3, test_zip_code_indexer))
-
-
-# ### Favorite Sports
-#
-# Two approaches,
-# 1. Consider the first `K` sports mentioned by each user and one-hot encode each separately
-# 2. Multi label binarize all the sports as there are only 15 unique sports
-
-# In[28]:
+fix_zip_code("43556", 2, test_zip_code_indexer),
+fix_zip_code("43556", 4, test_zip_code_indexer),
+fix_zip_code(None, 3, test_zip_code_indexer))
 
 
 FAV_SPORTS_UNKNOWN = "UNK_SPORT"
-ALL_FAV_SPORTS = [
-    'Olympic sports',
-    'Winter sports',
-    'Nothing',
-    'I do not like Sports',
-    'Equestrian sports',
-    'Skating sports',
-    'Precision sports',
-    'Hunting sports',
-    'Motor sports',
-    'Team sports',
-    'Individual sports',
-    'Other',
-    'Water sports',
-    'Indoor sports',
-    'Endurance sports']
+ALL_FAV_SPORTS = ['Olympic sports', 'Winter sports', 'Nothing', 'I do not like Sports', 'Equestrian sports', 'Skating sports', 'Precision sports', 'Hunting sports', 'Motor sports', 'Team sports', 'Individual sports', 'Other', 'Water sports', 'Indoor sports', 'Endurance sports']
 
 fav_sports_binarizer = MultiLabelBinarizer()
 fav_sports_binarizer.fit([ALL_FAV_SPORTS])
 
 
-# In[29]:
-
-
-def fav_sports_multi_select_str_to_list(sports_str: Union[str, tf.Tensor]) -> List[str]:
+def fav_sports_multi_select_str_to_list(sports_str:Union[str, tf.Tensor]) -> List[str]:
     # remove commas that dont separate different user selections
     # example, commas inside paranthesis of "Individual sports (Tennis, Archery, ...)" dont make new sports
     if isinstance(sports_str, tf.Tensor):
         sports_str = sports_str.numpy()[0].decode('ascii', errors="ignore")
     else:
-        sports_str = sports_str.encode("ascii", errors="ignore").decode("ascii")  # remove non-ascii chars
+        sports_str = sports_str.encode("ascii", errors="ignore").decode("ascii") # remove non-ascii chars
     sports = re.sub(r"\s*\(.*,.*\)\s*", "", sports_str)
     return re.split(r"\s*,\s*", sports)
 
-
-def fix_fav_sports_mlb(sports_str: str) -> List[int]:
+def fix_fav_sports_mlb(sports_str:str) -> List[int]:
     sports = fav_sports_multi_select_str_to_list(sports_str)
     return fav_sports_binarizer.transform([sports])[0]
 
-
-def fix_fav_sports_firstk(sports_str: str, first_k: int, pad_constant: int) -> List[str]:
+def fix_fav_sports_firstk(sports_str:str, first_k:int, pad_constant:int) -> List[str]:
     sports = fav_sports_multi_select_str_to_list(sports_str)
     right_pad_width = first_k - len(sports_enc)
     result = [sports + [pad_constant] * right_pad_width][:first_k]
     return result
-
-
-# #### Visual Tests
-
-# In[30]:
 
 
 (
@@ -845,177 +654,133 @@ def fix_fav_sports_firstk(sports_str: str, first_k: int, pad_constant: int) -> L
 )
 
 
-# ### Target
-
-# In[31]:
+RATINGS_CARDINALITY = 2 # not zero based indexing i.e. ratings range from 1 to 5
 
 
-RATINGS_CARDINALITY = 2  # not zero based indexing i.e. ratings range from 1 to 5
-
-
-# In[32]:
-
-
-def create_target_pd(rating_str: str):
+def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
 
 
-# ## Featurize
-
-# In[33]:
-
-
-def transform_pd_X(df: pd.DataFrame, inp_cols: List[str]):
+def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     """Original dataframe will be modified"""
     df[AGE] = df[AGE].apply(lambda age: [fix_age(age)])
     df[ZIP_CODE] = df[ZIP_CODE].apply(lambda zc: fix_zip_code(zc, n_digits=2, indexer=zip_code_indexer))
     df[FAVE_SPORTS] = df[FAVE_SPORTS].apply(fix_fav_sports_mlb)
 
-    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] + AD_LABEL_COLS + AD_SAFE_SEARCH_COLS + SELECTED_HOMECOUNTRY_COLS + SELECTED_INCOME_COLS + \
-        SELECTED_MOSTLISTENEDMUSICS_COLS + SELECTED_MOSTREADBOOKS_COLS + SELECTED_MOSTWATCHEDMOVIES_COLS + SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS + AD_OBJECT_COLS
-
+    int_cols = [GENDER_F, GENDER_M, AD_NUM_FACES] +               AD_LABEL_COLS +               AD_SAFE_SEARCH_COLS +               SELECTED_HOMECOUNTRY_COLS +               SELECTED_INCOME_COLS +               SELECTED_MOSTLISTENEDMUSICS_COLS +               SELECTED_MOSTREADBOOKS_COLS +               SELECTED_MOSTWATCHEDMOVIES_COLS +               SELECTED_MOSTWATCHEDTVPROGRAMMES_COLS +               AD_OBJECT_COLS
+    
     df[int_cols] = df[int_cols].applymap(lambda f: [int(f)])
-
+    
     df["X"] = df[inp_cols].apply(np.concatenate, axis=1)
     # TODO: vectorize, else inefficient to sequentially loop over all examples
     X = np.array([x for x in df["X"]])
     return X
 
 
-# In[34]:
+def merge_minority_classes(df, target_col):
+    """Original dataframe is modified"""
+    df.loc[df[target_col] != "1.0", target_col] = "2.0"
+    return df
 
 
-def transform_pd_y(df: pd.DataFrame, target_col: str):
+def transform_pd_y(df:pd.DataFrame, target_col:str):
     """Original dataframe will be modified"""
-    if (RATINGS_CARDINALITY == 2):
-        df.loc[df[target_col] != "1.0", target_col] = "2.0"
-
+    if (RATINGS_CARDINALITY == 2) :
+        df = merge_minority_classes(df, target_col)
+        
     df["y"] = df[target_col].apply(create_target_pd)
     # TODO: vectorize, else inefficient to sequentially loop over all examples
     y = np.array([y for y in df["y"]])
     return y
 
 
-# In[35]:
-
-
-def create_dataset_pd(inp_cols: List[str] = SELECTED_INP_COLS, target_col: str = TARGET_COL, fraction: float = 1, test_frac: float = 0.2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, List]:
+def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1, test_frac:float=0.2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, List]:
     """
     Prepare the dataset for training on a fraction of all input data
     Columns using embeddings are split seperately and returned in list of tuples called embed_features
     """
     # NOTE: RANDOM_SEED should be same for both splits
-    # Create (train, test) split of selected columns and target
+    # Create (train, test) split of selected columns and target 
     df = ad_dataset_pd(SELECTED_COLS + EMBED_COLS).sample(frac=fraction)
-
+    
     X, y = transform_pd_X(df[SELECTED_COLS], inp_cols), transform_pd_y(df[SELECTED_COLS], target_col)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_frac, random_state=RANDOM_SEED)
-
+    
     # Create (train, test) split for each embedding column
-    embed_features = {}
+    embed_features, embedding_store = {}, create_embedding_data(df)
+    # TODO: this loop can be vectorized for speed
     for embed_col in EMBED_COLS:
-        X_embed_col, tokenizer = transform_embed_cols(df, embed_col)
-        X_embed_train, X_embed_test = train_test_split(X_embed_col, test_size=test_frac, random_state=RANDOM_SEED)
+        X_embed_train, X_embed_test = train_test_split(embedding_store[embed_col]["padded_col"], test_size=test_frac, random_state=RANDOM_SEED)
         embed_features[embed_col] = {"train": X_embed_train, "test": X_embed_test}
-
-    return X_train, X_test, y_train, y_test, embed_features
-
-
-# ## Tensorboard
-#
-# Monitor training and other stats
-
-# In[36]:
+        
+    return X_train, X_test, y_train, y_test, embed_features, embedding_store
 
 
-# In[37]:
-get_ipython().magic('reload_ext tensorboard')
+from tensorboard import notebook
 
 
-# Start tensorboard
-
-# In[38]:
+get_ipython().run_line_magic('reload_ext', 'tensorboard')
 
 
-get_ipython().magic('tensorboard --logdir logs --port 6006')
-
-
-# In[39]:
+get_ipython().run_line_magic('tensorboard', '--logdir logs --port 6006')
 
 
 notebook.list()
 
 
-# ## Model
-#
-# Create a model and train using high level APIs like `tf.keras` and `tf.estimator`
-
-# <img src="https://i.imgur.com/Z1eVQu9.png" width="600" height="300">
-# <p style="text-align: center;"><strong>Image Credits:</strong> https://www.kaggle.com/colinmorris/embedding-layers</p>
-
-# In[40]:
+get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test, embed_features, embedding_store = create_dataset_pd()')
 
 
-get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test, embed_features = create_dataset_pd()')
+inp = X_train, X_test, y_train, y_test, embed_features, embedding_store
+
+with open("inp.pickle", "wb") as f:
+    pickle.dump(inp, f)
 
 
-# # Balance training data classes : Random oversampling , SMOTE
-
-# In[41]:
+with open("inp.pickle", "rb") as f:
+    X_train, X_test, y_train, y_test, embed_features, embedding_store = pickle.load(f)
 
 
 train_embed_feature_1 = embed_features[FAV]["train"]
 train_embed_feature_2 = embed_features[UNFAV]["train"]
 
 
-# In[42]:
-
-
-np.sum(y_train, axis=0)
-
-
-# In[43]:
-
-
-def balance_classes(X_train, y_train, train_embed_feature_1, train_embed_feature_2, smote):
-
-    # concatenate embedding columns to X_train
+def balance_classes(X_train , y_train , train_embed_feature_1 , train_embed_feature_2 , smote):
+    #concatenate embedding columns to X_train
     X_train_cols = X_train.shape[1]
     train_embed_feature_1_cols = train_embed_feature_1.shape[1]
     train_embed_feature_2_cols = train_embed_feature_2.shape[1]
-
-    # convert OHE target to normal
-    y_train_normal = [np.where(r == 1)[0][0] for r in y_train]
-
-    x_train_concat = np.concatenate((X_train, train_embed_feature_1, train_embed_feature_2), axis=1)
-
+    
+    #convert OHE target to normal
+    y_train_normal = [np.where(r==1)[0][0] for r in y_train]
+    
+    x_train_concat = np.concatenate((X_train,train_embed_feature_1,train_embed_feature_2),axis=1)
+    
     if(smote):
         smote_oversample = SMOTE()
         X_t, y_t = smote_oversample.fit_resample(x_train_concat, y_train_normal)
     else:
         random_oversample = RandomOverSampler()
         X_t, y_t = random_oversample.fit_sample(x_train_concat, y_train_normal)
-
-    # regenerate x_train , y_train and embedding columns from X_t
+    
+    #regenerate x_train , y_train and embedding columns from X_t
     y_train = np.eye(RATINGS_CARDINALITY, dtype=int)[y_t]
-    X_train = X_t[:, 0:X_train_cols]
-    train_embed_feature_1 = X_t[:, X_train_cols: X_train_cols + train_embed_feature_1_cols]
-    train_embed_feature_2 = X_t[:, X_train_cols + train_embed_feature_1_cols: X_train_cols + train_embed_feature_1_cols + train_embed_feature_2_cols]
-
+    X_train = X_t[:,0:X_train_cols]
+    train_embed_feature_1 = X_t[:, X_train_cols : X_train_cols+train_embed_feature_1_cols]
+    train_embed_feature_2 = X_t[:, X_train_cols+train_embed_feature_1_cols : X_train_cols+train_embed_feature_1_cols+train_embed_feature_2_cols]
+    
     return X_train, y_train, train_embed_feature_1, train_embed_feature_2
 
 
-# In[44]:
+X_train, y_train, embed_features[FAV]["train"], embed_features[UNFAV]["train"] = balance_classes(X_train,y_train,
+                                                                              train_embed_feature_1,train_embed_feature_2,
+                                                                              True)
 
 
-X_train, y_train, embed_features[FAV]["train"], embed_features[UNFAV]["train"] = balance_classes(X_train, y_train,
-                                                                                                 train_embed_feature_1, train_embed_feature_2,
-                                                                                                 True)
+X_train.shape, y_train.shape, embed_features[FAV]["train"].shape, embed_features[UNFAV]["train"].shape
 
 
-# # Model
-
-# In[45]:
+pd.DataFrame(y_train)[0].value_counts(), pd.DataFrame(y_test)[0].value_counts()
 
 
 keras_model_metrics = [
@@ -1023,7 +788,7 @@ keras_model_metrics = [
     tf.keras.metrics.TruePositives(name='tp'),
     tf.keras.metrics.FalsePositives(name='fp'),
     tf.keras.metrics.TrueNegatives(name='tn'),
-    tf.keras.metrics.FalseNegatives(name='fn'),
+    tf.keras.metrics.FalseNegatives(name='fn'), 
     tf.keras.metrics.Precision(name='precision'),
     tf.keras.metrics.Recall(name='recall'),
     tf.keras.metrics.AUC(name='auc')
@@ -1031,87 +796,67 @@ keras_model_metrics = [
 train_histories = []
 
 
-# In[46]:
+print("Size of train cat & num features ",X_train.shape)
+print("Size of output for train ",y_train.shape)
+print("Size of test cat & num features ",X_test.shape)
+print("Size of output for test ",y_test.shape)
+print("No. of embedded features ",len(embed_features))
 
 
-print("Size of train cat & num features ", X_train.shape)
-print("Size of output for train ", y_train.shape)
-print("Size of test cat & num features ", X_test.shape)
-print("Size of output for test ", y_test.shape)
-print("No. of embedded features ", len(embed_features))
+embedding_store
 
 
-# In[47]:
-
-
-# Let's check what CACHE contains and check it's shape
-CACHE
-
-
-# In[48]:
-
-
-def log_unknown_word_count(col: str):
-    unk_embed_vec = np.zeros((CACHE[col]["vocab_size"], WORD_VEC_DIMENSIONS))
-    num_rows = np.count_nonzero(CACHE[col]["embed_matrix"] == unk_embed_vec, axis=1).sum() / WORD_VEC_DIMENSIONS
+def log_unknown_word_count(col:str):
+    unk_embed_vec = np.zeros((embedding_store[col]["vocab_size"], WORD_VEC_DIMENSIONS))
+    num_rows = np.count_nonzero(embedding_store[col]["embed_matrix"] == unk_embed_vec, axis=1).sum() / WORD_VEC_DIMENSIONS
     logging.warning(f"Could't find embeddings for {int(num_rows)} words in {col} column")
+    
+log_unknown_word_count(FAV), log_unknown_word_count(UNFAV) 
 
 
-log_unknown_word_count(FAV), log_unknown_word_count(UNFAV)
-
-
-# In[49]:
-
-
-def create_embed_flat_layer(col: str, trainable_embed: bool = False):
-    col_input = Input(shape=(CACHE[col]['maxlen'],))
-    col_embedded = Embedding(CACHE[col]['vocab_size'], WORD_VEC_DIMENSIONS, weights=[CACHE[col]['embed_matrix']],
-                             input_length=CACHE[col]['maxlen'], trainable=trainable_embed)(col_input)
+def create_embed_flat_layer(col:str, trainable_embed:bool=False):
+    col_input = Input(shape=(embedding_store[col]['maxlen'],), name=col)
+    col_embedded = Embedding(embedding_store[col]['vocab_size'], WORD_VEC_DIMENSIONS, weights=[embedding_store[col]['embed_matrix']],
+                     input_length = embedding_store[col]['maxlen'], trainable=trainable_embed)(col_input)
     col_embedded_flat = Flatten()(col_embedded)
     return col_input, col_embedded_flat
 
 
-# In[50]:
+def model_arch(inp):
+    out = Dense(20, activation='relu')(inp)
+    out = Dense(10, activation='relu')(out)
+    return Dense(RATINGS_CARDINALITY, activation='softmax')(out) 
 
 
 def create_model_with_embeddings():
     # Input layers
-    selected_cols_input = Input(shape=(X_train.shape[1],))
+    selected_cols_input = Input(shape=(X_train.shape[1],), name="non_embed_inputs")
     fav_input, fav_embed = create_embed_flat_layer(FAV)
     unfav_input, unfav_embed = create_embed_flat_layer(UNFAV)
 
     # Concatenate the layers
-
-    concatenated = concatenate([fav_embed, unfav_embed, selected_cols_input])
-    out = Dense(10, activation='relu')(concatenated)
-    out = Dense(RATINGS_CARDINALITY, activation='softmax')(out)
+    concatenated = concatenate([fav_embed, unfav_embed, selected_cols_input]) 
+    out = model_arch(concatenated)
 
     # Create the model
     return Model(
-        inputs=[fav_input, unfav_input, selected_cols_input],
-        outputs=out,
+        inputs = [fav_input, unfav_input, selected_cols_input],
+        outputs = out,
     )
-
-
-# In[51]:
 
 
 def create_model_without_embeddings():
-    selected_cols_input = Input(shape=(X_train.shape[1],))
-    out = Dense(10, activation='relu')(selected_cols_input)
-    out = Dense(RATINGS_CARDINALITY, activation='softmax')(out)
+    selected_cols_input = Input(shape=(X_train.shape[1],), name="non_embed_inputs")
+    out = model_arch(selected_cols_input)
 
     # Create the model
     return Model(
-        inputs=selected_cols_input,
-        outputs=out,
+        inputs = selected_cols_input,
+        outputs = out,
     )
 
 
-# In[52]:
-
-
-def model_fit_data(with_embed: bool = True):
+def model_fit_data(with_embed:bool=True):
     d = {}
     if with_embed:
         d["X_train"] = [embed_features[FAV]["train"], embed_features[UNFAV]["train"], X_train]
@@ -1124,15 +869,12 @@ def model_fit_data(with_embed: bool = True):
     return d
 
 
-# In[53]:
-
-
 model = create_model_with_embeddings()
 model.compile(
     optimizer=tf.optimizers.Adam(
         learning_rate=0.003,
         clipvalue=0.5
-    ),
+    ), 
     loss="categorical_crossentropy",
     metrics=keras_model_metrics
 )
@@ -1140,67 +882,50 @@ model.compile(
 model.summary()
 
 
-# In[54]:
-
-
 BATCH_SIZE = 4096
 EPOCHS = 300
 
 
-# **TODO**: Track hyperparameters using https://www.tensorflow.org/tensorboard/hyperparameter_tuning_with_hparams
-
-# In[55]:
-
-
-logdir = Path("logs") / datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(
-    logdir,
-    histogram_freq=max(1, ceil(EPOCHS / 20)),  # to control the amount of logging
-    #     embeddings_freq=epochs,
+    logdir, 
+    histogram_freq=max(1, ceil(EPOCHS / 20)), # to control the amount of logging
+#     embeddings_freq=epochs,
 )
 print(f"Logging tensorboard data at {logdir}")
 
 
-# In[56]:
+# %%time
+
+# mfd = model_fit_data(with_embed=True)
+# train_histories.append(model.fit(
+#     mfd["X_train"], mfd["y_train"],
+#     batch_size=BATCH_SIZE,
+#     epochs=3,
+#     validation_data=mfd["val_data"],
+#     callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], 
+#     verbose=0
+# ))
 
 
-get_ipython().run_cell_magic(
-    'time',
-    '',
-    '\nmfd = model_fit_data(with_embed=True)\ntrain_histories.append(model.fit(\n    mfd["X_train"], mfd["y_train"],\n    batch_size=BATCH_SIZE,\n    epochs=EPOCHS,\n    validation_data=mfd["val_data"],\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0\n))')
+get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    {\n        FAV: embed_features[FAV]["train"],\n        UNFAV: embed_features[UNFAV]["train"],\n        "non_embed_inputs": X_train\n    }, \n    y_train,\n    batch_size=BATCH_SIZE,\n    epochs=EPOCHS,\n    validation_data=(\n        {\n            FAV: embed_features[FAV]["test"],\n            UNFAV: embed_features[UNFAV]["test"],\n            "non_embed_inputs": X_test\n        },\n        y_test\n    ),\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0\n))')
 
 
-# In[57]:
+metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
+
+metrics_df.tail(1) # pick the last epoch's metrics
 
 
-metrics_df = pd.DataFrame(train_histories[-1].history)  # pick the latest training history
-
-metrics_df.tail(1)  # pick the last epoch's metrics
-
-
-# `Tip:` You can copy the final metrics row from above and paste it using `Shift + Cmd + V` in our [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130) to accurately place all values in the respective columns
-#
-# **IMPORTANT**: Please don't forget to update git version ID column after you check-in.
-
-# ### Model Metrics with p-value
-#
-# TODO: Run multiple times on different samples of `y_test` to compute p-value
-
-# In[58]:
-
+from sklearn.metrics import roc_auc_score, classification_report, precision_score, recall_score, f1_score
+import sklearn
+from collections import OrderedDict
 
 assert sklearn.__version__.startswith('0.22'), "Please upgrade scikit-learn (https://scikit-learn.org/stable/install.html)"
 
 
-# In[59]:
-
-
 y_prob = model.predict([embed_features[FAV]["test"], embed_features[UNFAV]["test"], X_test], BATCH_SIZE)
 y_true = y_test
-y_pred = (y_prob / np.max(y_prob, axis=1).reshape(-1, 1)).astype(int)  # convert probabilities to predictions
-
-
-# In[60]:
+y_pred = (y_prob / np.max(y_prob, axis=1).reshape(-1, 1)).astype(int) # convert probabilities to predictions
 
 
 pd.DataFrame(OrderedDict({
@@ -1214,95 +939,48 @@ pd.DataFrame(OrderedDict({
 }))
 
 
-# Also paste the above numbers to our
-# [sheet](https://docs.google.com/spreadsheets/d/1v-nYiDA3elM1UP9stkB42MK0bTbuLxYJE7qAYDP8FHw/edit#gid=925421130&range=W1:AC1)
-
-# In[61]:
-
-
 print(classification_report(y_true, y_pred))
 
 
-# ## Fairness Metrics
-
-# In[ ]:
+model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
 
 
-# ! pip install -q -U tensorflow-model-analysis==0.21.6 apache-beam==2.19.0 fairness-indicators && pip list | grep -E "analysis|beam|fairness"
+PREDICTED_RATING, PREDICTION_CONFIDENCE = "pred_rating", "pred_confidence"
 
 
-# In[ ]:
+def predict_on_dataset(model:tf.keras.Model, embedding_store:Dict):
+    """
+    IMPORTANT: embedding_store should be the same as the model was trained on
+    """
+    df = ad_dataset_pd()
+    merge_minority_classes(df, RATING)
+    df[RATING] = df[RATING].astype("float")
+   
+    # Transform input features
+    X = transform_pd_X(df[SELECTED_COLS], SELECTED_INP_COLS)
+     
+    predict_proba = model.predict(
+        [embedding_store[FAV]["padded_col"], embedding_store[UNFAV]["padded_col"], X],
+        batch_size=BATCH_SIZE
+    )  
+    df[PREDICTED_RATING], df[PREDICTION_CONFIDENCE] = np.argmax(predict_proba, axis=1), np.max(predict_proba, axis=1)
+    
+    return df
 
 
-# In[ ]:
+get_ipython().run_cell_magic('time', '', '\nres = predict_on_dataset(model, embedding_store)')
 
 
-model.save((logdir / "keras_saved_model").as_posix(), save_format="tf")
-print(f"Saved in {logdir}")
+res.sample(4).T
 
 
-# In[ ]:
-
-
-pd.DataFrame(X_train)
-
-
-# In[ ]:
-
-
-tfma_eval_result_path = logdir / 'tfma_eval_result'
-
-slice_spec = [
-    tfma.slicer.SingleSliceSpec(),  # Overall slice
-    #     tfma.slicer.SingleSliceSpec(columns=[slice_selection]),
-]
-
-# Add the fairness metrics.
-add_metrics_callbacks = [
-    tfma.post_export_metrics.fairness_indicators(
-        thresholds=[0.1, 0.3, 0.5, 0.7, 0.9],
-        labels_key=TARGET_COL
-    )
-]
-
-eval_shared_model = tfma.default_eval_shared_model(
-    eval_saved_model_path=tfma_export_dir,
-    add_metrics_callbacks=add_metrics_callbacks)
-
-# Run the fairness evaluation.
-with beam.Pipeline() as pipeline:
-    _ = (
-        pipeline
-        | 'ReadData' >> beam.io.ReadFromTFRecord(validate_tf_file)
-        | 'ExtractEvaluateAndWriteResults' >>
-        tfma.ExtractEvaluateAndWriteResults(
-            eval_shared_model=eval_shared_model,
-            slice_spec=slice_spec,
-            compute_confidence_intervals=compute_confidence_intervals,
-            output_path=tfma_eval_result_path)
-    )
-
-eval_result = tfma.load_eval_result(output_path=tfma_eval_result_path)
-
-
-# ## Export
-#
-# Save the model for future reference
-
-# In[ ]:
-
-
-model.save((logdir / "keras_saved_model").as_posix(), save_format="tf")
-
-
-# ## Predict
-
-# In[ ]:
+res.to_csv(logdir/"inference_data.csv", index=False)
+print(f"Saved inference data in {logdir} folder")
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
 
-# Create a dataframe with all SELECTED_INP_COLS
+# Note: Create a dataframe with all SELECTED_INP_COLS
 test_df = pd.DataFrame({
     AGE: ["45"],
     ZIP_CODE: ["94086"],
@@ -1315,66 +993,107 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
-# In[66]:
+res = pd.read_csv(logdir/"inference_data.csv", usecols=[AGE, GENDER, RATING, PREDICTED_RATING, PREDICTION_CONFIDENCE]) #.sample(n=200)
+res.shape
 
 
-def predict_on_dataset(Model: model):
-    '''
-    This function accepts a trained model and prepares features and calls preciction
-    Finally will append the prediciton to the original dataset and write it back to disk
-
-    '''
-
-    # Load all columns if pandas DF
-    X = ad_dataset_pd(SELECTED_COLS + EMBED_COLS)
-
-    # Transform input features
-    X_transformed = transform_pd_X(X[SELECTED_COLS], SELECTED_INP_COLS)
-
-    # Create embedding feature for each embedding column
-    embed_features = {}
-    for embed_col in EMBED_COLS:
-        embed_transformed, t = transform_embed_cols(X, embed_col)
-        embed_features[embed_col] = embed_transformed
-
-    # Call model.predict()
-    prediction = model.predict([embed_features[FAV], embed_features[UNFAV], X_transformed])
-    pred_rating = np.argmax(prediction, axis=1)  # picks highest prob as prediction independent of RATINGS_CARDINALITY
-
-    # Append nunpy array to a new column
-    X['pred_rating'] = pred_rating
-
-    # Write back to disk(Mention row no.from sheet for model you tried)
-    X.to_csv(DATA_FOLDER / "users-ads-ratings-vs-model-21-predictions.csv")
+res[RATING] = res[RATING] - 1 # make the rating zero based indexing
 
 
-# ### Run the prediction for you mdoel
+# Credits: https://stackoverflow.com/a/50671617/1585523 has good explanations for all metrics and is from where the code has been copied
 
-# In[ ]:
+def metrics_from_df(df:pd.DataFrame, confidence_threshold=0):
+    """Drop examples with probability < confidence_threshold from calc"""
+    y_true = df[RATING]
+    y_pred = df[PREDICTED_RATING]
+    cnf_matrix = confusion_matrix(y_true, y_pred)
+    
+    FP = cnf_matrix.sum(axis=0) - np.diag(cnf_matrix)  
+    FN = cnf_matrix.sum(axis=1) - np.diag(cnf_matrix)
+    TP = np.diag(cnf_matrix)
+    TN = cnf_matrix.sum() - (FP + FN + TP)
+
+    FP = FP.astype(float)
+    FN = FN.astype(float)
+    TP = TP.astype(float)
+    TN = TN.astype(float)
+
+    # Sensitivity, hit rate, recall, or true positive rate
+    TPR = TP/(TP+FN)
+    # Specificity or true negative rate
+    TNR = TN/(TN+FP) 
+    # Precision or positive predictive value
+    PPV = TP/(TP+FP)
+    # Negative predictive value
+    NPV = TN/(TN+FN)
+    # Fall out or false positive rate
+    FPR = FP/(FP+TN)
+    # False negative rate
+    FNR = FN/(TP+FN)
+    # False discovery rate
+    FDR = FP/(TP+FP)
+    # Overall accuracy
+    ACC = (TP+TN)/(TP+FP+FN+TN)
+    
+    return {
+        "TPR": TPR, "TNR": TNR, "PPV": PPV, "NPV": NPV, "FPR": FPR, "FNR": FNR, "FDR": FDR, "ACC": ACC
+    }
 
 
-predict_on_dataset(model)
+def plot_for_metric_class(metric_df:pd.DataFrame, metric:str="FPR", rating_class:int=1):
+    """Generates plot for metric and given rating_class from metric_df indexed by dimension of interest"""
+    plot_df = metric_df.apply(lambda m: m["fairness_metrics_per_class"][metric][rating_class], axis=1)
+    plot_df = plot_df.reset_index().rename({0: metric}, axis=1)
+    return plot_df
 
 
-# ## Rough
+gender_metrics_df = res.groupby(GENDER).apply(metrics_from_df).to_frame("fairness_metrics_per_class")
+gender_metrics_df
 
-# ### Featurize using Feature Columns
-#
-# Create feature columns like one-hot, embeddings, bucketing from raw features created earlier
 
-# In[ ]:
+plot_df = plot_for_metric_class(gender_metrics_df)
+plot_df
+
+
+ax = sns.barplot(x=GENDER, y="FPR", data=plot_df)
+
+
+plot_df.to_clipboard(False)
+
+
+ax = sns.distplot(res[AGE], kde=False, bins=50)
+
+
+AGE_BUCKET = AGE + "_bucket"
+bucket_boundaries = [0, 20, 40, 100] # refer pandas.cut() for syntax on binning
+
+
+res[AGE_BUCKET] = pd.cut(res[AGE], bins=bucket_boundaries, labels=["young", "middle-age", "old"])
+res[[AGE, AGE_BUCKET]].sample(n=5)
+
+
+ax = sns.countplot(res[AGE_BUCKET])
+res[AGE_BUCKET].value_counts()
+
+
+age_metrics_df = res.groupby(AGE_BUCKET).apply(metrics_from_df).to_frame("fairness_metrics_per_class")
+age_metrics_df
+
+
+plot_df = plot_for_metric_class(age_metrics_df)
+plot_df
+
+
+ax = sns.barplot(x=AGE_BUCKET, y="FPR", data=plot_df)
+
+
+plot_df.to_clipboard(False)
 
 
 EXAMPLE_BATCH = next(iter(input_fn_train(3)))[0]
 
 
-# In[ ]:
-
-
 EXAMPLE_BATCH
-
-
-# In[ ]:
 
 
 def test_feature_column(feature_column):
@@ -1382,38 +1101,333 @@ def test_feature_column(feature_column):
     return feature_layer(EXAMPLE_BATCH).numpy()
 
 
-# In[ ]:
-
-
 age_fc = tf.feature_column.numeric_column(AGE, normalizer_fn=lambda x: (x - MEAN_AGE) / STD_AGE)
-
-
-# In[ ]:
 
 
 zip_fcs = [
     tf.feature_column.indicator_column(
         tf.feature_column.categorical_column_with_vocabulary_list(
-            f"{ZIP_CODE}{i}", vocabulary_list=list(string.digits),
+            f"{ZIP_CODE}{i}", vocabulary_list=list(string.digits), 
             num_oov_buckets=1)
     )
     for i in range(FIRST_K_ZIP_DIGITS)
 ]
 
 
-# In[ ]:
-
-
 EXAMPLE_BATCH[AGE], test_feature_column(age_fc)
-
-
-# In[ ]:
 
 
 {k: v for k, v in EXAMPLE_BATCH.items() if k.startswith(ZIP_CODE)}, test_feature_column(zip_fcs)
 
 
-# In[ ]:
-
-
 tf.keras.layers.concatenate(age_fc, zip_fcs[0])
+
+
+import os
+import tempfile
+import apache_beam as beam
+import numpy as np
+import pandas as pd
+from datetime import datetime
+
+import tensorflow_hub as hub
+import tensorflow as tf
+import tensorflow_model_analysis as tfma
+import tensorflow_data_validation as tfdv
+from tensorflow_model_analysis.addons.fairness.post_export_metrics import fairness_indicators
+from tensorflow_model_analysis.addons.fairness.view import widget_view
+from fairness_indicators.examples import util
+
+from witwidget.notebook.visualization import WitConfigBuilder
+from witwidget.notebook.visualization import WitWidget
+
+
+logdir
+
+
+y_train[:100, :].shape
+
+
+from collections import OrderedDict
+
+
+def dl():
+    for i in range(100):
+        yield OrderedDict({
+            FAV: embed_features[FAV]["train"][i, :],
+            UNFAV: embed_features[UNFAV]["train"][i, :],
+            "non_embed_inputs": X_train[i, :],
+            RATING: y_train[i, :]
+        })
+
+
+dataset = tf.data.Dataset.from_generator(dl, 
+            (tf.float32, tf.float32, tf.float32, tf.float32),
+            (tf.TensorShape([40]), tf.TensorShape([34]), tf.TensorShape([308]), tf.TensorShape([2])))
+
+
+NON_EMBED_INPUTS = "non_embed_inputs"
+
+
+dataset = tf.data.Dataset.from_generator(dl, 
+            {FAV: tf.float32, UNFAV: tf.float32, NON_EMBED_INPUTS: tf.float32, RATING: tf.float32},
+            {FAV: tf.TensorShape([40]), UNFAV: tf.TensorShape([34]), NON_EMBED_INPUTS: tf.TensorShape([308]), RATING: tf.TensorShape([2])})
+
+
+fields_to_save = [FAV, UNFAV, NON_EMBED_INPUTS]
+
+
+def serialize_example(*example:List[tf.Tensor]):
+    """
+    Creates a tf.Example message ready to be written to a file.
+    """
+    # Create a dictionary mapping the feature name to the tf.Example-compatible data type.
+    fields = {field: dtype_feature_map[example[i].dtype](example[i]) for i, field in enumerate(fields_to_save)}
+
+    # Create a Features message using tf.train.Example.
+    example_proto = tf.train.Example(features=tf.train.Features(feature=fields))
+    return example_proto.SerializeToString()
+
+def tf_serialize_example(example:Dict):
+    tf_string = tf.py_function(
+        serialize_example,
+        [example[field] for field in fields_to_save],  # pass these args to the above function.
+        tf.string)      # the return type is `tf.string`.
+    return tf.reshape(tf_string, ()) # The result is a scalar
+
+
+# The following functions can be used to convert a value to a type compatible
+# with tf.Example.
+
+def _bytes_feature(value):
+    """Returns a bytes_list from a string / byte."""
+    if isinstance(value, type(tf.constant(0))):
+        value = value.numpy() # BytesList won't unpack a string from an EagerTensor.
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+def _float_feature(value):
+    """Returns a float_list from a float / double."""
+    if len(value.shape) > 0:
+        return tf.train.Feature(float_list=tf.train.FloatList(value=value))
+    return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
+
+def _int64_feature(value):
+    """Returns an int64_list from a bool / enum / int / uint."""
+    if len(value.shape) > 0:
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+
+
+dtype_feature_map = {
+    tf.dtypes.string: _bytes_feature,
+    tf.dtypes.float16: _float_feature,
+    tf.dtypes.float32: _float_feature,
+    tf.dtypes.float64: _float_feature,
+    tf.dtypes.int8: _int64_feature,
+    tf.dtypes.int16: _int64_feature,
+    tf.dtypes.int32: _int64_feature,
+    tf.dtypes.int64: _int64_feature
+}
+
+
+analysis_data_folder = Path("./analysis_data_with_temporal_as_ints")
+analysis_train_data_folder = analysis_data_folder/"train.tfrecords"
+analysis_val_data_folder = analysis_data_folder/"val.tfrecords"
+
+analysis_data_folder.mkdir(exist_ok=True, parents=True)
+
+
+from shutil import rmtree
+
+
+def save_dataset_part(dataset:tf.data, part:int, save_in_folder:Union[Path, str], overwrite=False):
+    """
+    Save a sharded dataset to a folder
+    """
+    print(f"Working on part-{part} of the file")
+    save_in_folder:Path = Path(save_in_folder) # change to Path object if not already
+    overwrite and rmtree(save_in_folder, ignore_errors=True)
+    save_in_folder.mkdir(parents=True, exist_ok=True)
+    writer = tf.data.experimental.TFRecordWriter(f"{save_in_folder}/part-{part}")
+    writer.write(dataset)
+    
+save_dataset_part_parallel_fn = partial(save_dataset_part, save_in_folder=analysis_data_folder)
+
+
+def prepare_dataset_for_save(dataset):
+    return dataset.        unbatch().        map(tf_serialize_example, tf.data.experimental.AUTOTUNE)
+
+
+d1 = prepare_dataset_for_save(dataset.batch(1))
+
+
+save_dataset_part(d1, 0, analysis_train_data_folder, overwrite=True)
+
+
+get_ipython().system(' ls {logdir}')
+
+
+#@title Fairness Indicators Computation Options
+tfma_eval_result_path = f'{logdir}/tfma_eval_result'
+
+#@markdown Modify the slice_selection for experiments on other identities.
+slice_selection = 'gender' #@param ["sexual_orientation", "gender", "religion", "race", "disability"]
+#@markdown Confidence Intervals can help you make better decisions regarding your data, but as it requires computing multiple resamples, is slower particularly in the colab environment that cannot take advantage of parallelization.
+compute_confidence_intervals = False #@param {type:"boolean"}
+
+# # Define slices that you want the evaluation to run on.
+slice_spec = [
+    tfma.slicer.SingleSliceSpec(), # Overall slice
+    tfma.slicer.SingleSliceSpec(columns=[slice_selection]),
+]
+
+# # Add the fairness metrics.
+add_metrics_callbacks = [
+  tfma.post_export_metrics.fairness_indicators(
+      thresholds=[0.1, 0.3, 0.5, 0.7, 0.9],
+      labels_key=RATING
+      )
+]
+
+eval_shared_model = tfma.default_eval_shared_model(
+    eval_saved_model_path=(logdir/"keras_saved_model").as_posix(),
+    add_metrics_callbacks=add_metrics_callbacks)
+
+
+from google.protobuf import text_format
+
+
+eval_config = text_format.Parse("""
+  # https://www.tensorflow.org/tfx/model_analysis/setup#model_specs
+  model_specs {
+    # This assumes a serving model with a "serving_default" signature.
+    label_key: "%(label_key)s"
+  }
+  metrics_specs {
+    metrics { class_name: "ExampleCount" }
+    metrics { class_name: "WeightedExampleCount" }
+    metrics { class_name: "SparseCategoricalCrossentropy" }
+    metrics { class_name: "SparseCategoricalAccuracy" }
+    metrics { class_name: "Precision" config: '"top_k": 1' }
+    metrics { class_name: "Precision" config: '"top_k": 3' }
+    metrics { class_name: "Recall" config: '"top_k": 1' }
+    metrics { class_name: "Recall" config: '"top_k": 3' }
+    metrics { class_name: "AUC" }
+  }
+  # https://www.tensorflow.org/tfx/model_analysis/setup#slicing_specs
+  slicing_specs {
+    feature_keys: ["Age"]
+  }
+""" % {"label_key": RATING}, tfma.EvalConfig())
+
+eval_shared_model = tfma.default_eval_shared_model(
+    eval_saved_model_path=(logdir/"keras_saved_model").as_posix(), 
+    eval_config=eval_config, add_metrics_callbacks=add_metrics_callbacks)
+
+
+eval_result = tfma.run_model_analysis(eval_shared_model=eval_shared_model,
+                                          eval_config=eval_config,
+                                          data_location=(analysis_train_data_folder/"*").as_posix(),
+                                          file_format='tfrecords',
+#                                           slice_spec=slice_list,
+#                                           output_path='sample_data',
+#                                           extractors=None, 
+                                          desired_batch_size=1024,
+                                          random_seed_for_testing=RANDOM_SEED)
+
+
+slices = [tfma.slicer.SingleSliceSpec(columns=[AGE])]
+tfma.view.render_slicing_metrics(eval_result, slicing_spec=slices[0])
+
+
+validate_tf_file = "analysis_data_with_temporal_as_ints/train.tfrecords/part-0"
+
+
+# Run the fairness evaluation.
+with beam.Pipeline() as pipeline:
+    _ = (
+      pipeline
+      | 'ReadData' >> beam.io.ReadFromTFRecord(validate_tf_file)
+      | 'ExtractEvaluateAndWriteResults' >>
+       tfma.ExtractEvaluateAndWriteResults(
+                 eval_shared_model=eval_shared_model,
+                 slice_spec=slice_spec,
+                 compute_confidence_intervals=compute_confidence_intervals,
+                 output_path=tfma_eval_result_path)
+    )
+
+#     eval_result = tfma.load_eval_result(output_path=tfma_eval_result_path)
+
+
+logdir
+
+
+def create_target_for_model(d:Dict, target_col:str=RATING) -> Tuple[Dict, np.array]:
+    target = d.pop(target_col)
+    return d, target
+
+
+for d in dataset.batch(1).take(2):
+    pprint(d)
+
+
+for d in dataset.map(create_dataset_pd).take(2):
+    pprint(d)
+
+
+for d in dl():
+    for k in d:
+        print(k, d[k].shape)
+    break
+
+
+tf.data.Dataset.from_generator()
+
+
+num_samples = 100
+
+pd.DataFrame(
+    {
+        FAV: embed_features[FAV]["train"][:num_samples, :],
+        UNFAV: embed_features[UNFAV]["train"][:num_samples, :],
+        "non_embed_inputs": X_train[:num_samples, :],
+        RATING: y_train[:num_samples, :]
+    },
+    index=range(num_samples)
+)
+
+
+beam.io.ReadF
+
+
+get_ipython().run_line_magic('pinfo2', 'eval_shared_model')
+
+
+get_ipython().run_line_magic('pinfo2', 'tfma.ExtractEvaluateAndWriteResults')
+
+
+get_ipython().system(' ./setup.sh # uncomment if you wish to install any new packages')
+
+
+from aif360.datasets import GermanDataset
+from aif360.metrics import BinaryLabelDatasetMetric
+from aif360.algorithms.preprocessing import Reweighing
+
+
+from aif360.metrics import DatasetMetric
+
+
+import aif360.sklearn.metrics as fm
+
+
+fm
+
+
+
+
+
+
+
+
+
+
