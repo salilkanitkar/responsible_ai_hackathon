@@ -4,3 +4,5 @@ models/basic-model/embeddings
 models/basic-model/logs
 .idea
 __pycache__/
+models/basic-model/inp*.pickle
+AIF360

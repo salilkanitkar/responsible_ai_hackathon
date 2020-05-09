@@ -476,11 +476,11 @@ SELECTED_COLS = SELECTED_INP_COLS + [TARGET_COL]
 print(SELECTED_COLS)
 
 
-def ad_dataset_pd(usecols:List[str]=None):
+def ad_dataset_pd(usecols:List[str]=None, **read_csv_kwargs):
     """
     Read from csv files given set of columns into Pandas Dataframe
     """
-    return pd.read_csv(users_ads_rating_csv,usecols=usecols, dtype=str)
+    return pd.read_csv(users_ads_rating_csv, usecols=usecols, dtype=str, **read_csv_kwargs)
 
 
 ad_dataset_pd(SELECTED_COLS).sample(5).T
@@ -495,37 +495,42 @@ WORD_VEC_DIMENSIONS = 50
 get_ipython().run_cell_magic('time', '', '\nembedding_index = EmbeddingFactory(Path("./embeddings/"), "GloVe.6B.50d", WORD_VEC_DIMENSIONS, nrows=None, skiprows=None)')
 
 
+def transform_embed_col(s:pd.Series, t:Tokenizer, maxlen:int=None):
+    """Tokenizes each row in s using t and pads them to equal length of maxlen. Computes maxlen if not provided"""
+    # integer encode the text data
+    encoded_col = t.texts_to_sequences(s)
+
+    # calculate max len of vector and make length equal by padding with zeros
+    if maxlen is None:
+        maxlen = max(len(x) for x in encoded_col) 
+        
+    return pad_sequences(encoded_col, maxlen=maxlen, padding='post'), maxlen
+
+
 def create_embedding_data(df:pd.DataFrame) -> Dict:
     """Compute metadata and embedding matrix for each embedding column in df"""
     
-    embedding_store = defaultdict(dict)
+    es = defaultdict(dict) # embedding_store
     for embed_col in EMBED_COLS:
         # Input dataframe and embed_col
         t = Tokenizer()
         t.fit_on_texts(df[embed_col])
-        embedding_store[embed_col]["tokenizer"] = t
+        es[embed_col]["tokenizer"] = t
 
         # UNK added as tokenizer starts indexing from 1
         words = ["UNK"] + list(t.word_index.keys()) # in order of tokenizer
-        embedding_store[embed_col]["vocab_size"] = len(words)
-
-        # integer encode the text data
-        encoded_col = t.texts_to_sequences(df[embed_col])
-
-        # calculate max len of vector and make length equal by padding with zeros
-        maxlen = max(len(x) for x in encoded_col) 
-        embedding_store[embed_col]["maxlen"] = maxlen
-        embedding_store[embed_col]["padded_col"] = pad_sequences(encoded_col, maxlen=maxlen, padding='post')
+        es[embed_col]["vocab_size"] = len(words)
+        es[embed_col]["padded_col"], es[embed_col]["maxlen"] = transform_embed_col(df[embed_col], t)
 
         # create a weight matrix
         embeddings = dict.fromkeys(words, " ".join(["0"] * WORD_VEC_DIMENSIONS)) # default embeddings to all words as 0
         embeddings.update(dict(embedding_index.fetch_word_vectors(words))) # update for known words
         # reorder to match tokenizer's indexing
         emb_matrix = pd.DataFrame.from_dict(embeddings, orient="index").loc[words, 0].str.split(" ", expand=True).to_numpy().astype(np.float16)
-        embedding_store[embed_col]["embed_matrix"] = emb_matrix
+        es[embed_col]["embed_matrix"] = emb_matrix
         assert emb_matrix.shape[0] == len(words), f"For {embed_col}, not all words have embeddings"
         
-    return embedding_store
+    return es
 
 
 create_embedding_data(ad_dataset_pd(EMBED_COLS).sample(n=3))
@@ -661,6 +666,9 @@ def create_target_pd(rating_str:str):
     return np.eye(RATINGS_CARDINALITY, dtype=int)[int(float(rating_str)) - 1]
 
 
+TEST_FRAC = 0.2
+
+
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
     """Original dataframe will be modified"""
     df[AGE] = df[AGE].apply(lambda age: [fix_age(age)])
@@ -694,7 +702,7 @@ def transform_pd_y(df:pd.DataFrame, target_col:str):
     return y
 
 
-def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1, test_frac:float=0.2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, List]:
+def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGET_COL, fraction:float=1, test_frac:float=TEST_FRAC) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, List]:
     """
     Prepare the dataset for training on a fraction of all input data
     Columns using embeddings are split seperately and returned in list of tuples called embed_features
@@ -733,12 +741,8 @@ get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test, em
 
 inp = X_train, X_test, y_train, y_test, embed_features, embedding_store
 
-with open("inp.pickle", "wb") as f:
+with open(f"inp-{RANDOM_SEED}.pickle", "wb") as f:
     pickle.dump(inp, f)
-
-
-with open("inp.pickle", "rb") as f:
-    X_train, X_test, y_train, y_test, embed_features, embedding_store = pickle.load(f)
 
 
 train_embed_feature_1 = embed_features[FAV]["train"]
@@ -886,7 +890,7 @@ BATCH_SIZE = 4096
 EPOCHS = 300
 
 
-logdir = Path("logs")/datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+logdir = Path("logs")/f"{RANDOM_SEED}" #datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(
     logdir, 
     histogram_freq=max(1, ceil(EPOCHS / 20)), # to control the amount of logging
@@ -948,34 +952,21 @@ model.save((logdir/"keras_saved_model").as_posix(), save_format="tf")
 PREDICTED_RATING, PREDICTION_CONFIDENCE = "pred_rating", "pred_confidence"
 
 
-def predict_on_dataset(model:tf.keras.Model, embedding_store:Dict):
+def predict_on_dataset(df:pd.DataFrame, model:tf.keras.Model, es:Dict, inp_cols_of_interest:List[str]):
     """
-    IMPORTANT: embedding_store should be the same as the model was trained on
+    Make predictions on df using the model and return inp_cols_of_interest
+    IMPORTANT: embedding store, es should be the same as the model was trained on
     """
-    df = ad_dataset_pd()
-    merge_minority_classes(df, RATING)
-    df[RATING] = df[RATING].astype("float")
-   
-    # Transform input features
     X = transform_pd_X(df[SELECTED_COLS], SELECTED_INP_COLS)
+
+    embed_features = {}
+    for col in EMBED_COLS:
+        embed_features[col], _ = transform_embed_col(df[col], es[col]["tokenizer"], es[col]["maxlen"])
      
-    predict_proba = model.predict(
-        [embedding_store[FAV]["padded_col"], embedding_store[UNFAV]["padded_col"], X],
-        batch_size=BATCH_SIZE
-    )  
+    predict_proba = model.predict([embed_features[FAV], embed_features[UNFAV], X], batch_size=BATCH_SIZE)  
     df[PREDICTED_RATING], df[PREDICTION_CONFIDENCE] = np.argmax(predict_proba, axis=1), np.max(predict_proba, axis=1)
     
-    return df
-
-
-get_ipython().run_cell_magic('time', '', '\nres = predict_on_dataset(model, embedding_store)')
-
-
-res.sample(4).T
-
-
-res.to_csv(logdir/"inference_data.csv", index=False)
-print(f"Saved inference data in {logdir} folder")
+    return df[inp_cols_of_interest + [RATING, PREDICTED_RATING, PREDICTION_CONFIDENCE]]
 
 
 PredictionReport = namedtuple("PredictionReport", "probabilities predicted_rating confidence")
@@ -993,11 +984,36 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
-res = pd.read_csv(logdir/"inference_data.csv", usecols=[AGE, GENDER, RATING, PREDICTED_RATING, PREDICTION_CONFIDENCE]) #.sample(n=200)
-res.shape
+RANDOM_SEED = 1589009535 # seed used in a historical run of interest for fairness analysis
 
 
-res[RATING] = res[RATING] - 1 # make the rating zero based indexing
+with open(f"inp-{RANDOM_SEED}.pickle", "rb") as f:
+    X_train, X_test, y_train, y_test, embed_features, embedding_store = pickle.load(f)
+    
+X_train.shape, y_train.shape, embed_features[FAV]["train"].shape, embed_features[UNFAV]["train"].shape
+
+
+model = tf.keras.models.load_model(f"logs/{RANDOM_SEED}/keras_saved_model")
+model.summary()
+
+
+fairness_df = ad_dataset_pd() #.sample(n=100)
+merge_minority_classes(fairness_df, RATING) # modifies original dataframe
+fairness_df[RATING] = fairness_df[RATING].astype("float")
+fairness_df[RATING] = fairness_df[RATING] - 1
+
+
+train_fairness_df, val_fairness_df = train_test_split(fairness_df, test_size=TEST_FRAC, random_state=RANDOM_SEED)
+train_fairness_df.shape, val_fairness_df.shape
+
+
+get_ipython().run_cell_magic('time', '', '\nres = predict_on_dataset(val_fairness_df, model, embedding_store, [AGE, GENDER])')
+
+
+out_path = f"logs/{RANDOM_SEED}/inference_data.csv"
+
+res.to_csv(out_path, index=False)
+print(f"Saved inference data at {out_path}")
 
 
 # Credits: https://stackoverflow.com/a/50671617/1585523 has good explanations for all metrics and is from where the code has been copied
@@ -1047,6 +1063,12 @@ def plot_for_metric_class(metric_df:pd.DataFrame, metric:str="FPR", rating_class
     return plot_df
 
 
+res = pd.read_csv("logs/1589009535/inference_data.csv")
+
+
+res.sample(4).T
+
+
 gender_metrics_df = res.groupby(GENDER).apply(metrics_from_df).to_frame("fairness_metrics_per_class")
 gender_metrics_df
 
@@ -1061,14 +1083,18 @@ ax = sns.barplot(x=GENDER, y="FPR", data=plot_df)
 plot_df.to_clipboard(False)
 
 
+res[AGE] = res[AGE].astype("int")
+
+
 ax = sns.distplot(res[AGE], kde=False, bins=50)
 
 
 AGE_BUCKET = AGE + "_bucket"
 bucket_boundaries = [0, 20, 40, 100] # refer pandas.cut() for syntax on binning
+age_labels = ["young", "middle-age", "old"] # refer pandas.cut() for syntax on labels
 
 
-res[AGE_BUCKET] = pd.cut(res[AGE], bins=bucket_boundaries, labels=["young", "middle-age", "old"])
+res[AGE_BUCKET] = pd.cut(res[AGE], bins=bucket_boundaries, labels=age_labels)
 res[[AGE, AGE_BUCKET]].sample(n=5)
 
 
