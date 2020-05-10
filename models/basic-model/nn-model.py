@@ -55,6 +55,7 @@ from aif360.metrics import BinaryLabelDatasetMetric
 from aif360.algorithms.preprocessing import Reweighing
 from aif360.datasets import BinaryLabelDataset  # To handle the data
 
+import matplotlib.pyplot as plt
 import seaborn as sns
 
 from EmbeddingFactory import EmbeddingFactory
@@ -493,7 +494,6 @@ def reweigh_biased_cols(bias_cols,df):
     priv_cols = []
     
     for col in bias_cols: 
-        
         if col == AGE:
             X[AGE] = pd.to_numeric(X[AGE])
             bucket_boundaries = [0, 20, 40, 100] # refer pandas.cut() for syntax on binning
@@ -501,9 +501,8 @@ def reweigh_biased_cols(bias_cols,df):
             X['privilaged_age_bucket'] = 0.0
             #considering young and old as privilaged group
             X.loc[X['Age_bucket'] != "young", 'privilaged_age_bucket'] = 1.0 
-            priv_cols.append('privilaged_age_bucket')  
-            
-        elif col == GENDER:
+            priv_cols.append('privilaged_age_bucket')
+        elif col == GENDER_F:
             X[col] = pd.to_numeric(X[col])
             priv_cols.append(col)  
         else:
@@ -737,7 +736,7 @@ def create_target_pd(rating_str:str):
 
 
 TEST_FRAC = 0.2
-fairness_reweighing_enabled = True
+FAIRNESS_REWEIGHING_ENABLED = False
 
 
 def transform_pd_X(df:pd.DataFrame, inp_cols:List[str]):
@@ -783,9 +782,10 @@ def create_dataset_pd(inp_cols:List[str]=SELECTED_INP_COLS, target_col:str=TARGE
     df = ad_dataset_pd(SELECTED_COLS + EMBED_COLS).sample(frac=fraction)
     
     sample_weights = np.ones(shape=(df.shape[0],)) # equal weight to all examples
-    if fairness_reweighing_enabled:
+    if FAIRNESS_REWEIGHING_ENABLED:
+        logging.warning("Note: Also generating weights for features")
         bias_cols = [GENDER_F, AGE]
-        sample_weights = reweigh_biased_cols(bias_cols,df)
+        sample_weights = reweigh_biased_cols(bias_cols, df)
     
     X, y = transform_pd_X(df[SELECTED_COLS], inp_cols), transform_pd_y(df[SELECTED_COLS], target_col)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_frac, random_state=RANDOM_SEED)
@@ -817,6 +817,9 @@ notebook.list()
 get_ipython().run_cell_magic('time', '', '\nX_train, X_test, y_train, y_test, embed_features, embedding_store, sample_weights_train = create_dataset_pd()')
 
 
+np.mean(sample_weights_train)
+
+
 inp = X_train, X_test, y_train, y_test, embed_features, embedding_store, sample_weights_train
 
 with open(f"inp-{RANDOM_SEED}.pickle", "wb") as f:
@@ -827,29 +830,29 @@ train_embed_feature_1 = embed_features[FAV]["train"]
 train_embed_feature_2 = embed_features[UNFAV]["train"]
 
 
-def balance_classes(X_train , y_train , train_embed_feature_1 , train_embed_feature_2 , smote):
+def balance_classes(X_train , y_train , train_embed_feature_1 , train_embed_feature_2 , smote:bool):
     
-    if fairness_reweighing_enabled:
-        raise ValueError('Dont use class balancing with reweighing enabled (fairness_reweighing_enabled = 1)')
+    if FAIRNESS_REWEIGHING_ENABLED:
+        raise ValueError('Cannot use class balancing with fairness reweighing (FAIRNESS_REWEIGHING_ENABLED = True)')
         
-    #concatenate embedding columns to X_train
+    # concatenate embedding columns to X_train
     X_train_cols = X_train.shape[1]
     train_embed_feature_1_cols = train_embed_feature_1.shape[1]
     train_embed_feature_2_cols = train_embed_feature_2.shape[1]
     
-    #convert OHE target to normal
+    # convert OHE target to normal
     y_train_normal = [np.where(r==1)[0][0] for r in y_train]
     
     x_train_concat = np.concatenate((X_train,train_embed_feature_1,train_embed_feature_2),axis=1)
     
-    if(smote):
+    if smote:
         smote_oversample = SMOTE()
         X_t, y_t = smote_oversample.fit_resample(x_train_concat, y_train_normal)
     else:
         random_oversample = RandomOverSampler()
         X_t, y_t = random_oversample.fit_sample(x_train_concat, y_train_normal)
     
-    #regenerate x_train , y_train and embedding columns from X_t
+    # regenerate x_train , y_train and embedding columns from X_t
     y_train = np.eye(RATINGS_CARDINALITY, dtype=int)[y_t]
     X_train = X_t[:,0:X_train_cols]
     train_embed_feature_1 = X_t[:, X_train_cols : X_train_cols+train_embed_feature_1_cols]
@@ -858,16 +861,20 @@ def balance_classes(X_train , y_train , train_embed_feature_1 , train_embed_feat
     return X_train, y_train, train_embed_feature_1, train_embed_feature_2
 
 
-if not fairness_reweighing_enabled:
-    X_train, y_train, embed_features[FAV]["train"], embed_features[UNFAV]["train"] = balance_classes(X_train,y_train,
-                                                                                  train_embed_feature_1,train_embed_feature_2,
-                                                                                  True)
+X_train, y_train, embed_features[FAV]["train"], embed_features[UNFAV]["train"] = balance_classes(
+    X_train,y_train, train_embed_feature_1,train_embed_feature_2, True)
 
 
 X_train.shape, y_train.shape, embed_features[FAV]["train"].shape, embed_features[UNFAV]["train"].shape
 
 
 pd.DataFrame(y_train)[0].value_counts(), pd.DataFrame(y_test)[0].value_counts()
+
+
+inp = X_train, X_test, y_train, y_test, embed_features, embedding_store, sample_weights_train
+
+with open(f"inp-{RANDOM_SEED}.pickle", "wb") as f:
+    pickle.dump(inp, f)
 
 
 keras_model_metrics = [
@@ -995,7 +1002,7 @@ print(f"Logging tensorboard data at {logdir}")
 # ))
 
 
-get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    {\n        FAV: embed_features[FAV]["train"],\n        UNFAV: embed_features[UNFAV]["train"],\n        "non_embed_inputs": X_train\n    }, \n    y_train,\n    batch_size=BATCH_SIZE,\n    epochs=EPOCHS,\n    validation_data=(\n        {\n            FAV: embed_features[FAV]["test"],\n            UNFAV: embed_features[UNFAV]["test"],\n            "non_embed_inputs": X_test\n        },\n        y_test\n    ),\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0,\n    sample_weight=sample_weights_train #from af360 fairness reweighting\n))')
+get_ipython().run_cell_magic('time', '', '\ntrain_histories.append(model.fit(\n    {\n        FAV: embed_features[FAV]["train"],\n        UNFAV: embed_features[UNFAV]["train"],\n        "non_embed_inputs": X_train\n    }, \n    y_train,\n    batch_size=BATCH_SIZE,\n    epochs=EPOCHS,\n    validation_data=(\n        {\n            FAV: embed_features[FAV]["test"],\n            UNFAV: embed_features[UNFAV]["test"],\n            "non_embed_inputs": X_test\n        },\n        y_test\n    ),\n    callbacks=[tfdocs.modeling.EpochDots(), tensorboard_callback], \n    verbose=0,\n    sample_weight=sample_weights_train if FAIRNESS_REWEIGHING_ENABLED else None\n))')
 
 
 metrics_df = pd.DataFrame(train_histories[-1].history) # pick the latest training history
@@ -1067,7 +1074,7 @@ predicted_rating, confidence = np.argmax(probabilities), np.max(probabilities)
 PredictionReport(probabilities, predicted_rating, confidence)
 
 
-RANDOM_SEED = 1589009535 # seed used in a historical run of interest for fairness analysis
+RANDOM_SEED = 1589144135 # seed used in a historical run of interest for fairness analysis
 
 
 with open(f"inp-{RANDOM_SEED}.pickle", "rb") as f:
@@ -1202,6 +1209,8 @@ plot_df = plot_for_metric_class(gender_fairness_metrics.fetch_base_metrics())
 plot_df
 
 
+get_ipython().run_line_magic('matplotlib', 'inline')
+
 ax = sns.barplot(x=GENDER, y="FPR", data=plot_df)
 
 
@@ -1250,10 +1259,10 @@ plot_df.to_clipboard(False)
 age_gfm = GroupFairnessMetrics(res, AGE_BUCKET)
 
 
-age_gfm.equal_opportunity_difference("young", "middle-age"), age_gfm.equal_opportunity_difference("young", "old")
+print(f'{age_gfm.equal_opportunity_difference("young", "middle-age")}\t{age_gfm.equal_opportunity_difference("young", "old")}')
 
 
-age_gfm.average_odds_difference("young", "middle-age"), age_gfm.average_odds_difference("young", "old")
+print(f'{age_gfm.average_odds_difference("young", "middle-age")}\t{age_gfm.average_odds_difference("young", "old")}')
 
 
 ax = sns.countplot(res[INCOME])
