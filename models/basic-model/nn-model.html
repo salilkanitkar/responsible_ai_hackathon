@@ -13100,6 +13100,19 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">tensorflow_docs</span> <span class="k">as</span> <span class="nn">tfdocs</span>
 <span class="kn">import</span> <span class="nn">tensorflow_docs.modeling</span>
@@ -13224,7 +13237,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Declare-columns-names">Declare columns names<a class="anchor-link" href="#Declare-columns-names">&#182;</a></h4>
+<h3 id="Declare-columns-names">Declare columns names<a class="anchor-link" href="#Declare-columns-names">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13652,7 +13665,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Fairness---Preprocess-mitigation-plan-:-Reweighing">Fairness - Preprocess mitigation plan : Reweighing<a class="anchor-link" href="#Fairness---Preprocess-mitigation-plan-:-Reweighing">&#182;</a></h1>
+<h3 id="Fairness---Preprocess-mitigation-plan-:-Reweighing">Fairness - Preprocess mitigation plan : Reweighing<a class="anchor-link" href="#Fairness---Preprocess-mitigation-plan-:-Reweighing">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13664,40 +13677,39 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">reweigh_biased_cols</span><span class="p">(</span><span class="n">bias_cols</span><span class="p">,</span><span class="n">df</span><span class="p">):</span>
    
     <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">bias_cols</span><span class="p">]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">RATING</span><span class="p">]]</span>
     
     <span class="c1"># Assumtion for each column (except AGE) value 1 : privilaged , value 0 : non-privilaged</span>
-    
     <span class="n">priv_cols</span> <span class="o">=</span> <span class="p">[]</span>
     
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">bias_cols</span><span class="p">:</span> 
         
-        <span class="k">if</span><span class="p">(</span><span class="n">col</span> <span class="o">==</span> <span class="s1">&#39;Age&#39;</span><span class="p">):</span>
-            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="n">AGE</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">AGE</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">AGE</span><span class="p">])</span>
             <span class="n">bucket_boundaries</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on binning</span>
-            <span class="n">X</span><span class="p">[</span><span class="s2">&quot;Age_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bucket_boundaries</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="s2">&quot;Age_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bucket_boundaries</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">])</span>
             <span class="n">X</span><span class="p">[</span><span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="c1">#considering young and old as privilaged group</span>
             <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age_bucket&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> 
             <span class="n">priv_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">)</span>  
             
-        <span class="k">else</span> <span class="p">:</span>
+        <span class="k">elif</span> <span class="n">col</span> <span class="o">==</span> <span class="n">GENDER_F</span><span class="p">:</span>
             <span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
             <span class="n">priv_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>  
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Don&#39;t know how to reweigh </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
-    
-    <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">])</span>
-    <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
-    <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">RATING</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">RATING</span><span class="p">])</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">RATING</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">RATING</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">RATING</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">RATING</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span>
     
     <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">priv_cols</span><span class="p">]</span>
     
-    <span class="n">train_pp_bld</span> <span class="o">=</span> <span class="n">BinaryLabelDataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
-                                               <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                                  <span class="n">label_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">],</span>
-                                  <span class="n">protected_attribute_names</span><span class="o">=</span><span class="n">priv_cols</span><span class="p">,</span>
-                                  <span class="n">favorable_label</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                                  <span class="n">unfavorable_label</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">train_pp_bld</span> <span class="o">=</span> <span class="n">BinaryLabelDataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                                      <span class="n">label_names</span><span class="o">=</span><span class="p">[</span><span class="n">RATING</span><span class="p">],</span>
+                                      <span class="n">protected_attribute_names</span><span class="o">=</span><span class="n">priv_cols</span><span class="p">,</span>
+                                      <span class="n">favorable_label</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                      <span class="n">unfavorable_label</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
     
     <span class="n">privileged_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">unprivileged_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -13715,10 +13727,8 @@ div#notebook {
                                             <span class="n">privileged_groups</span><span class="o">=</span><span class="n">privileged_groups</span><span class="p">)</span>
     
     
-    <span class="n">rw</span> <span class="o">=</span> <span class="n">Reweighing</span><span class="p">(</span><span class="n">unprivileged_groups</span><span class="o">=</span><span class="n">unprivileged_groups</span><span class="p">,</span>
-                <span class="n">privileged_groups</span><span class="o">=</span><span class="n">privileged_groups</span><span class="p">)</span>
+    <span class="n">rw</span> <span class="o">=</span> <span class="n">Reweighing</span><span class="p">(</span><span class="n">unprivileged_groups</span><span class="o">=</span><span class="n">unprivileged_groups</span><span class="p">,</span> <span class="n">privileged_groups</span><span class="o">=</span><span class="n">privileged_groups</span><span class="p">)</span>
     <span class="n">train_pp_bld_f</span> <span class="o">=</span> <span class="n">rw</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_pp_bld</span><span class="p">)</span>
-    
     
     <span class="c1">#df[&quot;fairness_privilage_weight&quot;] = train_pp_bld_f.instance_weights</span>
     <span class="c1">#df[&quot;fairness_privilage_weight&quot;] = df[&quot;fairness_privilage_weight&quot;].astype(str)</span>
@@ -13734,7 +13744,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Load-dataset">Load dataset<a class="anchor-link" href="#Load-dataset">&#182;</a></h4>
+<h3 id="Load-dataset">Load dataset<a class="anchor-link" href="#Load-dataset">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -14325,12 +14335,10 @@ div#notebook {
     <span class="c1"># Create (train, test) split of selected columns and target </span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">ad_dataset_pd</span><span class="p">(</span><span class="n">SELECTED_COLS</span> <span class="o">+</span> <span class="n">EMBED_COLS</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="n">fraction</span><span class="p">)</span>
     
+    <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span> <span class="c1"># equal weight to all examples</span>
     <span class="k">if</span> <span class="n">fairness_reweighing_enabled</span><span class="p">:</span>
-        <span class="n">bias_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Gender_F&#39;</span><span class="p">,</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span>
+        <span class="n">bias_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">GENDER_F</span><span class="p">,</span> <span class="n">AGE</span><span class="p">]</span>
         <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">reweigh_biased_cols</span><span class="p">(</span><span class="n">bias_cols</span><span class="p">,</span><span class="n">df</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
-
     
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">SELECTED_COLS</span><span class="p">],</span> <span class="n">inp_cols</span><span class="p">),</span> <span class="n">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">SELECTED_COLS</span><span class="p">],</span> <span class="n">target_col</span><span class="p">)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
@@ -14342,7 +14350,7 @@ div#notebook {
         <span class="n">X_embed_train</span><span class="p">,</span> <span class="n">X_embed_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">[</span><span class="n">embed_col</span><span class="p">][</span><span class="s2">&quot;padded_col&quot;</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
         <span class="n">embed_features</span><span class="p">[</span><span class="n">embed_col</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">X_embed_train</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">X_embed_test</span><span class="p">}</span>
         
-    <span class="n">sample_weights_train</span><span class="p">,</span><span class="n">sample_weights_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">sample_weights</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
+    <span class="n">sample_weights_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">sample_weights</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="n">sample_weights_train</span>
 </pre></div>
@@ -14464,7 +14472,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inp</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inp</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="n">sample_weights_train</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -15139,6 +15147,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="c1">#     X_train, X_test, y_train, y_test, embed_features, embedding_store, sample_weights_train = pickle.load(f)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     
 <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">UNFAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
@@ -15312,6 +15321,59 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">GroupFairnessMetrics</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_inference_data</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">protected_feature</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute fairness metrics between 2 groups of population - privileged &amp; unprivileged</span>
+<span class="sd">        Based on your dataset you could use,</span>
+<span class="sd">            &quot;Female&quot; to privileged_grp_label and </span>
+<span class="sd">            &quot;Male&quot; to be unprivileged_grp_label</span>
+<span class="sd">        for Gender as the protected_feature</span>
+<span class="sd">        All metrics are computed on model_inference_data which has RATING and PREDICTED_RATING values for each row</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf</span><span class="p">,</span> <span class="o">=</span> <span class="n">model_inference_data</span><span class="p">,</span> <span class="n">protected_feature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span> <span class="o">=</span> <span class="s2">&quot;fairness_metrics_per_class&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pf</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">fetch_base_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span>
+    
+    <span class="k">def</span> <span class="nf">equal_opportunity_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pg_lbl</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">upg_lbl</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">rating_class</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;TPR{unprivileged} - TPR{privileged} ideally should be zero&quot;&quot;&quot;</span>
+        <span class="n">upg_opp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">upg_lbl</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span><span class="p">][</span><span class="s2">&quot;TPR&quot;</span><span class="p">][</span><span class="n">rating_class</span><span class="p">]</span>
+        <span class="n">pg_opp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pg_lbl</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span><span class="p">][</span><span class="s2">&quot;TPR&quot;</span><span class="p">][</span><span class="n">rating_class</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">upg_opp</span> <span class="o">-</span> <span class="n">pg_opp</span>
+
+    <span class="k">def</span> <span class="nf">statistical_parity_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">average_odds_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pg_lbl</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">upg_lbl</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">rating_class</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Average of difference in FPR and TPR for unprivileged and privileged groups&quot;&quot;&quot;</span>
+        <span class="n">tpr_diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="n">pg_lbl</span><span class="p">,</span> <span class="n">upg_lbl</span><span class="p">,</span> <span class="n">rating_class</span><span class="p">)</span>
+        
+        <span class="n">upg_fpr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">upg_lbl</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span><span class="p">][</span><span class="s2">&quot;FPR&quot;</span><span class="p">][</span><span class="n">rating_class</span><span class="p">]</span>
+        <span class="n">pg_fpr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pf_metrics_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pg_lbl</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_metrics</span><span class="p">][</span><span class="s2">&quot;FPR&quot;</span><span class="p">][</span><span class="n">rating_class</span><span class="p">]</span>
+        <span class="n">fpr_diff</span> <span class="o">=</span> <span class="n">upg_fpr</span> <span class="o">-</span> <span class="n">pg_fpr</span>
+        
+        <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">fpr_diff</span> <span class="o">+</span> <span class="n">tpr_diff</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">disparate_impact</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">theil_index</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_for_metric_class</span><span class="p">(</span><span class="n">metric_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">rating_class</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generates plot for metric and given rating_class from metric_df indexed by dimension of interest&quot;&quot;&quot;</span>
     <span class="n">plot_df</span> <span class="o">=</span> <span class="n">metric_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">rating_class</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -15337,7 +15399,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs/1589009535/inference_data.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data.csv&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15370,8 +15432,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">GENDER</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
-<span class="n">gender_metrics_df</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15392,7 +15453,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_metrics_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">fetch_base_metrics</span><span class="p">())</span>
 <span class="n">plot_df</span>
 </pre></div>
 
@@ -15428,6 +15489,40 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Group Fairness metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15584,6 +15679,53 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Group Fairness metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">AGE_BUCKET</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Income-Bias">Income Bias<a class="anchor-link" href="#Income-Bias">&#182;</a></h3>
 </div>
 </div>
@@ -15665,6 +15807,45 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15947,6 +16128,45 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -16031,6 +16251,45 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16235,6 +16494,45 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -16432,6 +16730,45 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -16578,6 +16915,45 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">AGE_BUCKET</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -16674,7 +17050,454 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">income_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="AdCat-18-(Sports-&amp;-Outdoors)">AdCat 18 (Sports &amp; Outdoors)<a class="anchor-link" href="#AdCat-18-(Sports-&amp;-Outdoors)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Filter train &amp; val df for Ads of Category 11 - &quot;Kitchen &amp; Home&quot;</span>
+<span class="n">train_fairness_df_adcat18</span> <span class="o">=</span> <span class="n">train_fairness_df</span><span class="p">[</span><span class="n">train_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A18_&quot;</span><span class="p">)]</span>
+<span class="n">val_fairness_df_adcat18</span> <span class="o">=</span> <span class="n">val_fairness_df</span><span class="p">[</span><span class="n">val_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A18_&quot;</span><span class="p">)]</span>
+<span class="n">train_fairness_df_adcat18</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">val_fairness_df_adcat18</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df_adcat18</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df_adcat18</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">,</span> <span class="n">HOME_COUNTRY</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data_AdCat18.csv&quot;</span>
+
+<span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data at </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># res = pd.read_csv(&quot;logs/&quot; + str(RANDOM_SEED) + &quot;/inference_data.csv&quot;)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Gender-Bias">Gender Bias<a class="anchor-link" href="#Gender-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">GENDER</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">gender_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">GENDER</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_fairness_metrics</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Age-Bias">Age Bias<a class="anchor-link" href="#Age-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">AGE_BUCKET</span> <span class="o">=</span> <span class="n">AGE</span> <span class="o">+</span> <span class="s2">&quot;_bucket&quot;</span>
+<span class="n">bucket_boundaries</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on binning</span>
+<span class="n">age_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on labels</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bucket_boundaries</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">age_labels</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">AGE_BUCKET</span><span class="p">]]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">AGE_BUCKET</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">age_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">age_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">AGE_BUCKET</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span> <span class="o">=</span> <span class="n">GroupFairnessMetrics</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">AGE_BUCKET</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">equal_opportunity_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">),</span> <span class="n">age_gfm</span><span class="o">.</span><span class="n">average_odds_difference</span><span class="p">(</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
