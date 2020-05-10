@@ -13084,7 +13084,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ! ./setup.sh # uncomment if you wish to install any new packages</span>
@@ -13097,7 +13097,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -13143,41 +13143,28 @@ div#notebook {
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Flatten</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">concatenate</span>
 
+
+<span class="kn">from</span> <span class="nn">aif360.metrics</span> <span class="kn">import</span> <span class="n">BinaryLabelDatasetMetric</span>
+<span class="kn">from</span> <span class="nn">aif360.algorithms.preprocessing</span> <span class="kn">import</span> <span class="n">Reweighing</span>
+<span class="kn">from</span> <span class="nn">aif360.datasets</span> <span class="kn">import</span> <span class="n">BinaryLabelDataset</span>  <span class="c1"># To handle the data</span>
+
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="kn">from</span> <span class="nn">EmbeddingFactory</span> <span class="kn">import</span> <span class="n">EmbeddingFactory</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Tensorflow, </span><span class="si">{tf.__version__}</span><span class="s2"> on Python interpreter, </span><span class="si">{sys.version_info}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Tensorflow, </span><span class="si">{</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> on Python interpreter, </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Using Tensorflow, 2.1.0 on Python interpreter, sys.version_info(major=3, minor=7, micro=5, releaselevel=&#39;final&#39;, serial=0)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
@@ -13185,28 +13172,10 @@ div#notebook {
 <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using random seed, </span><span class="si">{RANDOM_SEED}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using random seed, </span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Using random seed, 1589054824
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13236,7 +13205,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DATA_FOLDER</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../dataset/&quot;</span><span class="p">)</span>
@@ -13261,7 +13230,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">USER_ID</span> <span class="o">=</span> <span class="s2">&quot;UserId&quot;</span>
@@ -13679,21 +13648,85 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;Age&#39;, &#39;CapZipCode&#39;, &#39;FaveSports&#39;, &#39;Gender_F&#39;, &#39;Gender_M&#39;, &#39;ad_num_faces&#39;, &#39;ad_isAdvertising&#39;, &#39;ad_isBrand&#39;, &#39;ad_isElectronicdevice&#39;, &#39;ad_isElectronics&#39;, &#39;ad_isFashionaccessory&#39;, &#39;ad_isFictionalcharacter&#39;, &#39;ad_isFont&#39;, &#39;ad_isFurniture&#39;, &#39;ad_isGadget&#39;, &#39;ad_isGames&#39;, &#39;ad_isGraphicdesign&#39;, &#39;ad_isGraphics&#39;, &#39;ad_isJewellery&#39;, &#39;ad_isLine&#39;, &#39;ad_isLogo&#39;, &#39;ad_isMagenta&#39;, &#39;ad_isMaterialproperty&#39;, &#39;ad_isMultimedia&#39;, &#39;ad_isProduct&#39;, &#39;ad_isRectangle&#39;, &#39;ad_isSkin&#39;, &#39;ad_isTechnology&#39;, &#39;ad_isText&#39;, &#39;ad_isVehicle&#39;, &#39;ad_isYellow&#39;, &#39;ad_isAnimal&#39;, &#39;ad_isBelt&#39;, &#39;ad_isBottle&#39;, &#39;ad_isBox&#39;, &#39;ad_isCameralens&#39;, &#39;ad_isChair&#39;, &#39;ad_isClothing&#39;, &#39;ad_isEarrings&#39;, &#39;ad_isFood&#39;, &#39;ad_isHat&#39;, &#39;ad_isLuggagebags&#39;, &#39;ad_isMobilephone&#39;, &#39;ad_isNecklace&#39;, &#39;ad_isPackagedgoods&#39;, &#39;ad_isPants&#39;, &#39;ad_isPen&#39;, &#39;ad_isPerson&#39;, &#39;ad_isPillow&#39;, &#39;ad_isPoster&#39;, &#39;ad_isShoe&#39;, &#39;ad_isTop&#39;, &#39;ad_isToy&#39;, &#39;ad_isWatch&#39;, &#39;ad_isWheel&#39;, &#39;ad_isAdult_UNLIKELY&#39;, &#39;ad_isAdult_VERY_UNLIKELY&#39;, &#39;ad_isSpoof_POSSIBLE&#39;, &#39;ad_isSpoof_UNLIKELY&#39;, &#39;ad_isSpoof_VERY_UNLIKELY&#39;, &#39;ad_isMedical_POSSIBLE&#39;, &#39;ad_isMedical_UNLIKELY&#39;, &#39;ad_isMedical_VERY_UNLIKELY&#39;, &#39;ad_isViolence_VERY_UNLIKELY&#39;, &#39;ad_isRacy_POSSIBLE&#39;, &#39;ad_isRacy_UNLIKELY&#39;, &#39;ad_isRacy_VERY_LIKELY&#39;, &#39;ad_isRacy_VERY_UNLIKELY&#39;, &#39;Homecountry_Canada&#39;, &#39;Homecountry_CzechRepublic&#39;, &#39;Homecountry_GreatBritain&#39;, &#39;Homecountry_India&#39;, &#39;Homecountry_Italy&#39;, &#39;Homecountry_Phillipines&#39;, &#39;Homecountry_Romania&#39;, &#39;Homecountry_SaudiArabia&#39;, &#39;Homecountry_Singapore&#39;, &#39;Homecountry_Slovenia&#39;, &#39;Homecountry_UnitedKingdom&#39;, &#39;Homecountry_UnitedStatesofAmerica&#39;, &#39;Income_0&#39;, &#39;Income_1&#39;, &#39;Income_2&#39;, &#39;Income_3&#39;, &#39;AlternativeMusic&#39;, &#39;AsianPopJPoporKpop&#39;, &#39;Blues&#39;, &#39;ClassicalMusic&#39;, &#39;CountryMusic&#39;, &#39;DanceMusic&#39;, &#39;EasyListening&#39;, &#39;ElectronicMusic&#39;, &#39;EuropeanMusicFolkPop&#39;, &#39;HipHopRap&#39;, &#39;IndiePop&#39;, &#39;InspirationalinclGospel&#39;, &#39;Jazz&#39;, &#39;LatinMusic&#39;, &#39;NewAge&#39;, &#39;Opera&#39;, &#39;PopPopularmusic&#39;, &#39;RampBSoul&#39;, &#39;Reggae&#39;, &#39;Rock&#39;, &#39;SingerSongwriterincFolk&#39;, &#39;WorldMusicBeats&#39;, &#39;ActionandAdventure&#39;, &#39;Anthologies&#39;, &#39;Art&#39;, &#39;Autobiographies&#39;, &#39;Biographies&#39;, &#39;Childrens&#39;, &#39;Childrensliterature&#39;, &#39;Comics&#39;, &#39;Cookbooks&#39;, &#39;Diaries&#39;, &#39;Drama&#39;, &#39;Encyclopedias&#39;, &#39;Eroticfiction&#39;, &#39;Fantasy&#39;, &#39;Guide&#39;, &#39;History&#39;, &#39;Horror&#39;, &#39;Journals&#39;, &#39;Math&#39;, &#39;Mystery&#39;, &#39;Poetry&#39;, &#39;Prayerbooks&#39;, &#39;Religious&#39;, &#39;Romance&#39;, &#39;Satire&#39;, &#39;Science&#39;, &#39;Sciencefiction&#39;, &#39;Selfhelp&#39;, &#39;Series&#39;, &#39;Travel&#39;, &#39;Trilogies&#39;, &#39;Mostwatchedmovies_Action&#39;, &#39;Mostwatchedmovies_Adventure&#39;, &#39;Mostwatchedmovies_Animation&#39;, &#39;Mostwatchedmovies_Biography&#39;, &#39;Mostwatchedmovies_Comedy&#39;, &#39;Mostwatchedmovies_CrimeandGangster&#39;, &#39;Mostwatchedmovies_Documentary&#39;, &#39;Mostwatchedmovies_Drama&#39;, &#39;Mostwatchedmovies_EpicHistorical&#39;, &#39;Mostwatchedmovies_Erotic&#39;, &#39;Mostwatchedmovies_Family&#39;, &#39;Mostwatchedmovies_Fantasy&#39;, &#39;Mostwatchedmovies_Horror&#39;, &#39;Mostwatchedmovies_Musical&#39;, &#39;Mostwatchedmovies_Mystery&#39;, &#39;Mostwatchedmovies_Romance&#39;, &#39;Mostwatchedmovies_SciFi&#39;, &#39;Mostwatchedmovies_Sport&#39;, &#39;Mostwatchedmovies_Thriller&#39;, &#39;Mostwatchedmovies_War&#39;, &#39;Mostwatchedmovies_Western&#39;, &#39;Mostwatchedtvprogrammes_Childrens&#39;, &#39;Mostwatchedtvprogrammes_Comedy&#39;, &#39;Mostwatchedtvprogrammes_Drama&#39;, &#39;Mostwatchedtvprogrammes_EntertainmentVarietyShows&#39;, &#39;Mostwatchedtvprogrammes_Factual&#39;, &#39;Mostwatchedtvprogrammes_Learning&#39;, &#39;Mostwatchedtvprogrammes_Music&#39;, &#39;Mostwatchedtvprogrammes_News&#39;, &#39;Mostwatchedtvprogrammes_ReligionampEthics&#39;, &#39;Mostwatchedtvprogrammes_Sport&#39;, &#39;Mostwatchedtvprogrammes_Weather&#39;, &#39;Rating&#39;]
-</pre>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Fairness---Preprocess-mitigation-plan-:-Reweighing">Fairness - Preprocess mitigation plan : Reweighing<a class="anchor-link" href="#Fairness---Preprocess-mitigation-plan-:-Reweighing">&#182;</a></h1>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">reweigh_biased_cols</span><span class="p">(</span><span class="n">bias_cols</span><span class="p">,</span><span class="n">df</span><span class="p">):</span>
+   
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">bias_cols</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]]</span>
+    
+    <span class="c1"># Assumtion for each column (except AGE) value 1 : privilaged , value 0 : non-privilaged</span>
+    
+    <span class="n">priv_cols</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">bias_cols</span><span class="p">:</span> 
+        
+        <span class="k">if</span><span class="p">(</span><span class="n">col</span> <span class="o">==</span> <span class="s1">&#39;Age&#39;</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">])</span>
+            <span class="n">bucket_boundaries</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on binning</span>
+            <span class="n">X</span><span class="p">[</span><span class="s2">&quot;Age_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bucket_boundaries</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">])</span>
+            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="c1">#considering young and old as privilaged group</span>
+            <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;Age_bucket&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> 
+            <span class="n">priv_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;privilaged_age_bucket&#39;</span><span class="p">)</span>  
+            
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">priv_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>  
+    
+    
+    <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">])</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span>
+    
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">priv_cols</span><span class="p">]</span>
+    
+    <span class="n">train_pp_bld</span> <span class="o">=</span> <span class="n">BinaryLabelDataset</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                                               <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                                  <span class="n">label_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">],</span>
+                                  <span class="n">protected_attribute_names</span><span class="o">=</span><span class="n">priv_cols</span><span class="p">,</span>
+                                  <span class="n">favorable_label</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">unfavorable_label</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    
+    <span class="n">privileged_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">unprivileged_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">priv_cols</span><span class="p">:</span>
+        <span class="n">privileged_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">unprivileged_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="n">privileged_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">privileged_dict</span><span class="p">]</span>
+    <span class="n">unprivileged_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">unprivileged_dict</span><span class="p">]</span>
+    
+    
+    <span class="c1"># Create the metric object</span>
+    <span class="n">metric_train_bld</span> <span class="o">=</span> <span class="n">BinaryLabelDatasetMetric</span><span class="p">(</span><span class="n">train_pp_bld</span><span class="p">,</span>
+                                            <span class="n">unprivileged_groups</span><span class="o">=</span><span class="n">unprivileged_groups</span><span class="p">,</span>
+                                            <span class="n">privileged_groups</span><span class="o">=</span><span class="n">privileged_groups</span><span class="p">)</span>
+    
+    
+    <span class="n">rw</span> <span class="o">=</span> <span class="n">Reweighing</span><span class="p">(</span><span class="n">unprivileged_groups</span><span class="o">=</span><span class="n">unprivileged_groups</span><span class="p">,</span>
+                <span class="n">privileged_groups</span><span class="o">=</span><span class="n">privileged_groups</span><span class="p">)</span>
+    <span class="n">train_pp_bld_f</span> <span class="o">=</span> <span class="n">rw</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_pp_bld</span><span class="p">)</span>
+    
+    
+    <span class="c1">#df[&quot;fairness_privilage_weight&quot;] = train_pp_bld_f.instance_weights</span>
+    <span class="c1">#df[&quot;fairness_privilage_weight&quot;] = df[&quot;fairness_privilage_weight&quot;].astype(str)</span>
+    
+    <span class="k">return</span> <span class="n">train_pp_bld_f</span><span class="o">.</span><span class="n">instance_weights</span>
+</pre></div>
 
+    </div>
 </div>
 </div>
 
@@ -13707,7 +13740,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ad_dataset_pd</span><span class="p">(</span><span class="n">usecols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">read_csv_kwargs</span><span class="p">):</span>
@@ -13724,1420 +13757,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ad_dataset_pd</span><span class="p">(</span><span class="n">SELECTED_COLS</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[7]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>33486</th>
-      <th>19222</th>
-      <th>11545</th>
-      <th>31315</th>
-      <th>11038</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Age</th>
-      <td>27</td>
-      <td>49</td>
-      <td>32</td>
-      <td>57</td>
-      <td>34</td>
-    </tr>
-    <tr>
-      <th>CapZipCode</th>
-      <td>60064</td>
-      <td>H4N 2Z1</td>
-      <td>98115</td>
-      <td>41017</td>
-      <td>90039</td>
-    </tr>
-    <tr>
-      <th>FaveSports</th>
-      <td>Water sports, Winter sports</td>
-      <td>Team sports (Footbal, Baseball, Rugby, ...)</td>
-      <td>Other</td>
-      <td>I do not like Sports</td>
-      <td>Indoor sports, Endurance sports</td>
-    </tr>
-    <tr>
-      <th>Rating</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>2.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>Gender_F</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Gender_M</th>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Canada</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_CzechRepublic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_GreatBritain</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_India</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Italy</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Phillipines</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Romania</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_SaudiArabia</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Singapore</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_Slovenia</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_UnitedKingdom</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Homecountry_UnitedStatesofAmerica</th>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Income_0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Income_1</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Income_2</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Income_3</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>AlternativeMusic</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>AsianPopJPoporKpop</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Blues</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ClassicalMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>CountryMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>DanceMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>EasyListening</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ElectronicMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>EuropeanMusicFolkPop</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>HipHopRap</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>IndiePop</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>InspirationalinclGospel</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Jazz</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>LatinMusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>NewAge</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Opera</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>PopPopularmusic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>RampBSoul</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Reggae</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Rock</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>SingerSongwriterincFolk</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>WorldMusicBeats</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ActionandAdventure</th>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Anthologies</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Art</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Autobiographies</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Biographies</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Childrens</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Childrensliterature</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Comics</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Cookbooks</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Diaries</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Drama</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Encyclopedias</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Eroticfiction</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Fantasy</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Guide</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>History</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Horror</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Journals</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Math</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mystery</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Poetry</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Prayerbooks</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Religious</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Romance</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Satire</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Science</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Sciencefiction</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Selfhelp</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Series</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Travel</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Trilogies</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isAdvertising</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isBrand</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isElectronicdevice</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isElectronics</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isFashionaccessory</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isFictionalcharacter</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isFont</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isFurniture</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isGadget</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isGames</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isGraphicdesign</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isGraphics</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isJewellery</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isLine</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isLogo</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isMagenta</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isMaterialproperty</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isMultimedia</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isProduct</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isRectangle</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isSkin</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isTechnology</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isText</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isVehicle</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isYellow</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_num_faces</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isAdult_UNLIKELY</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isAdult_VERY_UNLIKELY</th>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isSpoof_POSSIBLE</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isSpoof_UNLIKELY</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isSpoof_VERY_UNLIKELY</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isMedical_POSSIBLE</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isMedical_UNLIKELY</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isMedical_VERY_UNLIKELY</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isViolence_VERY_UNLIKELY</th>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isRacy_POSSIBLE</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isRacy_UNLIKELY</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isRacy_VERY_LIKELY</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isRacy_VERY_UNLIKELY</th>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isAnimal</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isBelt</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isBottle</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isBox</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isCameralens</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isChair</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isClothing</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isEarrings</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isFood</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isHat</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isLuggagebags</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isMobilephone</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isNecklace</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isPackagedgoods</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isPants</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isPen</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isPerson</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isPillow</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isPoster</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isShoe</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isTop</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>ad_isToy</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isWatch</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>ad_isWheel</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Action</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Adventure</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Animation</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Biography</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Comedy</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_CrimeandGangster</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Documentary</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Drama</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_EpicHistorical</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Erotic</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Family</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Fantasy</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Horror</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Musical</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Mystery</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Romance</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_SciFi</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Sport</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Thriller</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_War</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedmovies_Western</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Childrens</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Comedy</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Drama</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_EntertainmentVarietyShows</th>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Factual</th>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Learning</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Music</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_News</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_ReligionampEthics</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Sport</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Mostwatchedtvprogrammes_Weather</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15151,7 +13777,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">chakin</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;English&#39;</span><span class="p">)</span>
@@ -15161,54 +13787,10 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>                   Name  Dimension                     Corpus VocabularySize  \
-2          fastText(en)        300                  Wikipedia           2.5M   
-11         GloVe.6B.50d         50  Wikipedia+Gigaword 5 (6B)           400K   
-12        GloVe.6B.100d        100  Wikipedia+Gigaword 5 (6B)           400K   
-13        GloVe.6B.200d        200  Wikipedia+Gigaword 5 (6B)           400K   
-14        GloVe.6B.300d        300  Wikipedia+Gigaword 5 (6B)           400K   
-15       GloVe.42B.300d        300          Common Crawl(42B)           1.9M   
-16      GloVe.840B.300d        300         Common Crawl(840B)           2.2M   
-17    GloVe.Twitter.25d         25               Twitter(27B)           1.2M   
-18    GloVe.Twitter.50d         50               Twitter(27B)           1.2M   
-19   GloVe.Twitter.100d        100               Twitter(27B)           1.2M   
-20   GloVe.Twitter.200d        200               Twitter(27B)           1.2M   
-21  word2vec.GoogleNews        300          Google News(100B)           3.0M   
-
-      Method Language    Author  
-2   fastText  English  Facebook  
-11     GloVe  English  Stanford  
-12     GloVe  English  Stanford  
-13     GloVe  English  Stanford  
-14     GloVe  English  Stanford  
-15     GloVe  English  Stanford  
-16     GloVe  English  Stanford  
-17     GloVe  English  Stanford  
-18     GloVe  English  Stanford  
-19     GloVe  English  Stanford  
-20     GloVe  English  Stanford  
-21  word2vec  English    Google  
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">WORD_VEC_DIMENSIONS</span> <span class="o">=</span> <span class="mi">50</span>
@@ -15221,7 +13803,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -15233,29 +13815,10 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 1.42 ms, sys: 2.14 ms, total: 3.56 ms
-Wall time: 2.47 ms
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_embed_col</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span><span class="n">Tokenizer</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -15277,7 +13840,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_embedding_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -15301,7 +13864,7 @@ Wall time: 2.47 ms
         <span class="c1"># reorder to match tokenizer&#39;s indexing</span>
         <span class="n">emb_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">words</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span>
         <span class="n">es</span><span class="p">[</span><span class="n">embed_col</span><span class="p">][</span><span class="s2">&quot;embed_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">emb_matrix</span>
-        <span class="k">assert</span> <span class="n">emb_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{embed_col}</span><span class="s2">, not all words have embeddings&quot;</span>
+        <span class="k">assert</span> <span class="n">emb_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">embed_col</span><span class="si">}</span><span class="s2">, not all words have embeddings&quot;</span>
         
     <span class="k">return</span> <span class="n">es</span>
 </pre></div>
@@ -15321,68 +13884,13 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">create_embedding_data</span><span class="p">(</span><span class="n">ad_dataset_pd</span><span class="p">(</span><span class="n">EMBED_COLS</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>defaultdict(dict,
-            {&#39;fav&#39;: {&#39;tokenizer&#39;: &lt;keras_preprocessing.text.Tokenizer at 0x13b3fbd90&gt;,
-              &#39;vocab_size&#39;: 46,
-              &#39;padded_col&#39;: array([[10, 11, 12,  3,  4, 13, 14, 15, 16,  3,  4, 17, 18, 19, 20, 21,
-                       0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-                     [ 1, 22,  2,  5, 23, 24, 25, 26,  5,  6,  7,  2,  1, 27, 28, 29,
-                      30,  8,  8,  6,  9,  2,  1, 31,  7,  1, 32, 33, 34, 35,  9, 36],
-                     [37, 38, 39, 40, 41, 42, 43, 44, 45,  0,  0,  0,  0,  0,  0,  0,
-                       0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]],
-                    dtype=int32),
-              &#39;maxlen&#39;: 32,
-              &#39;embed_matrix&#39;: array([[ 0.     ,  0.     ,  0.     , ...,  0.     ,  0.     ,  0.     ],
-                     [-0.0771 ,  0.1991 , -1.273  , ..., -0.5645 ,  0.3267 ,  0.8076 ],
-                     [-0.3447 ,  0.696  , -0.781  , ..., -1.327  ,  0.3733 ,  0.02238],
-                     ...,
-                     [-0.6255 ,  0.708  , -0.0772 , ..., -0.2903 , -0.12036,  0.58   ],
-                     [-0.86   ,  0.5415 , -1.135  , ..., -0.01068, -1.176  ,  0.333  ],
-                     [-0.4583 ,  0.217  , -1.527  , ...,  0.04752,  0.798  , -0.0928 ]],
-                    dtype=float16)},
-             &#39;unfav&#39;: {&#39;tokenizer&#39;: &lt;keras_preprocessing.text.Tokenizer at 0x13b3fb850&gt;,
-              &#39;vocab_size&#39;: 35,
-              &#39;padded_col&#39;: array([[ 8,  9,  3, 10,  3, 11, 12,  4,  5, 13, 14, 15, 16, 17, 18, 19,
-                      20,  0,  0],
-                     [21, 22, 23,  1,  2,  1, 24, 25, 26, 27,  1,  2,  1,  6,  7,  2,
-                       6,  7, 28],
-                     [29,  4,  5, 30, 31, 32, 33, 34,  0,  0,  0,  0,  0,  0,  0,  0,
-                       0,  0,  0]], dtype=int32),
-              &#39;maxlen&#39;: 19,
-              &#39;embed_matrix&#39;: array([[ 0.     ,  0.     ,  0.     , ...,  0.     ,  0.     ,  0.     ],
-                     [-0.636  ,  1.297  , -1.278  , ..., -0.7144 , -0.3496 , -0.03387],
-                     [-0.1127 , -0.3877 , -0.9253 , ..., -0.2496 ,  0.8096 ,  0.2142 ],
-                     ...,
-                     [ 1.223  , -1.038  ,  0.4011 , ..., -0.7466 ,  0.1711 ,  0.04633],
-                     [ 0.706  ,  0.1194 ,  0.7803 , ..., -0.7583 , -0.2405 , -1.104  ],
-                     [ 0.4126 , -1.249  ,  0.4395 , ...,  0.1356 ,  0.9253 ,  0.0739 ]],
-                    dtype=float16)}})</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15396,7 +13904,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dict_project</span><span class="p">(</span><span class="n">d</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -15411,7 +13919,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IndexerForVocab</span><span class="p">:</span>
@@ -15423,7 +13931,7 @@ Wall time: 2.47 ms
         <span class="bp">self</span><span class="o">.</span><span class="n">_oov</span> <span class="o">=</span> <span class="n">oov_index</span>
         
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Map for {len(self)} keys with 1 OOV key&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Map for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys with 1 OOV key&quot;</span>
     
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vocab_map</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -15453,7 +13961,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Obtained from Tensorflow Data Validation APIs data-exploration/tensorflow-data-validation.ipynb</span>
@@ -15468,7 +13976,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_age</span><span class="p">(</span><span class="n">age_str</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">default_age</span><span class="o">=</span><span class="n">MEDIAN_AGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -15476,7 +13984,7 @@ Wall time: 2.47 ms
     <span class="k">try</span><span class="p">:</span>
         <span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">age_str</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="n">MAX_AGE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{age}</span><span class="s2"> is not a valid age&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> is not a valid age&quot;</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">age</span> <span class="o">=</span> <span class="n">default_age</span>
     <span class="n">normalized_age</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">-</span> <span class="n">MEAN_AGE</span><span class="p">)</span> <span class="o">/</span> <span class="n">STD_AGE</span>
@@ -15497,37 +14005,13 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;50.5&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;-10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;bad_age_10&quot;</span><span class="p">),</span> <span class="n">fix_age</span><span class="p">(</span><span class="s2">&quot;300&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[18]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(1.5128417564208783,
- -0.22700911350455663,
- -0.22700911350455663,
- -0.22700911350455663,
- -0.22700911350455663)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15542,7 +14026,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">DEFAULT_ZIP_CODE</span><span class="p">,</span> <span class="n">FIRST_K_ZIP_DIGITS</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span><span class="p">,</span> <span class="mi">2</span>
@@ -15557,7 +14041,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fix_zip_code_tensor</span><span class="p">(</span><span class="n">zip_code</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">n_digits</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -15599,7 +14083,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_zip_code_indexer</span> <span class="o">=</span> <span class="n">IndexerForVocab</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
@@ -15611,36 +14095,6 @@ Wall time: 2.47 ms
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[21]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(array([0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        1., 0., 0., 0.]),
- array([0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0.,
-        0., 0., 0., 0., 0.]),
- array([0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 1., 0., 0., 0., 0.]),
- array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0.]))</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15659,7 +14113,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">FAV_SPORTS_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNK_SPORT&quot;</span>
@@ -15673,30 +14127,10 @@ Wall time: 2.47 ms
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[22]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>MultiLabelBinarizer(classes=None, sparse_output=False)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fav_sports_multi_select_str_to_list</span><span class="p">(</span><span class="n">sports_str</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -15734,7 +14168,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
@@ -15749,29 +14183,6 @@ Wall time: 2.47 ms
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[24]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(array([1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]),
- array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]),
- array([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
- array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -15782,7 +14193,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RATINGS_CARDINALITY</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># not zero based indexing i.e. ratings range from 1 to 5</span>
@@ -15795,7 +14206,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_target_pd</span><span class="p">(</span><span class="n">rating_str</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -15816,10 +14227,11 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TEST_FRAC</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">fairness_reweighing_enabled</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 
     </div>
@@ -15829,7 +14241,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -15864,7 +14276,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">merge_minority_classes</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="p">):</span>
@@ -15880,7 +14292,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
@@ -15901,7 +14313,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_dataset_pd</span><span class="p">(</span><span class="n">inp_cols</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">SELECTED_INP_COLS</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">fraction</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_frac</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="n">TEST_FRAC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
@@ -15913,6 +14325,13 @@ Wall time: 2.47 ms
     <span class="c1"># Create (train, test) split of selected columns and target </span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">ad_dataset_pd</span><span class="p">(</span><span class="n">SELECTED_COLS</span> <span class="o">+</span> <span class="n">EMBED_COLS</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="n">fraction</span><span class="p">)</span>
     
+    <span class="k">if</span> <span class="n">fairness_reweighing_enabled</span><span class="p">:</span>
+        <span class="n">bias_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Gender_F&#39;</span><span class="p">,</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span>
+        <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">reweigh_biased_cols</span><span class="p">(</span><span class="n">bias_cols</span><span class="p">,</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
+
+    
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">transform_pd_X</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">SELECTED_COLS</span><span class="p">],</span> <span class="n">inp_cols</span><span class="p">),</span> <span class="n">transform_pd_y</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">SELECTED_COLS</span><span class="p">],</span> <span class="n">target_col</span><span class="p">)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
     
@@ -15923,7 +14342,9 @@ Wall time: 2.47 ms
         <span class="n">X_embed_train</span><span class="p">,</span> <span class="n">X_embed_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">[</span><span class="n">embed_col</span><span class="p">][</span><span class="s2">&quot;padded_col&quot;</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
         <span class="n">embed_features</span><span class="p">[</span><span class="n">embed_col</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">X_embed_train</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">X_embed_test</span><span class="p">}</span>
         
-    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span>
+    <span class="n">sample_weights_train</span><span class="p">,</span><span class="n">sample_weights_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">sample_weights</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_frac</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="n">sample_weights_train</span>
 </pre></div>
 
     </div>
@@ -16022,7 +14443,7 @@ Wall time: 2.47 ms
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span> <span class="o">=</span> <span class="n">create_dataset_pd</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="n">sample_weights_train</span> <span class="o">=</span> <span class="n">create_dataset_pd</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16045,7 +14466,7 @@ Wall time: 2.47 ms
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">inp</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{RANDOM_SEED}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 
@@ -16081,6 +14502,10 @@ Wall time: 2.47 ms
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">balance_classes</span><span class="p">(</span><span class="n">X_train</span> <span class="p">,</span> <span class="n">y_train</span> <span class="p">,</span> <span class="n">train_embed_feature_1</span> <span class="p">,</span> <span class="n">train_embed_feature_2</span> <span class="p">,</span> <span class="n">smote</span><span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">fairness_reweighing_enabled</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dont use class balancing with reweighing enabled (fairness_reweighing_enabled = 1)&#39;</span><span class="p">)</span>
+        
     <span class="c1">#concatenate embedding columns to X_train</span>
     <span class="n">X_train_cols</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">train_embed_feature_1_cols</span> <span class="o">=</span> <span class="n">train_embed_feature_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -16117,9 +14542,10 @@ Wall time: 2.47 ms
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">],</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">UNFAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">balance_classes</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span>
-                                                                              <span class="n">train_embed_feature_1</span><span class="p">,</span><span class="n">train_embed_feature_2</span><span class="p">,</span>
-                                                                              <span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">fairness_reweighing_enabled</span><span class="p">:</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">],</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">UNFAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">balance_classes</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span>
+                                                                                  <span class="n">train_embed_feature_1</span><span class="p">,</span><span class="n">train_embed_feature_2</span><span class="p">,</span>
+                                                                                  <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16229,7 +14655,7 @@ Wall time: 2.47 ms
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">log_unknown_word_count</span><span class="p">(</span><span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="n">unk_embed_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">embedding_store</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;vocab_size&quot;</span><span class="p">],</span> <span class="n">WORD_VEC_DIMENSIONS</span><span class="p">))</span>
     <span class="n">num_rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;embed_matrix&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">unk_embed_vec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">WORD_VEC_DIMENSIONS</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could&#39;t find embeddings for {int(num_rows)} words in </span><span class="si">{col}</span><span class="s2"> column&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could&#39;t find embeddings for </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> words in </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2"> column&quot;</span><span class="p">)</span>
     
 <span class="n">log_unknown_word_count</span><span class="p">(</span><span class="n">FAV</span><span class="p">),</span> <span class="n">log_unknown_word_count</span><span class="p">(</span><span class="n">UNFAV</span><span class="p">)</span> 
 </pre></div>
@@ -16394,13 +14820,13 @@ Wall time: 2.47 ms
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{RANDOM_SEED}</span><span class="s2">&quot;</span> <span class="c1">#datetime.datetime.now().strftime(&quot;%Y%m%d-%H%M%S&quot;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">logdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span><span class="o">/</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1">#datetime.datetime.now().strftime(&quot;%Y%m%d-%H%M%S&quot;)</span>
 <span class="n">tensorboard_callback</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span>
     <span class="n">logdir</span><span class="p">,</span> 
     <span class="n">histogram_freq</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ceil</span><span class="p">(</span><span class="n">EPOCHS</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)),</span> <span class="c1"># to control the amount of logging</span>
 <span class="c1">#     embeddings_freq=epochs,</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logging tensorboard data at </span><span class="si">{logdir}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logging tensorboard data at </span><span class="si">{</span><span class="n">logdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16456,7 +14882,8 @@ Wall time: 2.47 ms
         <span class="n">y_test</span>
     <span class="p">),</span>
     <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tfdocs</span><span class="o">.</span><span class="n">modeling</span><span class="o">.</span><span class="n">EpochDots</span><span class="p">(),</span> <span class="n">tensorboard_callback</span><span class="p">],</span> 
-    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weights_train</span> <span class="c1">#from af360 fairness reweighting</span>
 <span class="p">))</span>
 </pre></div>
 
@@ -16601,7 +15028,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">PREDICTED_RATING</span><span class="p">,</span> <span class="n">PREDICTION_CONFIDENCE</span> <span class="o">=</span> <span class="s2">&quot;pred_rating&quot;</span><span class="p">,</span> <span class="s2">&quot;pred_confidence&quot;</span>
@@ -16614,7 +15041,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">predict_on_dataset</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">es</span><span class="p">:</span><span class="n">Dict</span><span class="p">,</span> <span class="n">inp_cols_of_interest</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
@@ -16695,7 +15122,7 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="mi">1589009535</span> <span class="c1"># seed used in a historical run of interest for fairness analysis</span>
@@ -16708,36 +15135,16 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{RANDOM_SEED}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inp-</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">,</span> <span class="n">embedding_store</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     
 <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">FAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">embed_features</span><span class="p">[</span><span class="n">UNFAV</span><span class="p">][</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[35]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>((28800, 308), (28800, 2), (28800, 40), (28800, 34))</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -16753,63 +15160,14 @@ Wall time: 2.47 ms
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{RANDOM_SEED}</span><span class="s2">/keras_saved_model&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/keras_saved_model&quot;</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Model: &#34;model&#34;
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-fav (InputLayer)                [(None, 40)]         0                                            
-__________________________________________________________________________________________________
-unfav (InputLayer)              [(None, 34)]         0                                            
-__________________________________________________________________________________________________
-embedding (Embedding)           (None, 40, 50)       58400       fav[0][0]                        
-__________________________________________________________________________________________________
-embedding_1 (Embedding)         (None, 34, 50)       47450       unfav[0][0]                      
-__________________________________________________________________________________________________
-flatten (Flatten)               (None, 2000)         0           embedding[0][0]                  
-__________________________________________________________________________________________________
-flatten_1 (Flatten)             (None, 1700)         0           embedding_1[0][0]                
-__________________________________________________________________________________________________
-non_embed_inputs (InputLayer)   [(None, 308)]        0                                            
-__________________________________________________________________________________________________
-concatenate (Concatenate)       (None, 4008)         0           flatten[0][0]                    
-                                                                 flatten_1[0][0]                  
-                                                                 non_embed_inputs[0][0]           
-__________________________________________________________________________________________________
-dense (Dense)                   (None, 20)           80180       concatenate[0][0]                
-__________________________________________________________________________________________________
-dense_1 (Dense)                 (None, 10)           210         dense[0][0]                      
-__________________________________________________________________________________________________
-dense_2 (Dense)                 (None, 2)            22          dense_1[0][0]                    
-==================================================================================================
-Total params: 186,262
-Trainable params: 186,262
-Non-trainable params: 0
-__________________________________________________________________________________________________
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -16824,7 +15182,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fairness_df</span> <span class="o">=</span> <span class="n">ad_dataset_pd</span><span class="p">()</span> <span class="c1">#.sample(n=100)</span>
@@ -16848,7 +15206,7 @@ ________________________________________________________________________________
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_fairness_df</span><span class="p">,</span> <span class="n">val_fairness_df</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">fairness_df</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">TEST_FRAC</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_SEED</span><span class="p">)</span>
@@ -16856,26 +15214,6 @@ ________________________________________________________________________________
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[38]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>((28800, 284), (7200, 284))</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -16887,20 +15225,7 @@ ________________________________________________________________________________
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">,</span> <span class="n">HOME_COUNTRY</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -16921,8 +15246,10 @@ ________________________________________________________________________________
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">logdir</span><span class="o">/</span><span class="s2">&quot;inference_data.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data in </span><span class="si">{logdir}</span><span class="s2"> folder&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data.csv&quot;</span>
+
+<span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data at </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16990,6 +15317,40 @@ ________________________________________________________________________________
     <span class="n">plot_df</span> <span class="o">=</span> <span class="n">metric_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">rating_class</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">metric</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Feel free to restart the kernel if the execution is slow as we have all the info for computing fairness metrics of columns you selected above</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs/1589009535/inference_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
     </div>
@@ -17223,6 +15584,1107 @@ ________________________________________________________________________________
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Income-Bias">Income Bias<a class="anchor-link" href="#Income-Bias">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">INCOME</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">income_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">income_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">INCOME</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Homecountry-Bias">Homecountry Bias<a class="anchor-link" href="#Homecountry-Bias">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">HOME_COUNTRY</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">HOME_COUNTRY</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">homecountry_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">HOME_COUNTRY</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">homecountry_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">homecountry_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">HOME_COUNTRY</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="AdCat-11-(Kitchen-&amp;-Home)">AdCat 11 (Kitchen &amp; Home)<a class="anchor-link" href="#AdCat-11-(Kitchen-&amp;-Home)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Filter train &amp; val df for Ads of Category 11 - &quot;Kitchen &amp; Home&quot;</span>
+<span class="n">train_fairness_df_adcat11</span> <span class="o">=</span> <span class="n">train_fairness_df</span><span class="p">[</span><span class="n">train_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A11_&quot;</span><span class="p">)]</span>
+<span class="n">val_fairness_df_adcat11</span> <span class="o">=</span> <span class="n">val_fairness_df</span><span class="p">[</span><span class="n">val_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A11_&quot;</span><span class="p">)]</span>
+<span class="n">train_fairness_df_adcat11</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">val_fairness_df_adcat11</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df_adcat11</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df_adcat11</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">,</span> <span class="n">HOME_COUNTRY</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data_AdCat11.csv&quot;</span>
+
+<span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data at </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># res = pd.read_csv(&quot;logs/&quot; + str(RANDOM_SEED) + &quot;/inference_data.csv&quot;)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Gender-Bias">Gender Bias<a class="anchor-link" href="#Gender-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">GENDER</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">gender_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">GENDER</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Income-Bias">Income Bias<a class="anchor-link" href="#Income-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">INCOME</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">income_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">income_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">INCOME</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="AdCat-03-(Baby-Products)">AdCat 03 (Baby Products)<a class="anchor-link" href="#AdCat-03-(Baby-Products)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Filter train &amp; val df for Ads of Category 11 - &quot;Kitchen &amp; Home&quot;</span>
+<span class="n">train_fairness_df_adcat03</span> <span class="o">=</span> <span class="n">train_fairness_df</span><span class="p">[</span><span class="n">train_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A03_&quot;</span><span class="p">)]</span>
+<span class="n">val_fairness_df_adcat03</span> <span class="o">=</span> <span class="n">val_fairness_df</span><span class="p">[</span><span class="n">val_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A03_&quot;</span><span class="p">)]</span>
+<span class="n">train_fairness_df_adcat03</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">val_fairness_df_adcat03</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df_adcat03</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df_adcat03</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">,</span> <span class="n">HOME_COUNTRY</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data_AdCat03.csv&quot;</span>
+
+<span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data at </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># res = pd.read_csv(&quot;logs/&quot; + str(RANDOM_SEED) + &quot;/inference_data.csv&quot;)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Gender-Bias">Gender Bias<a class="anchor-link" href="#Gender-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">GENDER</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">gender_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">GENDER</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="AdCat-06-(Consumer-Electronics)">AdCat 06 (Consumer Electronics)<a class="anchor-link" href="#AdCat-06-(Consumer-Electronics)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Filter train &amp; val df for Ads of Category 11 - &quot;Kitchen &amp; Home&quot;</span>
+<span class="n">train_fairness_df_adcat06</span> <span class="o">=</span> <span class="n">train_fairness_df</span><span class="p">[</span><span class="n">train_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A06_&quot;</span><span class="p">)]</span>
+<span class="n">val_fairness_df_adcat06</span> <span class="o">=</span> <span class="n">val_fairness_df</span><span class="p">[</span><span class="n">val_fairness_df</span><span class="p">[</span><span class="s1">&#39;AdId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;A06_&quot;</span><span class="p">)]</span>
+<span class="n">train_fairness_df_adcat06</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">val_fairness_df_adcat06</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df_adcat06</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_fairness_df</span><span class="p">[</span><span class="n">GENDER</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">predict_on_dataset</span><span class="p">(</span><span class="n">val_fairness_df_adcat06</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embedding_store</span><span class="p">,</span> <span class="p">[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">GENDER</span><span class="p">,</span> <span class="n">INCOME</span><span class="p">,</span> <span class="n">HOME_COUNTRY</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;logs/</span><span class="si">{</span><span class="n">RANDOM_SEED</span><span class="si">}</span><span class="s2">/inference_data_AdCat06.csv&quot;</span>
+
+<span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved inference data at </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># res = pd.read_csv(&quot;logs/&quot; + str(RANDOM_SEED) + &quot;/inference_data.csv&quot;)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Gender-Bias">Gender Bias<a class="anchor-link" href="#Gender-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gender_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">GENDER</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">gender_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">gender_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">GENDER</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Age-Bias">Age Bias<a class="anchor-link" href="#Age-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">AGE_BUCKET</span> <span class="o">=</span> <span class="n">AGE</span> <span class="o">+</span> <span class="s2">&quot;_bucket&quot;</span>
+<span class="n">bucket_boundaries</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on binning</span>
+<span class="n">age_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;young&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-age&quot;</span><span class="p">,</span> <span class="s2">&quot;old&quot;</span><span class="p">]</span> <span class="c1"># refer pandas.cut() for syntax on labels</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bucket_boundaries</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">age_labels</span><span class="p">)</span>
+<span class="n">res</span><span class="p">[[</span><span class="n">AGE</span><span class="p">,</span> <span class="n">AGE_BUCKET</span><span class="p">]]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">AGE_BUCKET</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">age_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">AGE_BUCKET</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">age_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">age_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">AGE_BUCKET</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Income-Bias">Income Bias<a class="anchor-link" href="#Income-Bias">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">])</span>
+<span class="n">res</span><span class="p">[</span><span class="n">INCOME</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">income_metrics_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">INCOME</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">metrics_from_df</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;fairness_metrics_per_class&quot;</span><span class="p">)</span>
+<span class="n">income_metrics_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot Metrics</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span> <span class="o">=</span> <span class="n">plot_for_metric_class</span><span class="p">(</span><span class="n">income_metrics_df</span><span class="p">)</span>
+<span class="n">plot_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">INCOME</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FPR&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">plot_df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Copy to clipboard for easy pasting into results sheet</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_df</span><span class="o">.</span><span class="n">to_clipboard</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Rough">Rough<a class="anchor-link" href="#Rough">&#182;</a></h2>
 </div>
 </div>
@@ -17297,7 +16759,7 @@ ________________________________________________________________________________
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">zip_fcs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">indicator_column</span><span class="p">(</span>
         <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">categorical_column_with_vocabulary_list</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{ZIP_CODE}{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vocabulary_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">),</span> 
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ZIP_CODE</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vocabulary_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">),</span> 
             <span class="n">num_oov_buckets</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">FIRST_K_ZIP_DIGITS</span><span class="p">)</span>
@@ -17621,11 +17083,11 @@ ________________________________________________________________________________
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save a sharded dataset to a folder</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on part-</span><span class="si">{part}</span><span class="s2"> of the file&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on part-</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> of the file&quot;</span><span class="p">)</span>
     <span class="n">save_in_folder</span><span class="p">:</span><span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_in_folder</span><span class="p">)</span> <span class="c1"># change to Path object if not already</span>
     <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">rmtree</span><span class="p">(</span><span class="n">save_in_folder</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">save_in_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{save_in_folder}</span><span class="s2">/part-</span><span class="si">{part}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_in_folder</span><span class="si">}</span><span class="s2">/part-</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
     
 <span class="n">save_dataset_part_parallel_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">save_dataset_part</span><span class="p">,</span> <span class="n">save_in_folder</span><span class="o">=</span><span class="n">analysis_data_folder</span><span class="p">)</span>
@@ -17697,7 +17159,7 @@ ________________________________________________________________________________
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Fairness Indicators Computation Options</span>
-<span class="n">tfma_eval_result_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{logdir}</span><span class="s1">/tfma_eval_result&#39;</span>
+<span class="n">tfma_eval_result_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">logdir</span><span class="si">}</span><span class="s1">/tfma_eval_result&#39;</span>
 
 <span class="c1">#@markdown Modify the slice_selection for experiments on other identities.</span>
 <span class="n">slice_selection</span> <span class="o">=</span> <span class="s1">&#39;gender&#39;</span> <span class="c1">#@param [&quot;sexual_orientation&quot;, &quot;gender&quot;, &quot;religion&quot;, &quot;race&quot;, &quot;disability&quot;]</span>
