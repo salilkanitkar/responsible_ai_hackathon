@@ -1,9 +1,7 @@
 # responsible_ai_hackathon
 Repository for Responsible AI Hackathon related code (May 2020)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/salilkanitkar/responsible_ai_hackathon/master?filepath=models%2Fbasic-model%2Fnn-model.ipynb)
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/salilkanitkar/responsible_ai_hackathon/master)
+Run the Neural Network model on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/salilkanitkar/responsible_ai_hackathon/master?filepath=models%2Fbasic-model%2Fnn-model.ipynb)
 
 ## Dataset Credits
 ```
