@@ -1,0 +1,3 @@
+[submodule "recommender-ai-fairness-dashboard"]
+	path = recommender-ai-fairness-dashboard
+	url = git@github.com:Nithanaroy/recommender-ai-fairness-dashboard.git

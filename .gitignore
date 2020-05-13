@@ -6,3 +6,4 @@ models/basic-model/logs
 __pycache__/
 models/basic-model/inp*.pickle
 AIF360
+.vscode
